@@ -21,7 +21,7 @@ var Init = function(){
     _App.ticker.add(onUpdate, this);
 
 
-    _App.loader.add("blade_js","./src/Blade.js") 
+    _App.loader.add("blade_js","./src/scripts/Blade.js") 
                 .add("blade_tex","./src/images/blade.png")
     .load((l, res) =>{  
 
