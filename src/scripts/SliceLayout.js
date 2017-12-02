@@ -4,25 +4,28 @@ function SliceLayer(app) {
 
 	let _ME = Matter.Engine,
 		_MW = Matter.World,
-    	_MB = Matter.Bodies,
+    	_MBs = Matter.Bodies,
+    	_MB = Matter.Body,
     	_MC = Matter.Composite;
 
     let engine = _ME.create();
+    	engine.world.scale = 0.0001;
+    	engine.world.gravity.y = 0.35;	
+
     _ME.run(engine);
     	      
 	var AddSlicableObject = function(pos){
 
 		var circle = new PIXI.Graphics();
-			circle.beginFill(0x9966FF);
+			circle.beginFill(0x9966F * Math.random());
 			circle.drawCircle(0, 0, 50);
 			circle.endFill();
 			circle.x = pos.x;
 			circle.y = pos.y;
 
-		let phBody = _MB.circle(pos.x, pos.y, 50);
+		let phBody = _MBs.circle(pos.x, pos.y, 50, {isSensor:true});
 
 		_MW.add(engine.world, phBody);
-		//console.log(phBody);
 		phBody.piObj = circle;
 		circle.phBody = phBody;
 		return circle;
@@ -70,20 +73,45 @@ function SliceLayer(app) {
     stage.addChild(stage._debugText);
 
     var frames = 0;
+    var lastShotX = null;
+
 	var Update = function(){
 
+	    var bodies = _MC.allBodies(engine.world);
+
 		frames ++;
-		if(frames >= 100){
+		if(frames >= 20 && bodies.length < 5){
 			
 			frames = 0;
-			var pos = {x:200 + Math.random()*(app.renderer.width - 400), y: 200}//app.renderer.height + 100};
+			var pos = { 
+				x: Math.round(Math.randomRange(0,10)) * Math.floor((app.renderer.width - 200) / 10),
+				y:app.renderer.height + 100};
+			
+			while(lastShotX !== null && Math.abs(lastShotX - pos.x) < 200){
+				pos.x  = Math.round(Math.randomRange(0,10)) * Math.floor((app.renderer.width - 200) / 10);
+			}
+
+			lastShotX = pos.x;
+			
+			pos.x += 100; //offset
 
 			var obj = AddSlicableObject(pos);
 
-
-	       // var f = obj.phBody.getWorldVector();
-	       // obj.phBody.applyForceToCenter(_P.Vec2(0.0, -1000000000), true);
+			let _ofx = 0.5 - (pos.x - 100) / (app.renderer.width - 200);
 			
+			let range = 0.8;
+			var imp = {
+				x: range * _ofx,
+			 	y: -1
+			 };
+
+			 let len = Math.sqrt(imp.x * imp.x + imp.y * imp.y);
+			 let rndLen = Math.randomRange(0.4, 0.52);
+			 
+			 imp.x = imp.x * rndLen / len;
+			 imp.y = imp.y * rndLen / len;
+
+			_MB.applyForce(obj.phBody, {x:0, y:0}, imp);
 			obj.parentGroup = sliceDownGroup;
 			stage.addChild(obj);
 		}
@@ -95,7 +123,6 @@ function SliceLayer(app) {
 
 		_ME.update(engine, ticker.elapsedMS);
 	    // iterate over bodies and fixtures
-	    var bodies = _MC.allBodies(engine.world);
 
 	    for (var i = bodies.length - 1; i >= 0; i--) {
 	    	
@@ -114,10 +141,13 @@ function SliceLayer(app) {
 	    			body.piObj.y = body.position.y;
 	    			body.piObj.angle = body.angle;
 	    		}
-	    	}
+	    	}	
 	    }
 	};
 
+	Math.randomRange =  function(min, max) {
+  		return Math.random() * (max - min) + min;
+	}
 	//run Update
 	app.ticker.add(Update, this);
 	
