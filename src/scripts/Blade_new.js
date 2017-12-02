@@ -1,69 +1,70 @@
 
 //Blade JS constructor
 
-function Blade(texture, count = 10, speed = 10, maxLenght = 400) {
+function Blade(texture, count = 10, minDist = 40, liveTime = 20) {
 
 		var points = []
 		this.count = count;
-		this.speed = speed
-		this.maxLenght = maxLenght;
-		this.canUpdate = true;
-
+		this.minDist = minDist;
+		this.texture = texture;
+		this.minMovableSpeed = 4000.0;
+		this.liveTime = liveTime;
 		this.targetPosition = new PIXI.Point(0,0);
-
-		for (var i = 0; i < count; i++) {
-			points.push(new PIXI.Point( 0, 0));
-		}
 
 		this.body = new PIXI.mesh.Rope(texture, points);
 
-		this.MoveAll = function(point) {
+		var lastPoint = null;
+		this.Update = function(ticker) {
 
-			for (var i = 0; i < count; i++) {
-				points[i].set(point.x /  this.body.scale.x, point.y /  this.body.scale.y);					
-			}
-
-			this.targetPosition.set(point.x, point.y);
-		}
-
-		this.Update = function(dt) {
-		//	if(!this.canUpdate)
-	//			return;
+			var isDirty = false;
 
 			var points = this.body.points;
 			
+
+			for (var i = points.length - 1; i >= 0; i--) {
+				
+				if(points[i].lastTime + this.liveTime < ticker.lastTime){
+					points.shift();
+					isDirty = true;
+				}
+			}
+
 			var t = new PIXI.Point(this.targetPosition.x / this.body.scale.x
 								, this.targetPosition.y / this.body.scale.y);
-			points[0].set(t.x, t.y);
+			
+			if(lastPoint == null)
+				lastPoint = t;
 
-			for (var i = 1; i < count; i++) {
+			t.lastTime = ticker.lastTime;
 
-				var p = points[i];
+			let p = lastPoint;
 
-				let dx = t.x - p.x;
-				let dy = t.y - p.y;
+			let dx = t.x - p.x;
+			let dy = t.y - p.y;
 
-				let dist = Math.sqrt(dx*dx + dy*dy);
+			let dist = Math.sqrt(dx*dx + dy*dy);
 
-				if(dist > 10) {
 
-					/*
-					let sL = this.maxLenght / this.count;
-					
-					if(dist > sL)
-					{
-						p.x += (dist - sL) * dx / dist;
-						p.y += (dist - sL) * dy / dist;
-					}*/
-					p.x += dx * dt * this.speed;
-					p.y += dy * dt * this.speed;
-					
-				} else {
+			if(dist > minDist ){
 
-					p.set(t.x, t.y);
-
+				if((dist * 1000 / ticker.elapsedMS) > this.minMovableSpeed){
+					points.push(t);
 				}
-				t = p;
+				if(points.length > this.count){
+					points.shift();
+				}
+
+
+				isDirty = true;
+			}
+
+
+			lastPoint = t;
+			if(isDirty){
+
+				this.body.refresh(true);
+				this.body.renderable = (points.length  > 1);
+
 			}
 		};
 
@@ -72,10 +73,12 @@ function Blade(texture, count = 10, speed = 10, maxLenght = 400) {
 			let self =  this;
 
 			target.mousemove = function(e){
+
 			   self.targetPosition =  e.data.global;	
 			}
 
 			target.mouseover = function(e) {
+			//	self.targetPosition =  e.data.global;
 			//	console.log("over");
 			  //  self.MoveAll(e.data.global);    
 		    }
@@ -89,7 +92,7 @@ function Blade(texture, count = 10, speed = 10, maxLenght = 400) {
 		    target.touchstart = function(e) {
 		        console.log("Touch start");
 		            //console.log(e.data);
-			    self.MoveAll(e.data.global);   
+			  //  self.MoveAll(e.data.global);   
 		    }
 
 		    target.touchend = function(e) {
