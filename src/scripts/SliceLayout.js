@@ -7,16 +7,18 @@ function SliceLayer(app) {
     	_MBs = Matter.Bodies,
     	_MB = Matter.Body,
     	_MC = Matter.Composite,
-    	_MEv = Matter.Events;
+    	_MEv = Matter.Events,
+    	_MV = Matter.Vector,
+    	_LRes = app.loader.resources;
 
     let engine = _ME.create();
     	engine.world.scale = 0.0001;
     	engine.world.gravity.y = 0.35;	
-    
-
+   
 
     _ME.run(engine);
-    	      
+    
+    // TODO : SlicableObject.js      
 	var AddSlicableObject = function(pos, texSH = null){
 
 			let obj = null;
@@ -26,7 +28,8 @@ function SliceLayer(app) {
 				obj = new PIXI.Sprite(texSH.tex);
 				
 				if(texSH.pivot){
-					obj.anchor.set(texSH.pivot.x, texSH.pivot.x);
+					obj.anchor.set(texSH.pivot.x, texSH.pivot.y);
+					//console.log(texSH.pivot);
 				}
 
 			} else{
@@ -39,14 +42,15 @@ function SliceLayer(app) {
 
 			obj.x = pos.x;
 			obj.y = pos.y;
+			obj.onslice = function(){ console.log("NOT IMPLEMENTED YET"); };
 
 			obj.kill = function(){
 				
-				if(this.phBody.sliced){
-					console.log("NOT IMPLEMENTED YET");
+				if(this.phBody.sliced && this.onslice){
+					this.onslice();
 				}
 
-				this.destroy({children: true, texture : true});
+				this.destroy({children: true});
 				if(typeof this.phBody !== "undefined")
 				{
 					_MC.remove(engine.world, this.phBody);
@@ -55,8 +59,11 @@ function SliceLayer(app) {
 
 		let phBody = _MBs.circle(pos.x, pos.y, 50);
 		//	phBody.isSensor = true;
+		//	phBody.inertia = 0.0001;
 			phBody.collisionFilter.mask &= ~ phBody.collisionFilter.category;
+		//_MB.setMass(phBody, 10);
 		_MW.add(engine.world, phBody);
+
 
 		phBody.piObj = obj;
 		obj.phBody = phBody;
@@ -64,7 +71,7 @@ function SliceLayer(app) {
 		return obj;
 	}
 
-	//
+	// -- SlicableObject.js
 
 	var stage = new PIXI.display.Stage();
 
@@ -100,39 +107,13 @@ function SliceLayer(app) {
 	stage.blade = new _lres.blade_js.function(_lres.blade_tex.texture, 30, 10, 100);
 	stage.blade.minMovableSpeed = 1000;
     stage.blade.body.parentGroup = sliceMiddleGroup;
-    stage.blade.phBody = _MBs.rectangle(0,0,stage.blade.minDist * 3, 50, {mass:0,isSensor:true});
-    //stage.blade.phBody.isSensor = true;
-    stage.blade.phBody.collisionFilter.category = _MB.nextCategory();
-    _MW.add(engine.world, stage.blade.phBody);
     stage.blade.ReadCallbacks(stage);
 
     stage.addChild(stage.blade.body);
     stage.addChild(stage._debugText);
 
-
-	//callbakcs
-    var OnCollisionEnter = function(event){
-    	
-    	var pairs = event.pairs;
-		
-		if(stage.blade.lastMotionSpeed > stage.blade.minMotionSpeed){
-			for (var i = 0, j = pairs.length; i != j; ++i) {
-	           
-	            var pair = pairs[i];
-
-	            if (pair.bodyA === stage.blade.phBody) {
-	                pair.bodyB.sliced = true;
-	            } else if (pair.bodyB === stage.blade.phBody) {
-	                pair.bodyA.sliced = true;
-	            }
-	        }
-    	}
-	};
-
-	var OnCollisionExit = function(event){
-
-	};
-
+    var slices = 0;
+    // slices via Raycast Testing
 	var RayCastTest = function(bodies) {
 
 		if(stage.blade.lastMotionSpeed > stage.blade.minMotionSpeed){
@@ -148,16 +129,23 @@ function SliceLayer(app) {
 
 					var collisions = Matter.Query.ray(bodies, sp, ep);
 					for (var j = 0; j < collisions.length; j++) {
-						collisions[j].body.sliced = true;
+						if(collisions[j].body.canSlice){
+
+							let sv = {y: ep.y - sp.y, x: ep.x - sp.x};
+							sv = _MV.normalise(sv);
+
+							collisions[j].body.sliceAngle = _MV.angle(sp, ep);
+							collisions[j].body.sliceVector = sv; 
+							//console.log("body slice angle:", collisions[j].body.sliceAngle);
+							collisions[j].body.sliced = true;
+
+							slices ++;
+						}
 					}
 				}
 			}
 		}
 	}
-	
-	// Register callbacks
-   // _MEv.on(engine, "collisionStart", OnCollisionEnter);
-  //  _MEv.on(engine, "collisionEnd", OnCollisionExit);
 
     var frames = 0;
     var lastShotX = null;
@@ -165,7 +153,7 @@ function SliceLayer(app) {
 	// update view
 	var Update = function(){
 
-	   // stage._debugText.text = "Collision counts:" + coolis.toString();
+	    stage._debugText.text = "Вы дерзко зарезали " + slices.toString() + " кроликoв(ка)(";
 
 	    var bodies = _MC.allBodies(engine.world);
 
@@ -185,7 +173,65 @@ function SliceLayer(app) {
 			
 			pos.x -= 100; //offset
 
-			var obj = AddSlicableObject(pos);
+			/// Вынести это говно куда-нибудь в другое место
+			
+			//banny 
+			let bdata = _LRes.bunny.spritesheet;
+			var obj = AddSlicableObject(
+					pos,
+					{
+						tex: bdata.textures.bunny,
+						pivot: bdata.data.frames.bunny.pivot
+					});
+
+				obj.scale.set(0.2,0.2);
+				obj.parentGroup = sliceDownGroup;
+				obj.phBody.canSlice = true;
+				//длиннннный калбек
+				obj.onslice = function() {
+
+					var downPart =  AddSlicableObject(
+						this.position,
+						{
+							tex: bdata.textures.bunny_torse,
+							pivot: bdata.data.frames.bunny_torse.pivot
+						});
+
+						downPart.scale.set(0.2,0.2);
+						downPart.parentGroup = sliceDownGroup;
+
+						_MB.setMass(downPart.phBody, this.phBody.mass * 0.5);
+						_MB.setVelocity(downPart.phBody, this.phBody.velocity);
+						_MB.setAngle (downPart.phBody,this.phBody.sliceAngle);
+						
+						_MB.applyForce(downPart.phBody, 
+							downPart.phBody.position,
+							 {x: this.phBody.sliceVector.y * 0.02, y: this.phBody.sliceVector.x * 0.02});
+
+						//downPart.phBody.torque = this.phBody.torque * 10;
+
+					stage.addChild(downPart);
+
+					var upPart =  AddSlicableObject(
+						this.position,
+						{
+							tex: bdata.textures.bunny_head,
+							pivot: bdata.data.frames.bunny_head.pivot
+						});
+
+						upPart.scale.set(0.2,0.2);
+						upPart.parentGroup = sliceDownGroup;
+
+						_MB.setMass(upPart.phBody, this.phBody.mass * 0.5);
+						_MB.setVelocity(upPart.phBody, this.phBody.velocity);
+						_MB.setAngle (upPart.phBody,this.phBody.sliceAngle);
+						_MB.applyForce(upPart.phBody,
+							upPart.phBody.position,
+							 {x: this.phBody.sliceVector.y * 0.02, y: -this.phBody.sliceVector.x * 0.02});
+						//upPart.phBody.torque = this.phBody.torque * 10;
+						
+					stage.addChild(upPart);}
+			// --- до сюдда
 
 			let _ofx = 0.5 - (pos.x + 100) / (app.renderer.width + 200);
 			
@@ -195,22 +241,18 @@ function SliceLayer(app) {
 			 	y: -Math.randomRange(0.4, 0.5)
 			 };
 
-			 //let len = Math.sqrt(imp.x * imp.x + imp.y * imp.y);
-			 //let rndLen = Math.randomRange(0.4, 0.52);
-			 
-			 //imp.x = imp.x * rndLen / len;
-			 //imp.y = imp.y * rndLen / len;
 
-			_MB.applyForce(obj.phBody, {x:0, y:0}, imp);
-			obj.parentGroup = sliceDownGroup;
+			_MB.applyForce(obj.phBody, obj.phBody.position, imp);
+			obj.phBody.torque = Math.randomRange(-10, 10);
+
 			stage.addChild(obj);
 		}
 
 		var ticker = app.ticker;
 		stage.blade.Update(ticker);
+		
+		//CastTest
 		RayCastTest(bodies);
- 		//_MB.setPosition(stage.blade.phBody, stage.blade.targetPosition);
-		// Physic
 
 		_ME.update(engine); 
 	    // iterate over bodies and fixtures
@@ -229,7 +271,8 @@ function SliceLayer(app) {
 
 	    			body.piObj.x = body.position.x;
 	    			body.piObj.y = body.position.y;
-	    			body.piObj.angle = body.angle;
+	    			body.piObj.rotation = body.angle;
+	    			//console.log(body.angle);
 	    		}
 	    	}	
 	    }
