@@ -7,8 +7,9 @@ function Blade(texture, count = 10, minDist = 40, liveTime = 20) {
 		this.count = count;
 		this.minDist = minDist;
 		this.texture = texture;
-		this.minMovableSpeed = 4000.0;
+		this.minMotionSpeed = 4000.0;
 		this.liveTime = liveTime;
+		this.lastMotionSpeed = 0;
 		this.targetPosition = new PIXI.Point(0,0);
 
 		this.body = new PIXI.mesh.Rope(texture, points);
@@ -44,10 +45,10 @@ function Blade(texture, count = 10, minDist = 40, liveTime = 20) {
 
 			let dist = Math.sqrt(dx*dx + dy*dy);
 
-
+			this.lastMotionSpeed = (dist * 1000 / ticker.elapsedMS);
 			if(dist > minDist ){
 
-				if((dist * 1000 / ticker.elapsedMS) > this.minMovableSpeed){
+				if(this.lastMotionSpeed > this.minMotionSpeed){
 					points.push(t);
 				}
 				if(points.length > this.count){
