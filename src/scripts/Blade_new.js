@@ -14,7 +14,7 @@ function Blade(texture, count = 10, minDist = 40, liveTime = 20) {
 
 		this.body = new PIXI.mesh.Rope(texture, points);
 
-		var lastPoint = null;
+		let lastPosition = null;
 		this.Update = function(ticker) {
 
 			var isDirty = false;
@@ -33,12 +33,12 @@ function Blade(texture, count = 10, minDist = 40, liveTime = 20) {
 			var t = new PIXI.Point(this.targetPosition.x / this.body.scale.x
 								, this.targetPosition.y / this.body.scale.y);
 			
-			if(lastPoint == null)
-				lastPoint = t;
+			if(lastPosition == null)
+				lastPosition = t;
 
 			t.lastTime = ticker.lastTime;
 
-			let p = lastPoint;
+			let p = lastPosition;
 
 			let dx = t.x - p.x;
 			let dy = t.y - p.y;
@@ -60,7 +60,7 @@ function Blade(texture, count = 10, minDist = 40, liveTime = 20) {
 			}
 
 
-			lastPoint = t;
+			lastPosition = t;
 			if(isDirty){
 
 				this.body.refresh(true);

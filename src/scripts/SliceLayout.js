@@ -17,19 +17,35 @@ function SliceLayer(app) {
 
     _ME.run(engine);
     	      
-	var AddSlicableObject = function(pos){
+	var AddSlicableObject = function(pos, texSH = null){
 
-		var circle = new PIXI.Graphics();
-			circle.beginFill(0x9966F * Math.random());
-			circle.drawCircle(0, 0, 50);
-			circle.endFill();
-			circle.x = pos.x;
-			circle.y = pos.y;
+			let obj = null;
 
-			circle.kill = function(){
+			if(texSH){
+			
+				obj = new PIXI.Sprite(texSH.tex);
+				
+				if(texSH.pivot){
+					obj.anchor.set(texSH.pivot.x, texSH.pivot.x);
+				}
+
+			} else{
+
+				obj = new PIXI.Graphics();
+				obj.beginFill(0x9966F * Math.random());
+				obj.drawCircle(0, 0, 50);
+				obj.endFill();
+			}
+
+			obj.x = pos.x;
+			obj.y = pos.y;
+
+			obj.kill = function(){
+				
 				if(this.phBody.sliced){
 					console.log("NOT IMPLEMENTED YET");
 				}
+
 				this.destroy({children: true, texture : true});
 				if(typeof this.phBody !== "undefined")
 				{
@@ -38,14 +54,14 @@ function SliceLayer(app) {
 			};
 
 		let phBody = _MBs.circle(pos.x, pos.y, 50);
-			phBody.isSensor = true;
+		//	phBody.isSensor = true;
 			phBody.collisionFilter.mask &= ~ phBody.collisionFilter.category;
 		_MW.add(engine.world, phBody);
 
-		phBody.piObj = circle;
-		circle.phBody = phBody;
+		phBody.piObj = obj;
+		obj.phBody = phBody;
 	
-		return circle;
+		return obj;
 	}
 
 	//
@@ -116,10 +132,32 @@ function SliceLayer(app) {
 	var OnCollisionExit = function(event){
 
 	};
+
+	var RayCastTest = function(bodies) {
+
+		if(stage.blade.lastMotionSpeed > stage.blade.minMotionSpeed){
+
+			var pps = stage.blade.body.points;
+
+			if( pps.length > 1 ){
+
+				for (var i = 1; i < Math.min(pps.length, 4); i++) { // 4 последних сегмента 
+
+					var sp =  pps[i - 1];
+					var ep =  pps[i];
+
+					var collisions = Matter.Query.ray(bodies, sp, ep);
+					for (var j = 0; j < collisions.length; j++) {
+						collisions[j].body.sliced = true;
+					}
+				}
+			}
+		}
+	}
 	
 	// Register callbacks
-    _MEv.on(engine, "collisionStart", OnCollisionEnter);
-    _MEv.on(engine, "collisionEnd", OnCollisionExit);
+   // _MEv.on(engine, "collisionStart", OnCollisionEnter);
+  //  _MEv.on(engine, "collisionEnd", OnCollisionExit);
 
     var frames = 0;
     var lastShotX = null;
@@ -130,6 +168,7 @@ function SliceLayer(app) {
 	   // stage._debugText.text = "Collision counts:" + coolis.toString();
 
 	    var bodies = _MC.allBodies(engine.world);
+
 		frames ++;
 		if(frames >= 20 && bodies.length < 5){
 			
@@ -169,7 +208,8 @@ function SliceLayer(app) {
 
 		var ticker = app.ticker;
 		stage.blade.Update(ticker);
- 		_MB.setPosition(stage.blade.phBody, stage.blade.targetPosition);
+		RayCastTest(bodies);
+ 		//_MB.setPosition(stage.blade.phBody, stage.blade.targetPosition);
 		// Physic
 
 		_ME.update(engine); 
