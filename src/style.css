@@ -1,5 +1,6 @@
 
 html, body {
+	overflow: hidden; 
 	margin: 0 0 0 0;
 	background-color: #cccccc;
 	width: 100%;
