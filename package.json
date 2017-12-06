@@ -1,0 +1,11 @@
+{
+  "name": "FruitNinjaCore",
+  "version": "0.0.1",
+  "author": "Timoshenko Konstantin",
+  "devDependencies": {
+    "browserify": "latest"
+  },
+  "scripts": {
+    "build-js": "browserify src/scripts/core.js > src/scripts/core-build.js -d"
+  }
+}
