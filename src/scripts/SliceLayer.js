@@ -1,4 +1,6 @@
 import {DropShadowFilter} from '@pixi/filter-drop-shadow'
+import CreateSlicableObject from './SlicableObject'
+import Blade from './Blade'
 
 // function, who create and instance SlicedLayout
 export default function SliceLayer (app) {
@@ -17,58 +19,7 @@ export default function SliceLayer (app) {
 
   _ME.run(engine);
 
-  // TODO : SlicableObject.js
-  var AddSlicableObject = function AddSlicableObject(pos) {
-    var texSH =
-      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
-    var obj = null;
-
-    if (texSH) {
-      obj = new PIXI.Sprite(texSH.tex);
-
-      if (texSH.pivot) {
-        obj.anchor.set(texSH.pivot.x, texSH.pivot.y);
-        //console.log(texSH.pivot);
-      }
-    } else {
-      obj = new PIXI.Graphics();
-      obj.beginFill(0x9966f * Math.random());
-      obj.drawCircle(0, 0, 50);
-      obj.endFill();
-    }
-
-    obj.x = pos.x;
-    obj.y = pos.y;
-    obj.onslice = function() {
-      console.log("NOT IMPLEMENTED YET");
-    };
-
-    obj.kill = function() {
-      if (this.phBody.sliced && this.onslice) {
-        this.onslice();
-      }
-
-      this.destroy({ children: true });
-      if (typeof this.phBody !== "undefined") {
-        _MC.remove(engine.world, this.phBody);
-      }
-    };
-
-    var phBody = _MBs.circle(pos.x, pos.y, 50);
-    //	phBody.isSensor = true;
-    //	phBody.inertia = 0.0001;
-    phBody.collisionFilter.mask &= ~phBody.collisionFilter.category;
-    //_MB.setMass(phBody, 10);
-    _MW.add(engine.world, phBody);
-
-    phBody.piObj = obj;
-    obj.phBody = phBody;
-
-    return obj;
-  };
-
-  // -- SlicableObject.js
 
   var stage = new PIXI.display.Stage();
 
@@ -101,7 +52,7 @@ export default function SliceLayer (app) {
 
   stage._debugText.position.set(10, 42);
  // console.log("pre");
-  stage.blade = new _lres.blade_js.function(
+  stage.blade = new Blade(
     _lres.blade_tex.texture,
     30,
     10,
@@ -180,7 +131,7 @@ export default function SliceLayer (app) {
 
       //banny
       var bdata = _LRes.bunny.spritesheet;
-      var obj = AddSlicableObject(pos, {
+      var obj = CreateSlicableObject(pos, engine, {
         tex: bdata.textures.bunny,
         pivot: bdata.data.frames.bunny.pivot
       });
@@ -190,7 +141,7 @@ export default function SliceLayer (app) {
       obj.phBody.canSlice = true;
       //длиннннный калбек
       obj.onslice = function() {
-        var downPart = AddSlicableObject(this.position, {
+        var downPart = CreateSlicableObject(this.position, engine, {
           tex: bdata.textures.bunny_torse,
           pivot: bdata.data.frames.bunny_torse.pivot
         });
@@ -211,7 +162,7 @@ export default function SliceLayer (app) {
 
         stage.addChild(downPart);
 
-        var upPart = AddSlicableObject(this.position, {
+        var upPart = CreateSlicableObject(this.position,engine, {
           tex: bdata.textures.bunny_head,
           pivot: bdata.data.frames.bunny_head.pivot
         });

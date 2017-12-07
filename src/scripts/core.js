@@ -69,16 +69,12 @@ var LoadGame = function LoadGame() {
   var loader = _App.loader;
 
   loader
-    .add("blade_js", "./src/scripts/Blade_new.js")
-    //.add("slice_js", "./src/scripts/SliceLayer.js")
     .add("blade_tex", "./src/images/blade.png")
     .add("bunny", "./src/images/bunny_ss.json")
     .load(function(l, res) {
 
-      res.blade_js.function = (new Function(res.blade_js.data))();
-    //  res.slice_js.function = (new Function(res.slice_js.data))();
-
       GameLoaded();
+      
     });
 
   console.log("Game start load");

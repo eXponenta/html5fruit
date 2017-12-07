@@ -1,107 +1,105 @@
 
 //Blade JS constructor
 
-function Blade(texture, count = 10, speed = 10, maxLenght = 400) {
+export default function Blade(texture) {
+  var count =
+    arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 10;
+  var minDist =
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 40;
+  var liveTime =
+    arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 20;
 
-		var points = []
-		this.count = count;
-		this.speed = speed
-		this.maxLenght = maxLenght;
-		this.canUpdate = true;
+  var points = [];
+  this.count = count;
+  this.minDist = minDist;
+  this.texture = texture;
+  this.minMotionSpeed = 4000.0;
+  this.liveTime = liveTime;
+  this.lastMotionSpeed = 0;
+  this.targetPosition = new PIXI.Point(0, 0);
 
-		this.targetPosition = new PIXI.Point(0,0);
+  this.body = new PIXI.mesh.Rope(texture, points);
 
-		for (var i = 0; i < count; i++) {
-			points.push(new PIXI.Point( 0, 0));
-		}
+  var lastPosition = null;
+  this.Update = function(ticker) {
+    var isDirty = false;
 
-		this.body = new PIXI.mesh.Rope(texture, points);
+    var points = this.body.points;
 
-		this.MoveAll = function(point) {
+    for (var i = points.length - 1; i >= 0; i--) {
+      if (points[i].lastTime + this.liveTime < ticker.lastTime) {
+        points.shift();
+        isDirty = true;
+      }
+    }
 
-			for (var i = 0; i < count; i++) {
-				points[i].set(point.x /  this.body.scale.x, point.y /  this.body.scale.y);					
-			}
+    var t = new PIXI.Point(
+      this.targetPosition.x / this.body.scale.x,
+      this.targetPosition.y / this.body.scale.y
+    );
 
-			this.targetPosition.set(point.x, point.y);
-		}
+    if (lastPosition == null) lastPosition = t;
 
-		this.Update = function(dt) {
-		//	if(!this.canUpdate)
-	//			return;
+    t.lastTime = ticker.lastTime;
 
-			var points = this.body.points;
-			
-			var t = new PIXI.Point(this.targetPosition.x / this.body.scale.x
-								, this.targetPosition.y / this.body.scale.y);
-			points[0].set(t.x, t.y);
+    var p = lastPosition;
 
-			for (var i = 1; i < count; i++) {
+    var dx = t.x - p.x;
+    var dy = t.y - p.y;
 
-				var p = points[i];
+    var dist = Math.sqrt(dx * dx + dy * dy);
 
-				let dx = t.x - p.x;
-				let dy = t.y - p.y;
+    this.lastMotionSpeed = dist * 1000 / ticker.elapsedMS;
+    if (dist > minDist) {
+      if (this.lastMotionSpeed > this.minMotionSpeed) {
+        points.push(t);
+      }
+      if (points.length > this.count) {
+        points.shift();
+      }
 
-				let dist = Math.sqrt(dx*dx + dy*dy);
+      isDirty = true;
+    }
 
-				if(dist > 10) {
+    lastPosition = t;
+    if (isDirty) {
+      this.body.refresh(true);
+      this.body.renderable = points.length > 1;
+    }
+  };
 
-					/*
-					let sL = this.maxLenght / this.count;
-					
-					if(dist > sL)
-					{
-						p.x += (dist - sL) * dx / dist;
-						p.y += (dist - sL) * dy / dist;
-					}*/
-					p.x += dx * dt * this.speed;
-					p.y += dy * dt * this.speed;
-					
-				} else {
+  this.ReadCallbacks = function(target) {
+    var self = this;
 
-					p.set(t.x, t.y);
+    target.mousemove = function(e) {
+      self.targetPosition = e.data.global;
+    };
 
-				}
-				t = p;
-			}
-		};
+    target.mouseover = function(e) {
+      //	self.targetPosition =  e.data.global;
+      //	console.log("over");
+      //  self.MoveAll(e.data.global);
+    };
 
-		this.ReadCallbacks = function(target) {
-			
-			let self =  this;
+    target.touchmove = function(e) {
+      console.log("Touch move");
+      //console.log(e.data);
+      self.targetPosition = e.data.global;
+    };
 
-			target.mousemove = function(e){
-			   self.targetPosition =  e.data.global;	
-			}
+    target.touchstart = function(e) {
+      console.log("Touch start");
+      //console.log(e.data);
+      //  self.MoveAll(e.data.global);
+    };
 
-			target.mouseover = function(e) {
-			//	console.log("over");
-			  //  self.MoveAll(e.data.global);    
-		    }
+    target.touchend = function(e) {
+      console.log("Touch start");
+      // _Blade.MoveAll(e.data.global);
+    };
+    // а то лапша какая-то
+  };
+};
 
-	    	target.touchmove = function(e) {
-	            console.log("Touch move");
-	            //console.log(e.data);
-	            self.targetPosition =  e.data.global;   
-		    }
+//return Blade;
 
-		    target.touchstart = function(e) {
-		        console.log("Touch start");
-		            //console.log(e.data);
-			    self.MoveAll(e.data.global);   
-		    }
-
-		    target.touchend = function(e) {
-		         console.log("Touch start");
-				// _Blade.MoveAll(e.data.global); 
-		    }
-		    // а то лапша какая-то
-
-		};
-}
-
-
-return Blade;
-
-//
