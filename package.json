@@ -3,9 +3,22 @@
   "version": "0.0.1",
   "author": "Timoshenko Konstantin",
   "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babelify": "^8.0.0",
     "browserify": "latest"
   },
+  "watch": {
+    "build": "src/*.js"
+  },
   "scripts": {
-    "build-js": "browserify src/scripts/core.js > src/scripts/core-build.js -d"
+    "convert": "babel src -d dist --presets env",
+    "watch": "npm-watch",
+    "build": "browserify src/scripts/core.js -o dist/core.js -t babelify"
+  },
+  "babel": {
+    "presets": [
+      "env"
+    ]
   }
 }
