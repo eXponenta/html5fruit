@@ -1,6 +1,4 @@
-//var _SliceStage = require("./SliceLayer.js")
-
-"use strict";
+import _SliceStageCreater from "./SliceLayer"
 
 var _App = null,
   _LRes = null,
@@ -59,7 +57,9 @@ var onUpdate = function onUpdate() {
 var GameLoaded = function GameLoaded() {
   console.log("Game is loaded");
 
-  _SlicedStage = _LRes.slice_js.function(_App);
+  console.log(_SliceStageCreater);
+  _SlicedStage =  _SliceStageCreater(_App); //_LRes.slice_js.function(_App);
+
   _App.stage.addChild(_SlicedStage);
 
   _App.LoadStage.destroy();
@@ -70,13 +70,13 @@ var LoadGame = function LoadGame() {
 
   loader
     .add("blade_js", "./src/scripts/Blade_new.js")
-    .add("slice_js", "./src/scripts/SliceLayer.js")
+    //.add("slice_js", "./src/scripts/SliceLayer.js")
     .add("blade_tex", "./src/images/blade.png")
     .add("bunny", "./src/images/bunny_ss.json")
     .load(function(l, res) {
 
       res.blade_js.function = (new Function(res.blade_js.data))();
-      res.slice_js.function = (new Function(res.slice_js.data))();
+    //  res.slice_js.function = (new Function(res.slice_js.data))();
 
       GameLoaded();
     });

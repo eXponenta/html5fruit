@@ -1,6 +1,7 @@
+import {DropShadowFilter} from '@pixi/filter-drop-shadow'
 
 // function, who create and instance SlicedLayout
-var SliceLayer = function (app) {
+export default function SliceLayer (app) {
   var _ME = Matter.Engine,
     _MW = Matter.World,
     _MBs = Matter.Bodies,
@@ -77,6 +78,10 @@ var SliceLayer = function (app) {
   var sliceMiddleGroup = new PIXI.display.Group(0, false);
   var sliceDownGroup = new PIXI.display.Group(-1, false);
   var uiGroup = new PIXI.display.Group(10, false);
+  
+  console.log(DropShadowFilter);
+  console.log(PIXI.filters.DropShadowFilter)
+  stage.filters = [new DropShadowFilter()];
 
   stage.addChild(new PIXI.display.Layer(sliceUpGroup));
   stage.addChild(new PIXI.display.Layer(sliceDownGroup));
@@ -280,5 +285,6 @@ var SliceLayer = function (app) {
   return stage;
 }
 
+//export {SliceLayer };
 //module.exports = SliceLayer;
-return SliceLayer;
+//return SliceLayer;

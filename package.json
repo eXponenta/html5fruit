@@ -2,20 +2,31 @@
   "name": "FruitNinjaCore",
   "version": "0.0.1",
   "author": "Timoshenko Konstantin",
+  "main": "src/scripts/core.js",
   "devDependencies": {
+    "@pixi/filter-drop-shadow": "^2.3.1",
     "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babelify": "^8.0.0",
     "browserify": "latest"
   },
   "watch": {
-    "build": "src/*.js"
+    "build": "src/scripts/*.js"
   },
   "scripts": {
-    "convert": "babel src -d dist --presets env",
+    "convert": "babel src -d dist",
     "watch": "npm-watch",
-    "build": "browserify src/scripts/core.js -o dist/core.js -t babelify"
+    "build": "browserify -d src/scripts/core.js -o dist/core.js -t"
   },
+  
+  "browserify":{
+  	"transform": [
+      [
+        "babelify"
+      ]
+    ]
+  },
+
   "babel": {
     "presets": [
       "env"
