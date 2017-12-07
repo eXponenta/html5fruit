@@ -99,4 +99,4 @@ var onResize = function onResize(event) {
 };
 
 
-window.Init = Init;
+window.onload = Init;
