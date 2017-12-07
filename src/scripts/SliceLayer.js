@@ -30,8 +30,6 @@ export default function SliceLayer (app) {
   var sliceDownGroup = new PIXI.display.Group(-1, false);
   var uiGroup = new PIXI.display.Group(10, false);
   
-  console.log(DropShadowFilter);
-  console.log(PIXI.filters.DropShadowFilter)
   stage.filters = [new DropShadowFilter()];
 
   stage.addChild(new PIXI.display.Layer(sliceUpGroup));
@@ -130,58 +128,32 @@ export default function SliceLayer (app) {
       /// Вынести это говно куда-нибудь в другое место
 
       //banny
-      var bdata = _LRes.bunny.spritesheet;
-      var obj = CreateSlicableObject(pos, engine, {
-        tex: bdata.textures.bunny,
-        pivot: bdata.data.frames.bunny.pivot
-      });
+	    let bdata = _LRes.bunny.spritesheet;
+
+		let data = {
+	      	normal: {
+	     	   tex: bdata.textures.bunny,
+	     	   pivot: bdata.data.frames.bunny.pivot,
+	     	   group:sliceDownGroup
+	      	},
+	      	parts:[
+		      	{
+		          tex: bdata.textures.bunny_torse,
+		          pivot: bdata.data.frames.bunny_torse.pivot,
+		          group: sliceDownGroup
+		        },
+		        {
+		        	tex: bdata.textures.bunny_head,
+		        	pivot: bdata.data.frames.bunny_head.pivot,
+		        	group: sliceUpGroup
+	        	}
+	        ]
+	    };
+
+      var obj = CreateSlicableObject(pos, engine, data);
 
       obj.scale.set(0.2, 0.2);
-      obj.parentGroup = sliceDownGroup;
       obj.phBody.canSlice = true;
-      //длиннннный калбек
-      obj.onslice = function() {
-        var downPart = CreateSlicableObject(this.position, engine, {
-          tex: bdata.textures.bunny_torse,
-          pivot: bdata.data.frames.bunny_torse.pivot
-        });
-
-        downPart.scale.set(0.2, 0.2);
-        downPart.parentGroup = sliceDownGroup;
-
-        _MB.setMass(downPart.phBody, this.phBody.mass * 0.5);
-        _MB.setVelocity(downPart.phBody, this.phBody.velocity);
-        _MB.setAngle(downPart.phBody, this.phBody.sliceAngle);
-
-        _MB.applyForce(downPart.phBody, downPart.phBody.position, {
-          x: this.phBody.sliceVector.y * 0.02,
-          y: this.phBody.sliceVector.x * 0.02
-        });
-
-        //downPart.phBody.torque = this.phBody.torque * 10;
-
-        stage.addChild(downPart);
-
-        var upPart = CreateSlicableObject(this.position,engine, {
-          tex: bdata.textures.bunny_head,
-          pivot: bdata.data.frames.bunny_head.pivot
-        });
-
-        upPart.scale.set(0.2, 0.2);
-        upPart.parentGroup = sliceDownGroup;
-
-        _MB.setMass(upPart.phBody, this.phBody.mass * 0.5);
-        _MB.setVelocity(upPart.phBody, this.phBody.velocity);
-        _MB.setAngle(upPart.phBody, this.phBody.sliceAngle);
-        _MB.applyForce(upPart.phBody, upPart.phBody.position, {
-          x: this.phBody.sliceVector.y * 0.02,
-          y: -this.phBody.sliceVector.x * 0.02
-        });
-        //upPart.phBody.torque = this.phBody.torque * 10;
-
-        stage.addChild(upPart);
-      };
-      // --- до сюдда
 
       var _ofx = 0.5 - (pos.x + 100) / (app.renderer.width + 200);
 

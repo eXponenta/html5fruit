@@ -57,7 +57,6 @@ var onUpdate = function onUpdate() {
 var GameLoaded = function GameLoaded() {
   console.log("Game is loaded");
 
-  console.log(_SliceStageCreater);
   _SlicedStage =  _SliceStageCreater(_App); //_LRes.slice_js.function(_App);
 
   _App.stage.addChild(_SlicedStage);
@@ -74,7 +73,7 @@ var LoadGame = function LoadGame() {
     .load(function(l, res) {
 
       GameLoaded();
-      
+
     });
 
   console.log("Game start load");
