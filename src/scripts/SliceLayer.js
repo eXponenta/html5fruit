@@ -21,7 +21,7 @@ export default function SliceLayer (app) {
 
 
 
-  var stage = new PIXI.display.Stage();
+  var stage = new PIXI.Container();
 
   var _lres = app.loader.resources;
 
@@ -30,7 +30,7 @@ export default function SliceLayer (app) {
   var sliceDownGroup = new PIXI.display.Group(-1, false);
   var uiGroup = new PIXI.display.Group(10, false);
   
-  stage.filters = [new DropShadowFilter()];
+ // stage.filters = [new DropShadowFilter()];
 
   stage.addChild(new PIXI.display.Layer(sliceUpGroup));
   stage.addChild(new PIXI.display.Layer(sliceDownGroup));
@@ -100,6 +100,8 @@ export default function SliceLayer (app) {
 
   // update view
   var Update = function Update() {
+
+  	//stage.updateStage();
     stage._debugText.text =
       "Вы дерзко зарезали " + slices.toString() + " кроликoв(ка)(";
 

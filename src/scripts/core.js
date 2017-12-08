@@ -1,4 +1,5 @@
 import _SliceStageCreater from "./SliceLayer"
+import "./TiledOGLoader/TiledObjGroupLoader.js"
 
 var _App = null,
   _LRes = null,
@@ -12,10 +13,13 @@ var Init = function Init() {
     height: 720,
     backgroundColor: 0xffffff
   });
+
   //Так надо, стандартные не будут отображатся
   _App.stage = new PIXI.display.Stage();
 
   _LRes = _App.loader.resources;
+  window._LRes = _LRes;
+
   _IntManager = _App.renderer.plugins.interaction;
 
   document.body.appendChild(_App.view);
@@ -26,26 +30,13 @@ var Init = function Init() {
 
   _App.stage.interactive = true;
 
-  var loadStage = new PIXI.Container();
+  _App.loader
+        .add("tiled_map", "./src/maps/test.json")
+        .load((l, res) => {
 
-  var loadButton = new PIXI.Text("This is a Load Button", {
-    fontFamily: "Arial",
-    fontSize: 74,
-    fill: 0xff1010,
-    align: "center"
-  });
-
-  loadButton.anchor.set(0.5, 0.5);
-  loadButton.buttonMode = true;
-  loadButton.interactive = true;
-
-  loadButton.position.set(_App.renderer.width / 2, _App.renderer.height / 2);
-
-  loadButton.click = LoadGame;
-  loadStage.addChild(loadButton);
-
-  _App.LoadStage = loadStage;
-  _App.stage.addChild(loadStage);
+            _App.stage.addChild(res.tiled_map.stage);
+        });
+  
 };
 
 // update function, pass Window as scope (this = _App)
@@ -73,7 +64,6 @@ var LoadGame = function LoadGame() {
     .load(function(l, res) {
 
       GameLoaded();
-
     });
 
   console.log("Game start load");
@@ -93,5 +83,5 @@ var onResize = function onResize(event) {
   }
 };
 
-
+window.LoadGame = LoadGame;
 window.onload = Init;
