@@ -15,6 +15,18 @@
                  "width":1920,
                  "x":0,
                  "y":1080
+                }, 
+                {
+                 "gid":3,
+                 "height":16,
+                 "id":8,
+                 "name":"blade",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":256,
+                 "x":916,
+                 "y":938
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -31,7 +43,7 @@
                  "height":141,
                  "id":5,
                  "name":"start_button",
-                 "rotation":0,
+                 "rotation":25,
                  "type":"button:start",
                  "visible":true,
                  "width":528,
@@ -39,24 +51,31 @@
                  "y":710.666666666667
                 }, 
                 {
-                 "height":96.3333333333334,
+                 "height":116.333333333333,
                  "id":7,
                  "name":"start_button_text",
-                 "rotation":0,
+                 "properties":
+                    {
+                     "opacity":0.5
+                    },
+                 "propertytypes":
+                    {
+                     "opacity":"float"
+                    },
+                 "rotation":25,
                  "text":
                     {
-                     "color":"#ffffff",
-                     "halign":"center",
-                     "pixelsize":80,
+                     "color":"#c8ffffff",
+                     "fontfamily":"Arial",
+                     "pixelsize":133,
                      "text":"Play",
-                     "valign":"center",
                      "wrap":true
                     },
                  "type":"static_text",
                  "visible":true,
-                 "width":453.666666666667,
-                 "x":738.833333333333,
-                 "y":587.166666666667
+                 "width":527.587421495684,
+                 "x":761.008027460667,
+                 "y":591.081047742647
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -64,7 +83,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":8,
+ "nextobjectid":12,
  "orientation":"orthogonal",
  "renderorder":"right-up",
  "tiledversion":"1.0.3",
@@ -82,7 +101,7 @@
          "margin":0,
          "name":"sources",
          "spacing":0,
-         "tilecount":2,
+         "tilecount":3,
          "tileheight":1080,
          "tiles":
             {
@@ -108,6 +127,12 @@
                  "image":"sources\/button.png",
                  "imageheight":181,
                  "imagewidth":600
+                },
+             "2":
+                {
+                 "image":"..\/images\/blade.png",
+                 "imageheight":16,
+                 "imagewidth":256
                 }
             },
          "tilewidth":1920

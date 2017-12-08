@@ -36,27 +36,28 @@ let CreateSubBody = function(parent, texData){
 export default function CreateSlicableObject(pos, engine, data) {
   
   var obj = null;
+
   if (data && data.normal) {
     obj = new PIXI.Sprite(data.normal.tex);
 
     if (data.normal.pivot) {
       obj.anchor.set(data.normal.pivot.x, data.normal.pivot.y);
-      //console.log(texSH.pivot);
     }
+
   } else {
   
     obj = new PIXI.Graphics();
     obj.beginFill(0x9966f * Math.random());
     obj.drawCircle(0, 0, 50);
     obj.endFill();
-  
   }
 
   obj.spriteData = data;
   obj.engine = engine;
   obj.x = pos.x;
   obj.y = pos.y;
-
+  obj.parentGroup = data.normal.group;
+  
   obj.onslice = function() {
 
     for(let i = 0; i < obj.spriteData.parts.length; i++){

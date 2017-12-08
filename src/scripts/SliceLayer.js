@@ -19,8 +19,6 @@ export default function SliceLayer (app) {
 
   _ME.run(engine);
 
-
-
   var stage = new PIXI.Container();
 
   var _lres = app.loader.resources;
