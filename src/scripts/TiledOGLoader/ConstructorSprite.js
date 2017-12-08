@@ -15,7 +15,7 @@ export default function ConstructorSpritr(obj) {
 	spr.rotation = (_o.rotation || 0)  * Math.PI / 180;
 	spr.x = _o.x;
 	spr.y = _o.y;
-	//spr.parentGroup = _layer.group;
+	spr.visible = _o.visible || true;
 
 	if(_o.properties)
 	{

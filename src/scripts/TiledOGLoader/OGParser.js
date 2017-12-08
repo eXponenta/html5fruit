@@ -54,16 +54,24 @@ export default function OGParser(){
         		for(let i = 0; i < _data.layers.length; i++)
         		{
         			
-        			if(_data.layers[i].type !== "objectgroup" && _data.layers[i].type !== "imagelayer")
-        			{
-        				console.warn("OGParser support only OBJECT or IMAGE layes!!");
-        				next();
-        				return;
-        			}
-
         			let _l = _data.layers[i];
         			
-        			let _group = new Group(i, true);
+        			if(_l.type !== "objectgroup" && _l.type !== "imagelayer")
+        			{
+        				console.warn("OGParser support only OBJECT or IMAGE layes!!");
+        				//next();
+        				//return;
+        				continue;
+        			}
+
+        			if(_l.properties && (_l.properties.ignore || _l.properties.ignoreLoad)){
+
+        				console.log("OGParser: ignore loading layer:" + _l.name);
+        				continue;
+        			}
+
+        			
+        			let _group = new Group( _l.properties ? (_l.properties.zOrder || i) : i, true);
         			let _layer = new Layer(_group);
         			_layer.name = _l.name;
         			_stage[_l.name] = _layer;
@@ -73,17 +81,19 @@ export default function OGParser(){
         			_layer.alpha = _l.opacity || 1;
 
         			_stage.addChild(_layer);
-        			_l.objects = [
-        				{
-        					image: _l.image,
-        					name: _l.name,
-        					x: _l.x ,
-        					y: _l.y + _stage.layerHeight,
-        					//width: _l.width,
-        					//height: _l.height,
-        					properties: _l.properties,
-        				}
-        			];
+        			if(_l.type == "imagelayer"){
+	        			_l.objects = [
+	        				{
+	        					image: _l.image,
+	        					name: _l.name,
+	        					x: _l.x ,
+	        					y: _l.y + _stage.layerHeight,
+	        					//width: _l.width,
+	        					//height: _l.height,
+	        					properties: _l.properties,
+	        				}
+	        			];
+        			}
 
         			if(_l.objects) 
         			{

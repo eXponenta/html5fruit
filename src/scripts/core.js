@@ -31,14 +31,15 @@ var Init = function Init() {
   _App.stage.interactive = true;
 
   _App.loader
-        .add("tiled_map", "./src/maps/test_2.json")
+        .add("base_stage", "./src/maps/base.json")
         .load((l, res) => {
 
-            res.tiled_map.stage.scale.set(
-                _App.renderer.width / res.tiled_map.stage.layerWidth,
-                 _App.renderer.height / res.tiled_map.stage.layerHeight);
+            res.base_stage.stage.scale.set(
+                _App.renderer.width / res.base_stage.stage.layerWidth,
+                _App.renderer.height / res.base_stage.stage.layerHeight
+            );
             
-            _App.stage.addChild(res.tiled_map.stage);
+            _App.stage.addChild(res.base_stage.stage);
         });
   
 };
