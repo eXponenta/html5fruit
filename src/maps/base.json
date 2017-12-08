@@ -18,6 +18,16 @@
          "y":0
         }, 
         {
+         "draworder":"topdown",
+         "name":"BASE_MIDDLE",
+         "objects":[],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
          "image":"..\/..\/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u0446\u0438\u044f\/game\/for-developer\/1-screen-final.jpg",
          "name":"ref",
          "opacity":1,
@@ -47,8 +57,8 @@
                  "type":"button:close",
                  "visible":true,
                  "width":52,
-                 "x":1830.72727272727,
-                 "y":80.1212121212121
+                 "x":1830.73,
+                 "y":80.1212
                 }, 
                 {
                  "gid":3,
@@ -59,8 +69,8 @@
                  "type":"image:volume:normal:change",
                  "visible":false,
                  "width":40,
-                 "x":1807.24242424242,
-                 "y":1009.45454545455
+                 "x":1807.24,
+                 "y":1009.45
                 }, 
                 {
                  "gid":4,
@@ -102,6 +112,14 @@
         }],
  "nextobjectid":5,
  "orientation":"orthogonal",
+ "properties":
+    {
+     "zOrder":0
+    },
+ "propertytypes":
+    {
+     "zOrder":"int"
+    },
  "renderorder":"right-up",
  "tiledversion":"1.0.3",
  "tileheight":1,

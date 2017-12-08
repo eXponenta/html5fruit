@@ -1,16 +1,18 @@
+import _BaseStageCreater from "./BaseLayer"
 import _SliceStageCreater from "./SliceLayer"
-import "./TiledOGLoader/TiledObjGroupLoader.js"
+
+import "./TiledOGLoader/TiledObjGroupLoader"
 
 var _App = null,
   _LRes = null,
-  _Renderer = null,
-  _IntManager = null,
+  //_Renderer = null,
+  //_IntManager = null,
   _SlicedStage = null;
 
 var Init = function Init() {
   _App = new PIXI.Application({
-    width: 1280,
-    height: 720,
+    width: 1920,
+    height: 1080,
     backgroundColor: 0xffffff
   });
 
@@ -20,33 +22,15 @@ var Init = function Init() {
   _LRes = _App.loader.resources;
   window._LRes = _LRes;
 
-  _IntManager = _App.renderer.plugins.interaction;
+//  _IntManager = _App.renderer.plugins.interaction;
 
   document.body.appendChild(_App.view);
   onResize();
   window.onresize = onResize;
 
-  _App.ticker.add(onUpdate, this);
-
-  _App.stage.interactive = true;
-
-  _App.loader
-        .add("base_stage", "./src/maps/base.json")
-        .load((l, res) => {
-
-            res.base_stage.stage.scale.set(
-                _App.renderer.width / res.base_stage.stage.layerWidth,
-                _App.renderer.height / res.base_stage.stage.layerHeight
-            );
-            
-            _App.stage.addChild(res.base_stage.stage);
-        });
-  
-};
-
-// update function, pass Window as scope (this = _App)
-var onUpdate = function onUpdate() {
-  var dt = _App.ticker.deltaTime;
+  _BaseStageCreater(_App);
+//  _App.stage.interactive = true;
+    
 };
 
 //invoked after loading game resources

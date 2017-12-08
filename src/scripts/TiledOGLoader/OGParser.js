@@ -9,12 +9,13 @@ let Stage = PIXI.display.Stage;
 export default function OGParser(){
 	return function (resource, next) {
 		//fallback 
-		 if (!resource.data || !(resource.data.type !== undefined && resource.data.type == 'map')) {
+		
+        if (!resource.data || !(resource.data.type !== undefined && resource.data.type == 'map')) {
             next();
             return;
         }
 
-        console.log("Run Tilde OG importer");
+        console.log("Tiled OG importer!\n eXponenta {rondo.devil[a]gmail.com}");
         let _data = resource.data; 
         let _stage = new PIXI.Container();
 

@@ -10,7 +10,8 @@ export default function ConstructorText(obj, ) {
 	_text.name = _o.name + "_Text";
 
 	_cont.name = _o.name;
-	_cont.tag_type = _o.type;
+	_cont.types = _o.type ? _o.type.split(":"): [];
+
 
 	_cont.width = _o.width;
 	_cont.height = _o.height;

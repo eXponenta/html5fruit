@@ -15,7 +15,9 @@ export default function ConstructorSpritr(obj) {
 	spr.rotation = (_o.rotation || 0)  * Math.PI / 180;
 	spr.x = _o.x;
 	spr.y = _o.y;
-	spr.visible = _o.visible || true;
+	spr.visible = _o.visible == undefined ? true : _o.visible;
+	
+	spr.types = _o.type ? _o.type.split(":"): [];
 
 	if(_o.properties)
 	{
