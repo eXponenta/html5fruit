@@ -38,13 +38,17 @@ export default function BaseLayer(App) {
 
 					x.Flag.parentGroup = _baseStage.BASE_UI.group;
 					x.Flag.scale.set(2,2);
-					x.Flag.position.set(x.Flag.importWidth * 2, -90);
+					x.Flag.position.set(x.Flag.getLocalBounds().width * 2, -90);
 					x.Flag.parentGroup = _baseStage.BASE_UI.group;
 					x.Flag.animation.play(x.Flag.animation.animationNames[0]);
 
-					
+					var clone = x.Flag.lightCopy();
+					clone.position.x += 100;
+
+					clone.animation.gotoAndPlayByProgress(clone.animation.animationNames[0], Math.random());
+					_baseStage.addChild(clone);
 					_baseStage.addChild(x.Flag);
-					
+
 				});
 			}
 		});

@@ -16,8 +16,8 @@ export default function StartLayer(base, callback) {
 
     let Init = function(){
 
-    	let _start_button = _startLayer.children.find( e => e.name == "start_button:normal");
-    	let _start_button_hover = _startLayer.children.find( e => e.name == "start_button:hover");
+    	let _start_button = _startLayer.getChildByName("start_button:normal");
+    	let _start_button_hover = _startLayer.getChildByName("start_button:hover");
 
     	let _start_button_normal_tex = _start_button.texture;
     	let _start_button_hover_tex = _start_button_hover.texture;

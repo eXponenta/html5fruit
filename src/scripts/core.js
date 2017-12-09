@@ -1,8 +1,11 @@
+import "./PixiHelper";
+
 import _BaseStageCreater from "./BaseLayer"
 import _SliceStageCreater from "./SliceLayer"
 
 import "./TiledOGLoader/TiledObjGroupLoader"
 import "./DragonBoneLoader";
+
 
 var _App = null,
   _LRes = null,
