@@ -27,7 +27,28 @@ export default function BaseLayer(App) {
     });
 
 	let Init = function(){
-		
+
+		App.loader
+		.add("flag_ske", "./src/anims/flag/flag_ske.json")
+		.load((l, res) => {
+
+			if(res.flag_ske.onCreate){
+				
+				res.flag_ske.onCreate.add( x => {
+
+					x.Flag.parentGroup = _baseStage.BASE_UI.group;
+					x.Flag.scale.set(2,2);
+					x.Flag.position.set(x.Flag.importWidth * 2, -90);
+					x.Flag.parentGroup = _baseStage.BASE_UI.group;
+					x.Flag.animation.play(x.Flag.animation.animationNames[0]);
+
+					
+					_baseStage.addChild(x.Flag);
+					
+				});
+			}
+		});
+
 	}
     // baseStage update;
     App.ticker.add(() => {

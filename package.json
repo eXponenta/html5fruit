@@ -8,7 +8,8 @@
     "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babelify": "^8.0.0",
-    "browserify": "latest"
+    "browserify": "latest",
+    "signals": "^1.0.0"
   },
   "watch": {
     "build": "src/scripts/*.js"
@@ -18,15 +19,13 @@
     "watch": "npm-watch",
     "build": "browserify -d src/scripts/core.js -o dist/core.js -t"
   },
-  
-  "browserify":{
-  	"transform": [
+  "browserify": {
+    "transform": [
       [
         "babelify"
       ]
     ]
   },
-
   "babel": {
     "presets": [
       "env"

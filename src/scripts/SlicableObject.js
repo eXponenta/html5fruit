@@ -1,3 +1,4 @@
+import Signal from "signals"
 
 var _ME = Matter.Engine,
     _MW = Matter.World,
@@ -58,17 +59,17 @@ export default function CreateSlicableObject(pos, engine, data) {
   obj.y = pos.y;
   obj.parentGroup = data.normal.group;
   
-  obj.onslice = function() {
-
-    for(let i = 0; i < obj.spriteData.parts.length; i++){
-      CreateSubBody(obj, {normal: obj.spriteData.parts[i]});
-    }
-
-  };
+  obj.onslice = new Signal();
 
   obj.kill = function() {
     if (this.phBody.sliced && this.onslice) {
-      this.onslice();
+      
+      this.onslice.dispatch(this);
+      
+      for(let i = 0; i < obj.spriteData.parts.length; i++){
+        CreateSubBody(obj, {normal: obj.spriteData.parts[i]});
+      }
+
     }
 
     this.destroy({ children: true });
@@ -76,6 +77,8 @@ export default function CreateSlicableObject(pos, engine, data) {
       _MC.remove(engine.world, this.phBody);
     }
   };
+
+  obj.onslice.add(() =>{ console.log("Listen Signal");});
 
   var phBody = _MBs.circle(pos.x, pos.y, 50);
   phBody.collisionFilter.mask &= ~phBody.collisionFilter.category;
