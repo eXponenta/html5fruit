@@ -30,12 +30,34 @@ export default function BaseLayer(App) {
 
 		App.loader
 		.add("flag_ske", "./src/anims/flag/flag_ske.json")
+		.add("obj_ske", "./src/anims/obj/objAnims_ske.json")
 		.load((l, res) => {
 
-			if(res.flag_ske.onCreate){
+			res.obj_ske.onLoad.add( x => {
 				
-				res.flag_ske.onCreate.add( x => {
+				x.orange = x.orange.create();
+				_baseStage.addChild(x.orange);
+				x.orange.position.set(100,100);
+				x.orange.animation.play("idle");
+				x.orange.interactive = true;
 
+				var _state_show = null;
+		    	x.orange.on("pointerover", () => {
+		    		_state_show = x.orange.animation.fadeIn("show",0.2, 1);
+		    	});
+
+		    	x.orange.on("pointerout", () =>{
+		    			x.orange.animation.fadeIn("idle",0.2,1);
+		    	});
+			});
+
+			if(res.flag_ske.onLoad){
+				
+				res.flag_ske.onLoad.add( x => {
+
+					if(!x.instance){
+						x.Flag = x.Flag.create();
+					}
 					x.Flag.parentGroup = _baseStage.BASE_UI.group;
 					x.Flag.scale.set(2,2);
 					x.Flag.position.set(x.Flag.getLocalBounds().width * 2, -90);

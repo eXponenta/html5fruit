@@ -63,7 +63,7 @@ export default function DragonBoneLoader() {
 		console.log("DragonBone PIXI PreLoader \n eXponenta {rondo.devil[a]gmail.com}");
 
 
-		res.onCreate = new Signal();
+		res.onLoad = new Signal();
 
 		let _data = res.data;
 		
@@ -84,14 +84,32 @@ export default function DragonBoneLoader() {
 
 				let name = _data.armature[i].name;
 
-				res.objects[name] = ConstructByName(_factory, name);
+				res.objects[name] =  {};
+				if(global.DragonBoneLoaderConfig && global.DragonBoneLoaderConfig.create){
+				
+					res.objects[name] = ConstructByName(_factory, name);	
+				}
+				
+				res.objects[name].create = function(){
+					let _f = _factory,
+						_n = name;
 
-				res.onCreate.dispatch(res.objects);
+					return ConstructByName(_f, _n);
+				};
+
+				res.objects[name].instance = (global.DragonBoneLoaderConfig && global.DragonBoneLoaderConfig.create);
+
 			}
+
+			res.onLoad.dispatch(res.objects);
 		});
 
 		next();
 	};
+}
+
+global.DragonBoneLoaderConfig = {
+	create : false
 }
 
 PIXI.loaders.Loader.addPixiMiddleware(DragonBoneLoader);
