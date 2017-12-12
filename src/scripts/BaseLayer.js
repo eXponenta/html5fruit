@@ -33,9 +33,10 @@ export default function BaseLayer(App) {
 		.add("obj_ske", "./src/anims/obj/objAnims_ske.json")
 		.load((l, res) => {
 
-			res.obj_ske.onLoad.add( x => {
+			//res.obj_ske.onLoad.add( x => {
 				
-				x.orange = x.orange.create();
+				var x = {}
+				x.orange = res.obj_ske.objects.orange.create();
 				_baseStage.addChild(x.orange);
 				x.orange.position.set(100,100);
 				x.orange.animation.play("idle");
@@ -49,14 +50,14 @@ export default function BaseLayer(App) {
 		    	x.orange.on("pointerout", () =>{
 		    			x.orange.animation.fadeIn("idle",0.2,1);
 		    	});
-			});
+			//});
 
-			if(res.flag_ske.onLoad){
+			//if(res.flag_ske.onLoad){
 				
-				res.flag_ske.onLoad.add( x => {
+				//res.flag_ske.onLoad.add( x => {
 
 					if(!x.instance){
-						x.Flag = x.Flag.create();
+						x.Flag = res.flag_ske.objects.Flag.create();
 					}
 					x.Flag.parentGroup = _baseStage.BASE_UI.group;
 					x.Flag.scale.set(2,2);
@@ -71,8 +72,8 @@ export default function BaseLayer(App) {
 					_baseStage.addChild(clone);
 					_baseStage.addChild(x.Flag);
 
-				});
-			}
+			//	});
+			//}
 		});
 
 	}

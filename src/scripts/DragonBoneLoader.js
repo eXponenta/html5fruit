@@ -1,4 +1,4 @@
-import {Signal} from "signals";
+//import {Signal} from "signals";
 
 let ConstructByName = function(factory, name) {
 
@@ -62,17 +62,21 @@ export default function DragonBoneLoader() {
 
 		console.log("DragonBone PIXI PreLoader \n eXponenta {rondo.devil[a]gmail.com}");
 
-
-		res.onLoad = new Signal();
+		//depricated
+		//res.onLoad = new Signal();
 
 		let _data = res.data;
 		
 		// add TextureDataJson
-		//run new Loader
-		let l = new PIXI.loaders.Loader();
-		l.add(res.name + "_tex", res.url.replace("ske.json","tex.json"))
-		.add(res.name + "_img", res.url.replace("ske.json","tex.png"))
-		.load( (_l, _res) => {
+		// add to curretn loader
+		// callback can be changed to this.onComplete.once(func, this, 100000000);
+		// curently they called after loading of texture
+		let l = this;//new PIXI.loaders.Loader();
+		l.add(res.name + "_tex", res.url.replace("ske.json","tex.json"), {parentResource: res})
+		 .add(res.name + "_img", res.url.replace("ske.json","tex.png"), {parentResource: res}, () => {
+			
+			// update after image loading
+			let _res = this.resources;
 
 			let _factory = dragonBones.PixiFactory.factory;
 			_factory.parseDragonBonesData(_data);
@@ -100,8 +104,8 @@ export default function DragonBoneLoader() {
 				res.objects[name].instance = (global.DragonBoneLoaderConfig && global.DragonBoneLoaderConfig.create);
 
 			}
-
-			res.onLoad.dispatch(res.objects);
+			//depricated
+			//res.onLoad.dispatch(res.objects);
 		});
 
 		next();
