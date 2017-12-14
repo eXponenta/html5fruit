@@ -1,23 +1,6 @@
 { "height":1080,
  "layers":[
         {
-         "image":"base\/bg-main.jpg",
-         "name":"main_bg",
-         "opacity":1,
-         "properties":
-            {
-             "zOrder":-10
-            },
-         "propertytypes":
-            {
-             "zOrder":"int"
-            },
-         "type":"imagelayer",
-         "visible":true,
-         "x":0,
-         "y":0
-        }, 
-        {
          "draworder":"topdown",
          "name":"BASE_MIDDLE",
          "objects":[],

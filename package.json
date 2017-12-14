@@ -17,7 +17,7 @@
   "scripts": {
     "convert": "babel src -d dist",
     "watch": "npm-watch",
-    "build": "browserify -d src/scripts/core.js -o dist/core.js -t"
+    "build": "browserify -d src/scripts/core.js -o src/dist/core.js -t"
   },
   "browserify": {
     "transform": [

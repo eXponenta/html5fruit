@@ -1,7 +1,7 @@
 
 export default function ConstructorSpritr(obj) {
 	let _o = obj; 
-
+	
 	let spr = new PIXI.Sprite.fromImage(_o.url);
 	spr.name = _o.name;
 	spr.anchor.set(0, 1); // set down to anchor

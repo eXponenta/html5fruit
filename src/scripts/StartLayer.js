@@ -1,23 +1,32 @@
-export default function StartLayer(base, callback) {
-	let _startLayer;
+export default function StartLayer(base, loader, callback) {
+	this.stage = null;
+	this.isInit = false;
+	
+	let _base = base;
+	//var loader = new PIXI.loaders.Loader();
 
-	var loader = new PIXI.loaders.Loader();
-
-    loader.add("start_stage","./src/maps/start.json").load( (l, res) =>{
+    loader.add("start_stage","./src/maps/start.json", () =>{
     	
-    	_startLayer = res.start_stage.stage;
+    	this.stage = loader.resources.start_stage.stage;
     	
     	if(typeof callback == "function"){
-    		callback(_startLayer);
+    		callback(this);
     	}
-
-    	Init();
     });
 
-    let Init = function(){
+    this.OnAdd = function() {
+    	if(!this.isInit)
+    		this.Init();
+    }
 
-    	let _start_button = _startLayer.getChildByName("start_button:normal");
-    	let _start_button_hover = _startLayer.getChildByName("start_button:hover");
+    this.OnRemove = function() {
+
+    }
+
+    this.Init = function(){
+
+    	let _start_button = this.stage.getChildByName("start_button:normal");
+    	let _start_button_hover = this.stage.getChildByName("start_button:hover");
 
     	let _start_button_normal_tex = _start_button.texture;
     	let _start_button_hover_tex = _start_button_hover.texture;
@@ -34,8 +43,12 @@ export default function StartLayer(base, callback) {
 
     	_start_button.on("pointertap", () =>{
     		
-    		_startLayer.visible = false;
-    		window.LoadGame();
+    		let _l = _base.SetState("List");
+    		//_l.Init();
+    		//window.LoadGame();
     	})
+
+    	this.isInit = true;
     }
+
 }

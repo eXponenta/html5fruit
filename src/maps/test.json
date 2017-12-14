@@ -1,81 +1,119 @@
 { "height":1080,
  "layers":[
         {
-         "draworder":"index",
-         "name":"BG",
+         "draworder":"topdown",
+         "name":"\u0421\u043b\u043e\u0439 \u043e\u0431\u044a\u0435\u043a\u0442\u043e\u0432 1",
          "objects":[
                 {
-                 "gid":1,
-                 "height":1080,
+                 "height":148,
                  "id":1,
-                 "name":"background",
-                 "rotation":0,
-                 "type":"image",
-                 "visible":true,
-                 "width":1920,
-                 "x":0,
-                 "y":1080
-                }, 
-                {
-                 "gid":3,
-                 "height":16,
-                 "id":8,
-                 "name":"blade",
+                 "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":256,
-                 "x":916,
-                 "y":938
-                }],
-         "opacity":1,
-         "type":"objectgroup",
-         "visible":true,
-         "x":0,
-         "y":0
-        }, 
-        {
-         "draworder":"index",
-         "name":"UI",
-         "objects":[
-                {
-                 "gid":2,
-                 "height":141,
-                 "id":5,
-                 "name":"start_button",
-                 "rotation":25,
-                 "type":"button:start",
-                 "visible":true,
-                 "width":528,
-                 "x":706.666666666667,
-                 "y":710.666666666667
+                 "width":662,
+                 "x":450,
+                 "y":330
                 }, 
                 {
-                 "height":116.333333333333,
-                 "id":7,
-                 "name":"start_button_text",
-                 "properties":
-                    {
-                     "opacity":0.5
-                    },
-                 "propertytypes":
-                    {
-                     "opacity":"float"
-                    },
-                 "rotation":25,
-                 "text":
-                    {
-                     "color":"#c8ffffff",
-                     "fontfamily":"Arial",
-                     "pixelsize":133,
-                     "text":"Play",
-                     "wrap":true
-                    },
-                 "type":"static_text",
+                 "ellipse":true,
+                 "height":612,
+                 "id":2,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
                  "visible":true,
-                 "width":527.587421495684,
-                 "x":761.008027460667,
-                 "y":591.081047742647
+                 "width":338,
+                 "x":1186,
+                 "y":140
+                }, 
+                {
+                 "height":0,
+                 "id":3,
+                 "name":"",
+                 "polyline":[
+                        {
+                         "x":0,
+                         "y":0
+                        }, 
+                        {
+                         "x":248,
+                         "y":-42
+                        }, 
+                        {
+                         "x":388,
+                         "y":110
+                        }, 
+                        {
+                         "x":576,
+                         "y":-142
+                        }, 
+                        {
+                         "x":706,
+                         "y":44
+                        }, 
+                        {
+                         "x":790,
+                         "y":234
+                        }, 
+                        {
+                         "x":1080,
+                         "y":184
+                        }, 
+                        {
+                         "x":1470,
+                         "y":114
+                        }, 
+                        {
+                         "x":1564,
+                         "y":-288
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":216,
+                 "y":730
+                }, 
+                {
+                 "height":0,
+                 "id":4,
+                 "name":"",
+                 "polygon":[
+                        {
+                         "x":280,
+                         "y":20
+                        }, 
+                        {
+                         "x":232,
+                         "y":144
+                        }, 
+                        {
+                         "x":-12,
+                         "y":254
+                        }, 
+                        {
+                         "x":-182,
+                         "y":26
+                        }, 
+                        {
+                         "x":334,
+                         "y":-68
+                        }, 
+                        {
+                         "x":454,
+                         "y":8
+                        }, 
+                        {
+                         "x":638,
+                         "y":86
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":250,
+                 "y":104
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -83,60 +121,12 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":12,
+ "nextobjectid":5,
  "orientation":"orthogonal",
  "renderorder":"right-up",
  "tiledversion":"1.0.3",
  "tileheight":1,
- "tilesets":[
-        {
-         "columns":0,
-         "firstgid":1,
-         "grid":
-            {
-             "height":1,
-             "orientation":"orthogonal",
-             "width":1
-            },
-         "margin":0,
-         "name":"sources",
-         "spacing":0,
-         "tilecount":3,
-         "tileheight":1080,
-         "tiles":
-            {
-             "0":
-                {
-                 "image":"sources\/02-wallpaper_soma_1920x1080.jpg",
-                 "imageheight":1080,
-                 "imagewidth":1920,
-                 "objectgroup":
-                    {
-                     "draworder":"index",
-                     "name":"bg",
-                     "objects":[],
-                     "opacity":1,
-                     "type":"objectgroup",
-                     "visible":true,
-                     "x":0,
-                     "y":0
-                    }
-                },
-             "1":
-                {
-                 "image":"sources\/button.png",
-                 "imageheight":181,
-                 "imagewidth":600
-                },
-             "2":
-                {
-                 "image":"..\/images\/blade.png",
-                 "imageheight":16,
-                 "imagewidth":256
-                }
-            },
-         "tilewidth":1920
-        }],
+ "tilesets":[],
  "tilewidth":1,
  "type":"map",
  "version":1,

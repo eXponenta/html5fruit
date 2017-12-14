@@ -18,6 +18,15 @@
          "y":0
         }, 
         {
+         "image":"start\/bg-main.jpg",
+         "name":"BG",
+         "opacity":1,
+         "type":"imagelayer",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
          "draworder":"index",
          "name":"static",
          "objects":[

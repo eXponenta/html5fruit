@@ -1,82 +1,85 @@
 import _StartStageCreater from "./StartLayer"
+import _ListStageCreater from "./ListLayer"
 
 export default function BaseLayer(App) {
 
-	let _baseStage;
+	let _currentState = null;
+	let _thisStage = {};
+	let stages = {};
 
+	// preload basss stage
 	App.loader
 		.add("base_stage", "./src/maps/base.json")
 		.load((l, res) => {
     	
-    	_baseStage = res.base_stage.stage;
-    	_baseStage.app = App;
+    	_thisStage = res.base_stage.stage;
+    	_thisStage.app = App;
         
-        _baseStage.scale.set(
-            App.renderer.width / _baseStage.layerWidth,
-            App.renderer.height / _baseStage.layerHeight
+        _thisStage.scale.set(
+            App.renderer.width / _thisStage.layerWidth,
+            App.renderer.height / _thisStage.layerHeight
         );
 
-        App.stage.addChild(_baseStage);
+        App.stage.addChild(_thisStage);
         
-        _StartStageCreater(_baseStage, s =>{
-        	s.parentGroup = _baseStage.BASE_MIDDLE.group;
-        	_baseStage.addChild(s);
-        });
+        
+        _thisStage.Init = Init;
+        _thisStage.SetState = SetState;
 
-        Init();
+        _thisStage.stages = stages;
+        stages["Base"] = _thisStage;
+
+        l.progress = 0;
+        LoadNext();
     });
+
+	let LoadNext = function(){
+    	new _StartStageCreater(_thisStage, App.loader, s =>{
+    		stages["Start"] = s;
+    	});
+
+    	new _ListStageCreater(_thisStage, App.loader, s =>{
+    		stages["List"] = s;
+    	});
+
+    	App.loader.load((l, res) => {
+    		Init();
+    	});
+
+    	App.loader.onProgress.add( (l, res) => {
+    		console.log("Progress:", l.progress);
+    	});
+	}
 
 	let Init = function(){
 
-		App.loader
-		.add("flag_ske", "./src/anims/flag/flag_ske.json")
-		.add("obj_ske", "./src/anims/obj/objAnims_ske.json")
-		.load((l, res) => {
 
-			//res.obj_ske.onLoad.add( x => {
-				
-				var x = {}
-				x.orange = res.obj_ske.objects.orange.create();
-				_baseStage.addChild(x.orange);
-				x.orange.position.set(100,100);
-				x.orange.animation.play("idle");
-				x.orange.interactive = true;
-
-				var _state_show = null;
-		    	x.orange.on("pointerover", () => {
-		    		_state_show = x.orange.animation.fadeIn("show",0.2, 1);
-		    	});
-
-		    	x.orange.on("pointerout", () =>{
-		    			x.orange.animation.fadeIn("idle",0.2,1);
-		    	});
-			//});
-
-			//if(res.flag_ske.onLoad){
-				
-				//res.flag_ske.onLoad.add( x => {
-
-					if(!x.instance){
-						x.Flag = res.flag_ske.objects.Flag.create();
-					}
-					x.Flag.parentGroup = _baseStage.BASE_UI.group;
-					x.Flag.scale.set(2,2);
-					x.Flag.position.set(x.Flag.getLocalBounds().width * 2, -90);
-					x.Flag.parentGroup = _baseStage.BASE_UI.group;
-					x.Flag.animation.play(x.Flag.animation.animationNames[0]);
-
-					var clone = x.Flag.lightCopy();
-					clone.position.x += 100;
-
-					clone.animation.gotoAndPlayByProgress(clone.animation.animationNames[0], Math.random());
-					_baseStage.addChild(clone);
-					_baseStage.addChild(x.Flag);
-
-			//	});
-			//}
-		});
-
+		let _S = SetState("Start");
+		_S.Init();
 	}
+
+	let SetState = function(name) {
+		
+		if(_currentState){
+			_thisStage.removeChild(_currentState.stage);
+			_currentState.stage.parentGroup = null;
+			if(_currentState.OnRemove)
+				_currentState.OnRemove();
+
+		}
+
+		_currentState = stages[name];
+		if(_currentState){
+			_currentState.stage.parentGroup = _thisStage.BASE_MIDDLE.group;
+			_thisStage.addChild(_currentState.stage);
+			if(_currentState.OnAdd)
+				_currentState.OnAdd();
+						
+		}
+
+		return _currentState;
+	}
+
     // baseStage update;
     App.ticker.add(() => {
 

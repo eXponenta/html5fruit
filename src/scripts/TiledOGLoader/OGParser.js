@@ -1,5 +1,6 @@
 import CText from "./ConstructorText"
 import CSprite from "./ConstructorSprite"
+import CContainer from "./ConstructorContainer"
 
 let Layer = PIXI.display.Layer;
 let Group = PIXI.display.Group;
@@ -106,8 +107,12 @@ export default function OGParser(){
 
         					if(!_o.name || _o.name == "")
         						_o.name = "obj_" + j;
-        					// image Loader
-							if(_data.tilesets && _data.tilesets.length > 0 && _o.gid || _o.image)
+        					
+                            var _isContainer = !(_o.gid || _o.image) || (_o.properties && _o.properties.container);
+                            var _isText = _o.text != undefined;
+                            var _isImage = (_data.tilesets && _data.tilesets.length > 0) && !_isContainer && !_isText;
+                            // image Loader
+							if(_isImage)
 							{
 								if(!_o.image){
 									var _ts = undefined; //_data.tilesets[0];
@@ -143,9 +148,12 @@ export default function OGParser(){
 							}
 
 							// TextLoader
-							if(_o.text) {
+							if(_isText) {
 								_obj = CText(_o);
 							}
+                            if(_isContainer){
+                                _obj = CContainer(_o);
+                            }
 							if(_obj){
 								_obj.parentGroup = _layer.group;
 								_stage.addChild(_obj);

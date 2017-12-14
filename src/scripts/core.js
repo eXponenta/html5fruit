@@ -27,8 +27,9 @@ var Init = function Init() {
   window._LRes = _LRes;
 
 //  _IntManager = _App.renderer.plugins.interaction;
-
-  document.body.appendChild(_App.view);
+  
+  let container = document.querySelector("#game_container");
+  container.appendChild(_App.view);
   onResize();
   window.onresize = onResize;
 
