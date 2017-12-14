@@ -57,6 +57,24 @@
         }, 
         {
          "draworder":"topdown",
+         "name":"Flags",
+         "objects":[],
+         "opacity":1,
+         "properties":
+            {
+             "zOrder ":-1
+            },
+         "propertytypes":
+            {
+             "zOrder ":"int"
+            },
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
          "name":"tabels",
          "objects":[
                 {
@@ -378,6 +396,14 @@
                  "height":841,
                  "id":7,
                  "name":"rules_desk",
+                 "properties":
+                    {
+                     "interactive":true
+                    },
+                 "propertytypes":
+                    {
+                     "interactive":"bool"
+                    },
                  "rotation":0,
                  "type":"box",
                  "visible":false,
@@ -435,7 +461,7 @@
          "opacity":1,
          "properties":
             {
-             "zOrder":10
+             "zOrder":100
             },
          "propertytypes":
             {

@@ -1,5 +1,6 @@
 import _StartStageCreater from "./StartLayer"
 import _ListStageCreater from "./ListLayer"
+//import "pixi-timer"
 
 export default function BaseLayer(App) {
 
@@ -83,5 +84,8 @@ export default function BaseLayer(App) {
     // baseStage update;
     App.ticker.add(() => {
 
+    	if(PIXI.timerManager){
+    		PIXI.timerManager.update();
+    	}
     });   
 }
