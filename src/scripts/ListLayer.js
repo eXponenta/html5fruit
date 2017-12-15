@@ -4,6 +4,8 @@ import PixiPlugin from "gsap/PixiPlugin"
 export default function ListLayer(base, loader, callback) {
 	this.stage = null;
     this.isInit = false;
+
+    let _rules_dsk;
     var _rendr = base.app.renderer;
    
    loader.add("fruit_anims", "./src/anims/obj/fruits_anims_ske.json")
@@ -18,15 +20,7 @@ export default function ListLayer(base, loader, callback) {
 
     });
 
-    this.OnRemove = function() {
-
-    }
-
-    this.OnAdd = function(){
-        if(!this.isInit){
-            this.Init();
-        }
-    }
+  
 
     this.Replace = function(){
 
@@ -114,6 +108,20 @@ export default function ListLayer(base, loader, callback) {
         }
     };
 
+    this.OnRemove = function() {
+
+    }
+
+    this.OnAdd = function(){
+        if(!this.isInit){
+            this.Init();
+        }
+
+
+        _rules_dsk.position.y = _rendr.height + _rules_dsk.width;
+        _rules_dsk.visible = false;
+    }
+
     this.Init = function(){
         this.isInit = true;
 
@@ -124,14 +132,15 @@ export default function ListLayer(base, loader, callback) {
 
 
         let _rules_btn = _s.getChildByName("rules_button");
-        let _rules_dsk = _s.getChildByName("rules_desk");
+        _rules_dsk = _s.getChildByName("rules_desk");
         let _rules_close_btn = _rules_dsk.getChildByName("close_rules");
 
         let _rulesStartY = _rules_dsk.position.y;
-        _rules_dsk.position.y = _rendr.height + _rules_dsk.width;
-        console.log(_rules_dsk); 
+        
         _rules_close_btn.on("pointertap", () =>{
             
+            PIXI.sound.play("click");
+
             TweenLite.to(_rules_dsk, 0.25, {
                 pixi:{
                     positionY:_rendr.height + _rules_dsk.width
@@ -144,6 +153,8 @@ export default function ListLayer(base, loader, callback) {
         });
 
         _rules_btn.on("pointertap", () =>{
+            PIXI.sound.play("click");
+            
             _rules_dsk.visible = true;
             TweenLite.to(_rules_dsk, 0.25, {
                 pixi:{

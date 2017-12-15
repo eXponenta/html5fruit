@@ -43,6 +43,7 @@ export default function StartLayer(base, loader, callback) {
 
     	_start_button.on("pointertap", () =>{
     		
+    		PIXI.sound.play("click");
     		let _l = _base.SetState("List");
     		//_l.Init();
     		//window.LoadGame();

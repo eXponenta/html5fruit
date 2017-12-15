@@ -7,6 +7,26 @@ export default function BaseLayer(App) {
 	let _currentState = null;
 	let _thisStage = {};
 	let stages = {};
+	PIXI.sound.volumeAll = 0.15;
+	
+	PIXI.sound.add(
+		{
+			base:
+			{
+				url: "./src/audio/basicthehappy_sound.mp3",
+				preload : true,
+				loaded: (e, s) => {
+					s.play();
+					s.loop = true;
+				}
+			},
+			click:
+			{
+				url: "./src/audio/button_sound.mp3",
+				preload: true
+			}
+		}
+	);
 
 	// preload basss stage
 	App.loader

@@ -36,6 +36,16 @@
                  "height":53,
                  "id":1,
                  "name":"close_button",
+                 "properties":
+                    {
+                     "buttonMode":true,
+                     "interactive":true
+                    },
+                 "propertytypes":
+                    {
+                     "buttonMode":"bool",
+                     "interactive":"bool"
+                    },
                  "rotation":0,
                  "type":"button:close",
                  "visible":true,
@@ -60,6 +70,16 @@
                  "height":55,
                  "id":3,
                  "name":"volume_normal",
+                 "properties":
+                    {
+                     "buttonMode":true,
+                     "interactive":true
+                    },
+                 "propertytypes":
+                    {
+                     "buttonMode":"bool",
+                     "interactive":"bool"
+                    },
                  "rotation":0,
                  "type":"button:volume:normal",
                  "visible":true,
@@ -72,6 +92,16 @@
                  "height":55,
                  "id":4,
                  "name":"volume_off",
+                 "properties":
+                    {
+                     "buttonMode":true,
+                     "interactive":true
+                    },
+                 "propertytypes":
+                    {
+                     "buttonMode":"bool",
+                     "interactive":"bool"
+                    },
                  "rotation":0,
                  "type":"button:volume:off",
                  "visible":false,
