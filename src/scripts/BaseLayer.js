@@ -7,8 +7,9 @@ export default function BaseLayer(App) {
 	let _currentState = null;
 	let _thisStage = {};
 	let stages = {};
-	PIXI.sound.volumeAll = 0.15;
-	
+	let volume_bar, volume_mask, volume_btn;
+	let linear_volume = 0;
+
 	PIXI.sound.add(
 		{
 			base:
@@ -54,6 +55,40 @@ export default function BaseLayer(App) {
         LoadNext();
     });
 
+	let _lastTween;
+	let SetVolume = function (vol){
+		
+		linear_volume = vol;
+		PIXI.sound.volumeAll = Math.pow(10, vol) / 10;
+
+		if(vol <= 0.01){
+
+			PIXI.sound.muteAll();
+			volume_btn.texture = volume_btn.off;
+
+		} else {
+			PIXI.sound.unmuteAll();	
+			volume_btn.texture = volume_btn.normal;
+		}
+
+		volume_bar.visible = true;
+		volume_bar.alpha = 1;
+		if(_lastTween)
+			_lastTween.kill();
+		_lastTween = TweenLite.to (volume_bar, 2,
+		 {
+			pixi:{
+				alpha:0
+			},
+			onComplete: function() {
+                    volume_bar.visible = false;
+               }
+         });
+
+		volume_mask.height = volume_bar.height * vol;
+
+	}
+
 	let LoadNext = function(){
     	new _StartStageCreater(_thisStage, App.loader, s =>{
     		stages["Start"] = s;
@@ -73,7 +108,34 @@ export default function BaseLayer(App) {
 	}
 
 	let Init = function(){
+		_thisStage.reParentAll();
 
+		volume_btn = _thisStage.getChildByName("volume_normal");
+		volume_btn.normal = volume_btn.texture;
+
+		let _off = _thisStage.getChildByName("volume_off");
+		volume_btn.off = _off.texture;
+		_off.destroy();
+
+		volume_bar = _thisStage.getChildByName("volume_bg");
+		volume_mask = volume_bar.getChildByName("volume_mask");
+		volume_mask.anchor.y = 1;
+		volume_mask.position.y += volume_mask.height;
+
+		let _bar = volume_bar.getChildByName("volume_bar");
+		_bar.mask = volume_mask;
+
+		volume_btn.on("pointertap",() => {
+
+			let vol = linear_volume + 0.25;
+			if(vol > 1)
+				vol = 0;
+
+			SetVolume(vol);
+			PIXI.sound.play("click");
+		});
+
+		SetVolume(0.25);
 
 		let _S = SetState("Start");
 		_S.Init();
@@ -100,7 +162,6 @@ export default function BaseLayer(App) {
 
 		return _currentState;
 	}
-
     // baseStage update;
     App.ticker.add(() => {
 

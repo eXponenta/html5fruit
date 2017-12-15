@@ -54,16 +54,36 @@
                  "y":80.1212
                 }, 
                 {
+                 "gid":6,
+                 "height":158,
+                 "id":5,
+                 "name":"volume_bg",
+                 "rotation":0,
+                 "type":"image:volume:normal",
+                 "visible":true,
+                 "width":40,
+                 "x":1807,
+                 "y":1012
+                }, 
+                {
                  "gid":3,
                  "height":158,
                  "id":2,
-                 "name":"volume_bg",
+                 "name":"volume_bar",
+                 "properties":
+                    {
+                     "reParentTo":"volume_bg"
+                    },
+                 "propertytypes":
+                    {
+                     "reParentTo":"string"
+                    },
                  "rotation":0,
                  "type":"image:volume:normal:change",
-                 "visible":false,
+                 "visible":true,
                  "width":40,
-                 "x":1807.24,
-                 "y":1009.45
+                 "x":1806.24,
+                 "y":1012.45
                 }, 
                 {
                  "gid":4,
@@ -108,6 +128,25 @@
                  "width":55,
                  "x":1804,
                  "y":1043
+                }, 
+                {
+                 "height":158,
+                 "id":6,
+                 "name":"volume_mask",
+                 "properties":
+                    {
+                     "reParentTo":"volume_bg"
+                    },
+                 "propertytypes":
+                    {
+                     "reParentTo":"string"
+                    },
+                 "rotation":0,
+                 "type":"mask",
+                 "visible":true,
+                 "width":42,
+                 "x":1805,
+                 "y":854
                 }],
          "opacity":1,
          "properties":
@@ -123,7 +162,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":5,
+ "nextobjectid":7,
  "orientation":"orthogonal",
  "properties":
     {
@@ -149,15 +188,13 @@
          "margin":0,
          "name":"base",
          "spacing":0,
-         "tilecount":5,
+         "tilecount":6,
          "tileheight":1080,
          "tiles":
             {
              "0":
                 {
-                 "image":"base\/bg-main.jpg",
-                 "imageheight":1080,
-                 "imagewidth":1920
+                 "image":"base\/bg-main.jpg"
                 },
              "1":
                 {
@@ -182,6 +219,12 @@
                  "image":"base\/sound-off.png",
                  "imageheight":55,
                  "imagewidth":55
+                },
+             "5":
+                {
+                 "image":"base\/sound_volume_bg.png",
+                 "imageheight":158,
+                 "imagewidth":40
                 }
             },
          "tilewidth":1920
