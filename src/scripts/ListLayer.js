@@ -58,6 +58,8 @@ export default function ListLayer(base, loader, callback) {
                     _f.pointerOut = true;
                     _f.on("complete", x => {
                         if(_f.pointerOut && _f.showing){
+                            
+                            _f.animation.timeScale = 1;
                             _f.animation.fadeIn("idle", 0.2);
                         }
                         _f.showing = false;
@@ -68,10 +70,11 @@ export default function ListLayer(base, loader, callback) {
                         _f.lastOutTime = PIXI.ticker.shared.lastTime;
 
                         if (!_f.showing) {
+
+                            _f.animation.timeScale = 1;
                             _f.animation.fadeIn("idle", 0.2);   
                         }
                     });
-
                     _f.on("pointerover", ()=> {
                         if(_lastTween)
                             _lastTween.kill();
@@ -79,8 +82,11 @@ export default function ListLayer(base, loader, callback) {
                         _lastTween = TweenLite.delayedCall(
                          0.2, () => {
                             if(!_f.pointerOut){
+
+                                _f.animation.timeScale = 2.5;
                                 _f.animation.fadeIn("show", 0.2, 1);
                                 _f.showing = true;
+                                PIXI.sound.play("blink");
                             }
                         });
                         _f.pointerOut = false; 

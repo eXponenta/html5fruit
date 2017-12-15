@@ -10,24 +10,7 @@ export default function BaseLayer(App) {
 	let volume_bar, volume_mask, volume_btn;
 	let linear_volume = 0;
 
-	PIXI.sound.add(
-		{
-			base:
-			{
-				url: "./src/audio/basicthehappy_sound.mp3",
-				preload : true,
-				loaded: (e, s) => {
-					s.play();
-					s.loop = true;
-				}
-			},
-			click:
-			{
-				url: "./src/audio/button_sound.mp3",
-				preload: true
-			}
-		}
-	);
+
 
 	// preload basss stage
 	App.loader
@@ -90,6 +73,30 @@ export default function BaseLayer(App) {
 	}
 
 	let LoadNext = function(){
+		//start loading after base 
+		PIXI.sound.add(
+			{
+				click:
+				{
+					url: "./src/audio/button_sound.mp3",
+					preload: true
+				},
+				blink: {
+					url :"./src/audio/earnpointsvita_sound.mp3",
+					preload: true
+				},
+				base: // very big, last it
+				{
+					url: "./src/audio/basicthehappy_sound.mp3",
+					preload : true,
+					loaded: (e, s) => {
+						s.play();
+						s.loop = true;
+					}
+				}
+			}
+		);
+
     	new _StartStageCreater(_thisStage, App.loader, s =>{
     		stages["Start"] = s;
     	});

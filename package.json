@@ -18,7 +18,8 @@
   "scripts": {
     "convert": "babel src -d dist",
     "watch": "npm-watch",
-    "build": "browserify -d src/scripts/core.js -o src/dist/core.js -t"
+    "build": "browserify src/scripts/core.js -o src/dist/core.js -t",
+    "mini": "uglifyjs --compress --mangle -- src/dist/core.js >> src/dist/core.min.js"
   },
   "browserify": {
     "transform": [
