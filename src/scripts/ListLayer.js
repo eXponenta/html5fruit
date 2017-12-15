@@ -2,6 +2,8 @@ import {TweenLite} from "gsap"
 import PixiPlugin from "gsap/PixiPlugin"
 
 export default function ListLayer(base, loader, callback) {
+
+
 	this.stage = null;
     this.isInit = false;
 
@@ -58,14 +60,21 @@ export default function ListLayer(base, loader, callback) {
                     _f.pointerOut = true;
                     _f.on("complete", x => {
                         if(_f.pointerOut && _f.showing){
-                            
+
                             _f.animation.timeScale = 1;
                             _f.animation.fadeIn("idle", 0.2);
                         }
                         _f.showing = false;
                     });
 
-                    _f.on("pointerout", () => {
+                    let _f_show = function() {
+                        _f.animation.timeScale = 2.5;
+                        _f.animation.fadeIn("show", 0.2, 1);
+                        _f.showing = true;
+                        PIXI.sound.play("blink");
+                    };
+
+                    let _f_hide = function() {
                         _f.pointerOut = true;
                         _f.lastOutTime = PIXI.ticker.shared.lastTime;
 
@@ -74,24 +83,44 @@ export default function ListLayer(base, loader, callback) {
                             _f.animation.timeScale = 1;
                             _f.animation.fadeIn("idle", 0.2);   
                         }
-                    });
-                    _f.on("pointerover", ()=> {
-                        if(_lastTween)
-                            _lastTween.kill();
+                    };
 
-                        _lastTween = TweenLite.delayedCall(
-                         0.2, () => {
-                            if(!_f.pointerOut){
-
-                                _f.animation.timeScale = 2.5;
-                                _f.animation.fadeIn("show", 0.2, 1);
-                                _f.showing = true;
-                                PIXI.sound.play("blink");
-                            }
+                    if(!PIXI.utils.isMobile.any){
+                        
+                        _f.on("pointerout", () => {
+                            _f_hide();
                         });
-                        _f.pointerOut = false; 
-                    });
 
+                        _f.on("pointerover", ()=> {
+                            if(_lastTween)
+                                _lastTween.kill();
+
+                            _lastTween = TweenLite.delayedCall(
+                             0.2, () => {
+                                if(!_f.pointerOut){
+                                    _f_show();
+                                }
+                            });
+                            _f.pointerOut = false; 
+                        });
+
+                    }else{
+                        _f.on("pointerdown", () => {
+                            _f_show();
+                            _f.pointerOut = false; 
+                        });
+
+                        _f.on("pointerupoutside", ()=>{
+                            _f_hide();
+                            _f.pointerOut = true;
+                        });
+
+                        _f.on("pointerup", ()=>{
+                            _f_hide();
+                            _f.pointerOut = true;
+                        });
+                    }
+                    
                     let c_flag = _fruit_obj.Flag.create();
                     c_flag.position.copy(_f.position);
                     c_flag.parentGroup = this.stage.Flags.group;

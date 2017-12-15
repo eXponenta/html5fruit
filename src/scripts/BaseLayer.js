@@ -1,5 +1,7 @@
 import _StartStageCreater from "./StartLayer"
 import _ListStageCreater from "./ListLayer"
+import Cookie from "js-cookie"
+
 //import "pixi-timer"
 
 export default function BaseLayer(App) {
@@ -70,6 +72,9 @@ export default function BaseLayer(App) {
 
 		volume_mask.height = volume_bar.height * vol;
 
+		let _conf = GetConfig();
+		_conf.volume = vol;
+		SaveCongig();
 	}
 
 	let LoadNext = function(){
@@ -92,6 +97,7 @@ export default function BaseLayer(App) {
 					loaded: (e, s) => {
 						s.play();
 						s.loop = true;
+						s.volume = 0.5;
 					}
 				}
 			}
@@ -142,7 +148,12 @@ export default function BaseLayer(App) {
 			PIXI.sound.play("click");
 		});
 
-		SetVolume(0.25);
+		let _vol = 0.25;
+		let _conf = GetConfig();
+		if(_conf.volume !== undefined)
+			_vol = _conf.volume;
+
+		SetVolume(_vol);
 
 		let _S = SetState("Start");
 		_S.Init();
@@ -169,6 +180,24 @@ export default function BaseLayer(App) {
 
 		return _currentState;
 	}
+
+	let _config;
+	let GetConfig = function() {
+		
+		if(!_config){
+			_config = Cookie.getJSON("config");
+			if(!_config){
+				_config = {};
+			}
+		}
+
+		return _config;
+	}
+
+	let SaveCongig = function(){
+		Cookie.set("config", GetConfig(), {path:"", expires: 1000});
+	}
+
     // baseStage update;
     App.ticker.add(() => {
 

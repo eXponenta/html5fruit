@@ -10,6 +10,7 @@
     "babelify": "^8.0.0",
     "browserify": "latest",
     "gsap": "^1.20.3",
+    "js-cookie": "^2.2.0",
     "signals": "^1.0.0"
   },
   "watch": {
@@ -18,8 +19,8 @@
   "scripts": {
     "convert": "babel src -d dist",
     "watch": "npm-watch",
-    "build": "browserify src/scripts/core.js -o src/dist/core.js -t",
-    "mini": "uglifyjs --compress --mangle -- src/dist/core.js >> src/dist/core.min.js"
+    "build": "browserify -d src/scripts/core.js -o src/dist/core.js -t",
+    "mini": "uglifyjs --compress --mangle -- src/dist/core.js > src/dist/core.min.js"
   },
   "browserify": {
     "transform": [
