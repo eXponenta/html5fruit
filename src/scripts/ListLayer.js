@@ -129,6 +129,11 @@ export default function ListLayer(base, loader, callback) {
                         });
                     }
                     
+
+                    _f.armature.cacheFrameRate = 24;
+                    _rep_child.parent.addChild(_f);
+                    
+
                     if(_name !="title"){
                         
                         let c_flag = _fruit_obj.Flag.create();
@@ -151,11 +156,10 @@ export default function ListLayer(base, loader, callback) {
                         c_flag.self_start();
 
                         c_flag.armature.cacheFrameRate = 24;
+
+                        _rep_child.parent.addChild(c_flag);
                     }
                     
-                    _f.armature.cacheFrameRate = 24;
-                    _rep_child.parent.addChild(c_flag);
-                    _rep_child.parent.addChild(_f);
                     _rep_child.destroy();
 
                 }
@@ -239,6 +243,19 @@ export default function ListLayer(base, loader, callback) {
             );
             //console.warn("TODO:ANIMATION fadeIn");
         });
+
+        let _startButton = this.stage.getChildByName("start_button");
+        let _startButton_rules = _rules_dsk.getChildByName("start_button");
+
+        let _run_game_f = function() {
+            
+            PIXI.sound.play("click");
+            base.SetStage("Game");
+        };
+        _startButton.on("pointertap", _run_game_f);
+        _startButton_rules.on("pointertap", _run_game_f)
+
+
     }
 
 }

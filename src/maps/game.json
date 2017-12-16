@@ -122,9 +122,17 @@
                  "y":96
                 }, 
                 {
-                 "height":101.333,
+                 "height":111.999666666667,
                  "id":8,
                  "name":"score_text",
+                 "properties":
+                    {
+                     "fontPadding":30
+                    },
+                 "propertytypes":
+                    {
+                     "fontPadding":"int"
+                    },
                  "rotation":0,
                  "text":
                     {
@@ -197,6 +205,14 @@
                  "height":56.9999999999999,
                  "id":12,
                  "name":"timer_text",
+                 "properties":
+                    {
+                     "fontPadding":30
+                    },
+                 "propertytypes":
+                    {
+                     "fontPadding":"int"
+                    },
                  "rotation":0,
                  "text":
                     {
@@ -212,8 +228,8 @@
                  "type":"text",
                  "visible":true,
                  "width":71,
-                 "x":60.1666666666667,
-                 "y":961.166666666667
+                 "x":62.8333333333333,
+                 "y":966.5
                 }, 
                 {
                  "gid":7,

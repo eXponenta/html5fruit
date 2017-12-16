@@ -108,7 +108,7 @@ export default function OGParser(){
         					if(!_o.name || _o.name == "")
         						_o.name = "obj_" + j;
         					
-                            var _isContainer = !(_o.gid || _o.image) || (_o.properties && _o.properties.container);
+                            var _isContainer = !(_o.gid || _o.image || _o.text) || (_o.properties && _o.properties.container);
                             var _isText = _o.text != undefined;
                             var _isImage = (_data.tilesets && _data.tilesets.length > 0) && !_isContainer && !_isText;
                             // image Loader

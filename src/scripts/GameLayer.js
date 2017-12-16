@@ -2,16 +2,16 @@ import {TimelineLite, TweenLite} from "gsap"
 import PixiPlugin from "gsap/PixiPlugin"
 import "gsap/EasePack"
 
-export default function StartLayer(base, loader, callback) {
+export default function GameLayer(base, loader, callback) {
 	this.stage = null;
 	this.isInit = false;
 	
 	let _base = base;
 	//var loader = new PIXI.loaders.Loader();
 
-    loader.add("start_stage","./src/maps/start.json", () =>{
+    loader.add("game_stage","./src/maps/game.json", () =>{
     	
-    	this.stage = loader.resources.start_stage.stage;
+    	this.stage = loader.resources.game_stage.stage;
     	
     	if(typeof callback == "function"){
     		callback(this);
@@ -22,22 +22,19 @@ export default function StartLayer(base, loader, callback) {
     	if(!this.isInit)
     		this.Init();
 
-    	_tween.play();
     }
 
     this.OnRemove = function() {
-    	_tween.stop();
-    	//this.stage.destroy();
     }
 
     this.OnDestroy = function() {
-    	_tween.kill();
+
     	this.stage.destroy({children:true});
     }
 
-    let _tween;
     this.Init = function(){
 
+/*
     	let _start_button = this.stage.getChildByName("start_button:normal");
     	let _start_button_hover = this.stage.getChildByName("start_button:hover");
 
@@ -89,11 +86,11 @@ export default function StartLayer(base, loader, callback) {
     	_start_button.on("pointertap", () =>{
     		
     		PIXI.sound.play("click");
-    		let _l = _base.SetStage("List");
+    		let _l = _base.SetState("List");
     		//_l.Init();
     		//window.LoadGame();
     	});
-
+*/
     	this.isInit = true;
     }
 

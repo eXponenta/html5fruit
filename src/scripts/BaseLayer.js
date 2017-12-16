@@ -1,5 +1,7 @@
 import _StartStageCreater from "./StartLayer"
 import _ListStageCreater from "./ListLayer"
+import _GameStageCreater from "./GameLayer"
+
 import Cookie from "js-cookie"
 
 //import "pixi-timer"
@@ -115,6 +117,10 @@ export default function BaseLayer(App) {
     		_this.stages["List"] = s;
     	});
 
+    	new _GameStageCreater(this, App.loader, s =>{
+    		_this.stages["Game"] = s;
+    	}); 
+
     	App.loader.load((l, res) => {
     		_this.Init();
     	});
@@ -167,7 +173,7 @@ export default function BaseLayer(App) {
 			this.OnDestroy();
 		});
 		
-		let _S = this.SetState("Start");
+		let _S = this.SetStage("Start");
 	}
 
 	this.OnDestroy = function() {
@@ -184,7 +190,7 @@ export default function BaseLayer(App) {
 		App.closing();
 	}
 
-	this.SetState = function(name) {
+	this.SetStage = function(name) {
 		
 		if(this._currentStage){
 			this.stage.removeChild(this._currentStage.stage);
