@@ -29,7 +29,7 @@ export default function ConstructorText(obj) {
 
 	var _padding = (_o.properties !== undefined) ? (_o.properties.fontPadding || 0) : 0;
 
-	console.log(_o.text.halign);
+	//console.log(_o.text.halign);
 	switch (_o.text.halign) {
 		case "right":
 				{

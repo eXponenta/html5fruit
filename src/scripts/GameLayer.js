@@ -33,7 +33,6 @@ export default function GameLayer(base, loader, callback) {
     }
 
     this.Init = function(){
-
         this.stage.reParentAll();
 
 /*
@@ -94,6 +93,11 @@ export default function GameLayer(base, loader, callback) {
     	});
 */
     	this.isInit = true;
+    }
+
+    this.Update = function(ticker)
+    {
+        //console.log(ticker.deltaTime);
     }
 
 }

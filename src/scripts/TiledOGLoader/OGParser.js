@@ -165,6 +165,7 @@ export default function OGParser(){
 
         }
 
+        
         resource.stage = _stage;
 
 		// call next loader

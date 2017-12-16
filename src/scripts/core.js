@@ -7,14 +7,16 @@ import "./TiledOGLoader/TiledObjGroupLoader"
 import "./DragonBoneLoader";
 
 
-window.app = {
+window.game = {
+  allowClosing: false,
+
   restore : function() {
     //console.log("Can't implemented before loading!!");
     Init();
   },
   closing:function(){
-    console.warn("You must override `window.app.closing` !! \n But this destroy APP");
-    console.log("For restoring app you must call `window.app.restore` !!");
+    console.warn("You must override `window.game.closing` !! \n But this destroy APP");
+    console.log("For restoring app you must call `window.game.restore` !!");
   }
 }
 
@@ -34,9 +36,9 @@ var Init = function Init() {
   });
 
   _App.closing = function() {
-
-    _App.destroy(true);
-    window.app.closing();
+      _App.destroy(true);
+      window.game.closing();
+    
   }
 
   //Так надо, стандартные не будут отображатся

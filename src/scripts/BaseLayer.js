@@ -169,8 +169,11 @@ export default function BaseLayer(App) {
 		_close.on("pointertap", ()=>{
 
 			PIXI.sound.play("click");
-
-			this.OnDestroy();
+			if(window.game.allowClosing){
+				this.OnDestroy();
+			}else {
+      			console.warn('Closing not allowed! Set `window.game.allowClosing = true`');
+			}
 		});
 		
 		let _S = this.SetStage("Start");
@@ -233,6 +236,10 @@ export default function BaseLayer(App) {
 
     // baseStage update;
     App.ticker.add(() => {
+    	if(this._currentStage && this._currentStage.Update){
+    		
+    		this._currentStage.Update(App.ticker);
 
+    	}
     });   
 }

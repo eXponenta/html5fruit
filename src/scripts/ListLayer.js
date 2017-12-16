@@ -186,7 +186,7 @@ export default function ListLayer(base, loader, callback) {
     }
 
     this.OnRemove = function() {
-        StopAll();
+        stopAllAnims();
     }
 
     this.OnAdd = function(){
@@ -196,17 +196,14 @@ export default function ListLayer(base, loader, callback) {
 
         _rules_dsk.position.y = _rendr.height + _rules_dsk.width;
         _rules_dsk.visible = false;
-        StartAll();
+        startAllAnims();
     }
 
     this.Init = function(){
         this.isInit = true;
-
         let _s = this.stage;
-        window.StartAll = startAllAnims;
-        window.StopAll = stopAllAnims;
-        
         _s.reParentAll();
+        
         this.Replace();
 
 
