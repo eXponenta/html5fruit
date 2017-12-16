@@ -1,10 +1,22 @@
 import "./PixiHelper";
 
-import _BaseStageCreater from "./BaseLayer"
+import _BaseStage from "./BaseLayer"
 import _SliceStageCreater from "./SliceLayer"
 
 import "./TiledOGLoader/TiledObjGroupLoader"
 import "./DragonBoneLoader";
+
+
+window.app = {
+  restore : function() {
+    //console.log("Can't implemented before loading!!");
+    Init();
+  },
+  closing:function(){
+    console.warn("You must override `window.app.closing` !! \n But this destroy APP");
+    console.log("For restoring app you must call `window.app.restore` !!");
+  }
+}
 
 
 var _App = null,
@@ -14,18 +26,25 @@ var _App = null,
   _SlicedStage = null;
 
 var Init = function Init() {
+
   _App = new PIXI.Application({
     width: 1920,
     height: 1080,
     backgroundColor: 0xffffff
   });
 
+  _App.closing = function() {
+
+    _App.destroy(true);
+    window.app.closing();
+  }
+
   //Так надо, стандартные не будут отображатся
   _App.stage = new PIXI.display.Stage();
 
   _LRes = _App.loader.resources;
   window._LRes = _LRes;
-
+  window._App = _App;
 //  _IntManager = _App.renderer.plugins.interaction;
   
   let container = document.querySelector("#game_container");
@@ -33,7 +52,9 @@ var Init = function Init() {
   onResize();
   window.onresize = onResize;
 
-  _BaseStageCreater(_App);
+  new _BaseStage(_App);
+
+
 //  _App.stage.interactive = true;
     
 };

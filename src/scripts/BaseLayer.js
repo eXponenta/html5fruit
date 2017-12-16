@@ -6,42 +6,45 @@ import Cookie from "js-cookie"
 
 export default function BaseLayer(App) {
 
-	let _currentState = null;
-	let _thisStage = {};
-	let stages = {};
+	this._currentStage = null;
+	this.stage = {};
+	this.stages = {};
+	this.app = {};
+
 	let volume_bar, volume_mask, volume_btn;
 	let linear_volume = 0;
-
-
 
 	// preload basss stage
 	App.loader
 		.add("base_stage", "./src/maps/base.json")
 		.load((l, res) => {
     	
-    	_thisStage = res.base_stage.stage;
-    	_thisStage.app = App;
+    	this.stage = res.base_stage.stage;
+    	this.app = App;
         
-        _thisStage.scale.set(
-            App.renderer.width / _thisStage.layerWidth,
-            App.renderer.height / _thisStage.layerHeight
+        this.stage.scale.set(
+            App.renderer.width / this.stage.layerWidth,
+            App.renderer.height / this.stage.layerHeight
         );
 
-        App.stage.addChild(_thisStage);
+        App.stage.addChild(this.stage);
         
         
+        /*
         _thisStage.Init = Init;
         _thisStage.SetState = SetState;
-
-        _thisStage.stages = stages;
-        stages["Base"] = _thisStage;
+        _thisStage.GetConfig = GetConfig;
+        _thisStage.SaveConfig = SaveConfig;
+        //_thisStage.stages = stages;
+        this.stage*/
+        this.stages["Base"] = this;
 
         l.progress = 0;
-        LoadNext();
+        this.LoadNext();
     });
 
 	let _lastTween;
-	let SetVolume = function (vol){
+	this.SetVolume = function (vol){
 		
 		linear_volume = vol;
 		PIXI.sound.volumeAll = Math.pow(10, vol) / 10;
@@ -72,12 +75,12 @@ export default function BaseLayer(App) {
 
 		volume_mask.height = volume_bar.height * vol;
 
-		let _conf = GetConfig();
+		let _conf = this.GetConfig();
 		_conf.volume = vol;
-		SaveCongig();
+		this.SaveCongig();
 	}
 
-	let LoadNext = function(){
+	this.LoadNext = function(){
 		//start loading after base 
 		PIXI.sound.add(
 			{
@@ -103,16 +106,17 @@ export default function BaseLayer(App) {
 			}
 		);
 
-    	new _StartStageCreater(_thisStage, App.loader, s =>{
-    		stages["Start"] = s;
+		let _this = this;
+    	new _StartStageCreater(this, App.loader, s =>{
+    		_this.stages["Start"] = s;
     	});
 
-    	new _ListStageCreater(_thisStage, App.loader, s =>{
-    		stages["List"] = s;
+    	new _ListStageCreater(this, App.loader, s =>{
+    		_this.stages["List"] = s;
     	});
 
     	App.loader.load((l, res) => {
-    		Init();
+    		_this.Init();
     	});
 
     	App.loader.onProgress.add( (l, res) => {
@@ -120,17 +124,17 @@ export default function BaseLayer(App) {
     	});
 	}
 
-	let Init = function(){
-		_thisStage.reParentAll();
+	this.Init = function(){
+		this.stage.reParentAll();
 
-		volume_btn = _thisStage.getChildByName("volume_normal");
+		volume_btn = this.stage.getChildByName("volume_normal");
 		volume_btn.normal = volume_btn.texture;
 
-		let _off = _thisStage.getChildByName("volume_off");
+		let _off = this.stage.getChildByName("volume_off");
 		volume_btn.off = _off.texture;
 		_off.destroy();
 
-		volume_bar = _thisStage.getChildByName("volume_bg");
+		volume_bar = this.stage.getChildByName("volume_bg");
 		volume_mask = volume_bar.getChildByName("volume_mask");
 		volume_mask.anchor.y = 1;
 		volume_mask.position.y += volume_mask.height;
@@ -144,65 +148,85 @@ export default function BaseLayer(App) {
 			if(vol > 1)
 				vol = 0;
 
-			SetVolume(vol);
+			this.SetVolume(vol);
 			PIXI.sound.play("click");
 		});
 
 		let _vol = 0.25;
-		let _conf = GetConfig();
+		let _conf = this.GetConfig();
 		if(_conf.volume !== undefined)
 			_vol = _conf.volume;
 
-		SetVolume(_vol);
+		this.SetVolume(_vol);
 
-		let _S = SetState("Start");
-		_S.Init();
+		let _close = this.stage.getChildByName("close_button");
+		_close.on("pointertap", ()=>{
+
+			PIXI.sound.play("click");
+
+			this.OnDestroy();
+		});
+		
+		let _S = this.SetState("Start");
 	}
 
-	let SetState = function(name) {
+	this.OnDestroy = function() {
 		
-		if(_currentState){
-			_thisStage.removeChild(_currentState.stage);
-			_currentState.stage.parentGroup = null;
-			if(_currentState.OnRemove)
-				_currentState.OnRemove();
+		//dragonBones.PixiFactory.factory.clear();
+		for(var s in this.stages){
+			if(s.OnDestroy)
+				s.OnDestroy();
+		}
+		this.stage.destroy({children:true});
+		//PIXI.sound.stopAll();
+		PIXI.sound.removeAll();
+
+		App.closing();
+	}
+
+	this.SetState = function(name) {
+		
+		if(this._currentStage){
+			this.stage.removeChild(this._currentStage.stage);
+			this._currentStage.stage.parentGroup = null;
+			
+			if(this._currentStage.OnRemove)
+				this._currentStage.OnRemove();
 
 		}
 
-		_currentState = stages[name];
-		if(_currentState){
-			_currentState.stage.parentGroup = _thisStage.BASE_MIDDLE.group;
-			_thisStage.addChild(_currentState.stage);
-			if(_currentState.OnAdd)
-				_currentState.OnAdd();
-						
+		this._currentStage = this.stages[name];
+		if(this._currentStage){
+			this._currentStage.stage.parentGroup = this.stage.BASE_MIDDLE.group;
+			
+			if(this._currentStage.OnAdd)
+				this._currentStage.OnAdd();
+			
+			this.stage.addChild(this._currentStage.stage);
 		}
 
-		return _currentState;
+		return this._currentStage;
 	}
 
-	let _config;
-	let GetConfig = function() {
+	this._config;
+	this.GetConfig = function() {
 		
-		if(!_config){
-			_config = Cookie.getJSON("config");
-			if(!_config){
-				_config = {};
+		if(!this._config){
+			this._config = Cookie.getJSON("config");
+			if(!this._config){
+				this._config = {};
 			}
 		}
 
-		return _config;
+		return this._config;
 	}
 
-	let SaveCongig = function(){
-		Cookie.set("config", GetConfig(), {path:"", expires: 1000});
+	this.SaveCongig = function(){
+		Cookie.set("config", this.GetConfig(), {path:"", expires: 1000});
 	}
 
     // baseStage update;
     App.ticker.add(() => {
 
-    	if(PIXI.timerManager){
-    		PIXI.timerManager.update();
-    	}
     });   
 }

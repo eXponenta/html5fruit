@@ -6,7 +6,8 @@ export default function ListLayer(base, loader, callback) {
 
 	this.stage = null;
     this.isInit = false;
-
+    
+    let animations = [];
     let _rules_dsk;
     var _rendr = base.app.renderer;
    
@@ -29,8 +30,8 @@ export default function ListLayer(base, loader, callback) {
         let _fruit_obj = loader.resources.fruit_anims.objects;
         Object.assign(_fruit_obj, loader.resources.title_anim.objects);
         let _lastTween;
-        let _flagInstance;
 
+        let flagsCount = 0;
         for(let j = this.stage.children.length - 1; j >= 0; j--){
 
             let _rep_child = this.stage.children[j];
@@ -42,6 +43,8 @@ export default function ListLayer(base, loader, callback) {
                 if(_constructor){
 
                     let _f = _constructor.create();
+                    
+                    animations.push(_f);
 
                     let _offset = {
                         x: _rep_child.hitArea.width / 2,
@@ -52,12 +55,17 @@ export default function ListLayer(base, loader, callback) {
                     _f.position.y = _rep_child.position.y + _offset.y;
                     _f.name = _name;
                     _f.parentGroup = _rep_child.parentGroup;
-                    
-                    _f.animation.gotoAndPlayByProgress("idle", Math.random(), 0);
+
+                    _f.self_start = function() {
+                        _f.animation.gotoAndPlayByProgress("idle", Math.random(), 0);
+                    };
+
+                    _f.self_start();
 
                     _f.interactive = true;
                     _f.showing = false;
                     _f.pointerOut = true;
+                    
                     _f.on("complete", x => {
                         if(_f.pointerOut && _f.showing){
 
@@ -67,14 +75,14 @@ export default function ListLayer(base, loader, callback) {
                         _f.showing = false;
                     });
 
-                    let _f_show = function() {
+                    _f.self_show = function() {
                         _f.animation.timeScale = 2.5;
                         _f.animation.fadeIn("show", 0.2, 1);
                         _f.showing = true;
                         PIXI.sound.play("blink");
                     };
 
-                    let _f_hide = function() {
+                    _f.self_hide = function() {
                         _f.pointerOut = true;
                         _f.lastOutTime = PIXI.ticker.shared.lastTime;
 
@@ -88,7 +96,7 @@ export default function ListLayer(base, loader, callback) {
                     if(!PIXI.utils.isMobile.any){
                         
                         _f.on("pointerout", () => {
-                            _f_hide();
+                            _f.self_hide();
                         });
 
                         _f.on("pointerover", ()=> {
@@ -98,7 +106,7 @@ export default function ListLayer(base, loader, callback) {
                             _lastTween = TweenLite.delayedCall(
                              0.2, () => {
                                 if(!_f.pointerOut){
-                                    _f_show();
+                                    _f.self_show();
                                 }
                             });
                             _f.pointerOut = false; 
@@ -106,33 +114,46 @@ export default function ListLayer(base, loader, callback) {
 
                     }else{
                         _f.on("pointerdown", () => {
-                            _f_show();
+                            _f.self_show();
                             _f.pointerOut = false; 
                         });
 
                         _f.on("pointerupoutside", ()=>{
-                            _f_hide();
+                            _f.self_hide();
                             _f.pointerOut = true;
                         });
 
                         _f.on("pointerup", ()=>{
-                            _f_hide();
+                            _f.self_hide();
                             _f.pointerOut = true;
                         });
                     }
                     
-                    let c_flag = _fruit_obj.Flag.create();
-                    c_flag.position.copy(_f.position);
-                    c_flag.parentGroup = this.stage.Flags.group;
-                    
-                    if(_name !== "marakuja" && _name !== "pumpkin")
-                    {
-                        c_flag.animation.gotoAndPlayByProgress("idle", Math.random(), 0);
-                    }
-                    else {
-                        c_flag.animation.gotoAndPlayByProgress("idle_50", Math.random(), 0);   
-                    }
+                    if(_name !="title"){
+                        
+                        let c_flag = _fruit_obj.Flag.create();
+                        c_flag.name = c_flag.name + "_"+ _name;
+                        animations.push(c_flag);
 
+                        c_flag.self_start = function(){
+                            if(name !== "marakuja" && _name !== "pumpkin")
+                            {
+                                c_flag.animation.gotoAndPlayByProgress("idle", Math.random(), 0);
+                            }
+                            else {
+                                c_flag.animation.gotoAndPlayByProgress("idle_50", Math.random(), 0);   
+                            }
+                        }
+                        
+                        c_flag.position.copy(_f.position);
+                        c_flag.parentGroup = this.stage.Flags.group;
+                        
+                        c_flag.self_start();
+
+                        c_flag.armature.cacheFrameRate = 24;
+                    }
+                    
+                    _f.armature.cacheFrameRate = 24;
                     _rep_child.parent.addChild(c_flag);
                     _rep_child.parent.addChild(_f);
                     _rep_child.destroy();
@@ -143,8 +164,25 @@ export default function ListLayer(base, loader, callback) {
         }
     };
 
-    this.OnRemove = function() {
+    let startAllAnims = function(){
+        for (var i = animations.length - 1; i >= 0; i--) {
+            animations[i].self_start();
+        }
+    }
 
+    let stopAllAnims = function(){
+        for (var i = animations.length - 1; i >= 0; i--) {
+            animations[i].animation.reset();
+        }
+    }
+    
+    this.OnDestroy = function(){
+        this.OnRemove();
+        this.stage.destroy({children:true});
+    }
+
+    this.OnRemove = function() {
+        StopAll();
     }
 
     this.OnAdd = function(){
@@ -152,16 +190,18 @@ export default function ListLayer(base, loader, callback) {
             this.Init();
         }
 
-
         _rules_dsk.position.y = _rendr.height + _rules_dsk.width;
         _rules_dsk.visible = false;
+        StartAll();
     }
 
     this.Init = function(){
         this.isInit = true;
 
         let _s = this.stage;
-        window.List = _s;
+        window.StartAll = startAllAnims;
+        window.StopAll = stopAllAnims;
+        
         _s.reParentAll();
         this.Replace();
 
