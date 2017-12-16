@@ -24,5 +24,9 @@ PIXI.Container.prototype.reParentAll = function reParentAll()
                 parent.addChild(_c);
             }
         }
+
+        if(_c.maskedBy){
+            _c.mask = this.getChildByName(_c.maskedBy);
+        }
     }    
 }

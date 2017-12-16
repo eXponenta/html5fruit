@@ -34,6 +34,8 @@ export default function GameLayer(base, loader, callback) {
 
     this.Init = function(){
 
+        this.stage.reParentAll();
+
 /*
     	let _start_button = this.stage.getChildByName("start_button:normal");
     	let _start_button_hover = this.stage.getChildByName("start_button:hover");
