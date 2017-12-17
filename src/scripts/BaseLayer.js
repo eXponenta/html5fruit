@@ -229,7 +229,7 @@ export default function BaseLayer(App) {
 		App.closing();
 	}
 
-	this.SetStage = function(name) {
+	this.SetStage = function(name, param) {
 		
 		if(this._currentStage){
 			this.stage.removeChild(this._currentStage.stage);
@@ -245,7 +245,7 @@ export default function BaseLayer(App) {
 			this._currentStage.stage.parentGroup = this.stage.BASE_MIDDLE.group;
 			
 			if(this._currentStage.OnAdd)
-				this._currentStage.OnAdd();
+				this._currentStage.OnAdd(param);
 			
 			this.stage.addChild(this._currentStage.stage);
 		}

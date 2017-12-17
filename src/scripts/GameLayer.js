@@ -184,7 +184,7 @@ export default function GameLayer(base, loader, callback) {
             });
         
         } else {
-            base.SetStage("Result").SetResults(TOTAL_SLISES);
+            base.SetStage("Result",TOTAL_SLISES);
             //PIXI.sound.stop("base");
             PIXI.sound.play("win");
 
