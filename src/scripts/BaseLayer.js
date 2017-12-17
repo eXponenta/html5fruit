@@ -1,10 +1,25 @@
 import _StartStageCreater from "./StartLayer"
 import _ListStageCreater from "./ListLayer"
 import _GameStageCreater from "./GameLayer"
-
 import Cookie from "js-cookie"
+//import FFS from "fontfaceobserver"
 
 //import "pixi-timer"
+
+let LoadFontCostil = function() {
+	window.WebFontConfig = {
+      google: {
+      	families:['Amatic SC']
+      }
+   };
+
+   (function(d) {
+      var wf = d.createElement('script'), s = d.scripts[0];
+      wf.src = 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js';
+      wf.async = true;
+      s.parentNode.insertBefore(wf, s);
+   })(document);
+}
 
 export default function BaseLayer(App) {
 
@@ -131,6 +146,8 @@ export default function BaseLayer(App) {
 	}
 
 	this.Init = function(){
+		LoadFontCostil();
+
 		this.stage.reParentAll();
 
 		volume_btn = this.stage.getChildByName("volume_normal");
@@ -176,7 +193,12 @@ export default function BaseLayer(App) {
 			}
 		});
 		
-		let _S = this.SetStage("Start");
+
+
+		///debug
+		this.SetStage("Game");
+		//let _S = this.SetStage("Start");
+
 	}
 
 	this.OnDestroy = function() {
@@ -236,7 +258,7 @@ export default function BaseLayer(App) {
 
     // baseStage update;
     App.ticker.add(() => {
-    	if(this._currentStage && this._currentStage.Update){
+    	if(this._currentStage && this._currentStage.Update && this._currentStage.isInit){
     		
     		this._currentStage.Update(App.ticker);
 

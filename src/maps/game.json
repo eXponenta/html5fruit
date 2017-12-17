@@ -59,7 +59,7 @@
                  "y":978
                 }, 
                 {
-                 "height":408.000333333333,
+                 "height":408,
                  "id":3,
                  "name":"masked_glass_mask",
                  "rotation":0,
@@ -67,7 +67,7 @@
                  "visible":true,
                  "width":261.333,
                  "x":824,
-                 "y":559.999666666667
+                 "y":560
                 }],
          "opacity":1,
          "properties":
@@ -130,7 +130,7 @@
                  "y":96
                 }, 
                 {
-                 "height":111.999666666667,
+                 "height":112,
                  "id":8,
                  "name":"score_text",
                  "properties":
@@ -146,7 +146,7 @@
                     {
                      "color":"#ffffff",
                      "fontfamily":"Amatic SC",
-                     "pixelsize":90,
+                     "pixelsize":91,
                      "text":"50",
                      "valign":"bottom",
                      "wrap":true
@@ -155,7 +155,7 @@
                  "visible":true,
                  "width":121,
                  "x":98.1666,
-                 "y":17.1667
+                 "y":11.1667
                 }, 
                 {
                  "gid":2,
@@ -206,11 +206,11 @@
                  "type":"masked",
                  "visible":true,
                  "width":99,
-                 "x":47,
-                 "y":1037.33
+                 "x":46.6667,
+                 "y":1038
                 }, 
                 {
-                 "height":56.9999999999999,
+                 "height":57,
                  "id":12,
                  "name":"timer_text",
                  "properties":
@@ -224,7 +224,6 @@
                  "rotation":0,
                  "text":
                     {
-                     "bold":true,
                      "color":"#ffffff",
                      "fontfamily":"Amatic SC",
                      "halign":"center",
@@ -236,8 +235,8 @@
                  "type":"text",
                  "visible":true,
                  "width":71,
-                 "x":62.8333333333333,
-                 "y":966.5
+                 "x":58.8333,
+                 "y":965.5
                 }, 
                 {
                  "gid":7,
@@ -258,7 +257,7 @@
                  "type":"button:play",
                  "visible":true,
                  "width":166,
-                 "x":883.666666666667,
+                 "x":883.667,
                  "y":1047
                 }, 
                 {
@@ -270,7 +269,7 @@
                  "type":"button:pause",
                  "visible":false,
                  "width":149,
-                 "x":883.333333333333,
+                 "x":883.333,
                  "y":1047
                 }, 
                 {
@@ -282,8 +281,8 @@
                  "type":"",
                  "visible":false,
                  "width":862,
-                 "x":523.666666666667,
-                 "y":687.666666666667
+                 "x":523.667,
+                 "y":687.667
                 }, 
                 {
                  "gid":12,
@@ -306,11 +305,11 @@
                  "type":"button",
                  "visible":true,
                  "width":273,
-                 "x":837.333333333333,
+                 "x":837.333,
                  "y":627
                 }, 
                 {
-                 "height":70.6666666666667,
+                 "height":70.6667,
                  "id":17,
                  "name":"close_desk",
                  "properties":
@@ -328,9 +327,9 @@
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":78.6666666666667,
-                 "x":1302.66666666667,
-                 "y":193.333333333333
+                 "width":78.6667,
+                 "x":1302.67,
+                 "y":193.333
                 }, 
                 {
                  "gid":11,
@@ -341,36 +340,12 @@
                  "type":"image",
                  "visible":true,
                  "width":229,
-                 "x":855.333333333333,
-                 "y":245.333333333333
-                }, 
-                {
-                 "gid":12,
-                 "height":135,
-                 "id":20,
-                 "name":"restart_game",
-                 "properties":
-                    {
-                     "buttonMode":true,
-                     "interactive":true,
-                     "reParentTo":"time_over_desk"
-                    },
-                 "propertytypes":
-                    {
-                     "buttonMode":"bool",
-                     "interactive":"bool",
-                     "reParentTo":"string"
-                    },
-                 "rotation":0,
-                 "type":"button",
-                 "visible":true,
-                 "width":273,
-                 "x":829.333333333333,
-                 "y":627
+                 "x":855.333,
+                 "y":245.333
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":false,
+         "visible":true,
          "x":0,
          "y":0
         }],

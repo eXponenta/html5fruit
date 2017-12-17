@@ -96,6 +96,7 @@ export default function ConstructorText(obj) {
 
 	//_cont.parentGroup = _layer.group;
 	_cont.addChild(_text);
+	_cont.text = _text;
 	//_stage.addChild(_cont);
 	return _cont;
 }
