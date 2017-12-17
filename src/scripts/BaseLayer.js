@@ -1,6 +1,8 @@
 import _StartStageCreater from "./StartLayer"
 import _ListStageCreater from "./ListLayer"
 import _GameStageCreater from "./GameLayer"
+import _ResultStageCreater from "./ResultLayer"
+
 import Cookie from "js-cookie"
 //import FFS from "fontfaceobserver"
 
@@ -47,17 +49,10 @@ export default function BaseLayer(App) {
         App.stage.addChild(this.stage);
         
         
-        /*
-        _thisStage.Init = Init;
-        _thisStage.SetState = SetState;
-        _thisStage.GetConfig = GetConfig;
-        _thisStage.SaveConfig = SaveConfig;
-        //_thisStage.stages = stages;
-        this.stage*/
         this.stages["Base"] = this;
 
         l.progress = 0;
-        this.LoadNext();
+        this.Init();
     });
 
 	let _lastTween;
@@ -119,6 +114,10 @@ export default function BaseLayer(App) {
 						s.loop = true;
 						s.volume = 0.5;
 					}
+				},
+				win: {
+					url: "./src/audio/winnerofgame_sound.mp3",
+					preload: true	
 				}
 			}
 		);
@@ -134,10 +133,14 @@ export default function BaseLayer(App) {
 
     	new _GameStageCreater(this, App.loader, s =>{
     		_this.stages["Game"] = s;
-    	}); 
+    	});
 
+    	new _ResultStageCreater(this, App.loader, s =>{
+    		_this.stages["Result"] = s;
+    	}); 
+    	
     	App.loader.load((l, res) => {
-    		_this.Init();
+    		this.LoadedAll();
     	});
 
     	App.loader.onProgress.add( (l, res) => {
@@ -145,22 +148,39 @@ export default function BaseLayer(App) {
     	});
 	}
 
-	this.Init = function(){
+	this.LoadedAll = function() {
+	
 		LoadFontCostil();
 
+		///debug
+		this.SetStage("Start");
+
+
+		this.stage.getChildByName("volume_off").destroy();
+		this.stage.getChildByName("BASE_LOAD_BG").destroy();
+		
+		let layer = this.stage.getChildByName("BASE_LOAD_BG");
+		if(layer) 
+			layer.destroy();
+		
+		//let _S = this.SetStage("Start");
+	}
+
+	this.Init = function(){
 		this.stage.reParentAll();
+		this.LoadNext();
 
 		volume_btn = this.stage.getChildByName("volume_normal");
 		volume_btn.normal = volume_btn.texture;
 
 		let _off = this.stage.getChildByName("volume_off");
 		volume_btn.off = _off.texture;
-		_off.destroy();
+		//_off.destroy();
 
 		volume_bar = this.stage.getChildByName("volume_bg");
 		volume_mask = volume_bar.getChildByName("volume_mask");
 		volume_mask.anchor.y = 1;
-		volume_mask.position.y += volume_mask.height;
+		//volume_mask.position.y += volume_mask.height;
 
 		let _bar = volume_bar.getChildByName("volume_bar");
 		_bar.mask = volume_mask;
@@ -191,13 +211,7 @@ export default function BaseLayer(App) {
 			}else {
       			console.warn('Closing not allowed! Set `window.game.allowClosing = true`');
 			}
-		});
-		
-
-
-		///debug
-		this.SetStage("Game");
-		//let _S = this.SetStage("Start");
+		});	
 
 	}
 

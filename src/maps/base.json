@@ -1,6 +1,15 @@
 { "height":1080,
  "layers":[
         {
+         "image":"start\/bg-main.jpg",
+         "name":"BASE_LOAD_BG",
+         "opacity":1,
+         "type":"imagelayer",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
          "draworder":"topdown",
          "name":"BASE_MIDDLE",
          "objects":[],
@@ -218,7 +227,7 @@
                 {
                  "image":"base\/sound-off.png",
                  "imageheight":55,
-                 "imagewidth":55
+                 "imagewidth":88
                 },
              "5":
                 {

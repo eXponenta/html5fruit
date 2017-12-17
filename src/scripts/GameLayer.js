@@ -27,6 +27,23 @@ export default function GameLayer(base, loader, callback) {
     let _timerTime = 0;
     let _totalScore = 0;
 
+    let TOTAL_SLISES = {
+        orange:0,
+        watermelon:0,
+        mango:0,
+        qiwi:0,
+        strawberry:0,
+        marakuja:0,
+        banana:0,
+        raspberry:0,
+        lemon:0,
+        pineapple:0,
+        apple:0,
+        pumpkin:0,
+        pomade:0,
+        burger:0,
+        phone:0
+    };
 
 	//var loader = new PIXI.loaders.Loader();
 
@@ -45,6 +62,11 @@ export default function GameLayer(base, loader, callback) {
     let _timerStoped = true;
     this.StartTimer = function(restart){
         
+        // free
+        for(var f in TOTAL_SLISES){
+            TOTAL_SLISES[f] = Math.round( Math.random() * 20 );
+        }
+
         _timerStoped = false;
         if(!_timerIsPaused || restart){
             _timerTime = TOTAL_TIME;
@@ -162,8 +184,10 @@ export default function GameLayer(base, loader, callback) {
             });
         
         } else {
+            base.SetStage("Result").SetResults(TOTAL_SLISES);
+            //PIXI.sound.stop("base");
+            PIXI.sound.play("win");
 
-            //go to Finish
         }
     }
 
@@ -172,6 +196,8 @@ export default function GameLayer(base, loader, callback) {
     	if(!this.isInit)
     		this.Init();
 
+
+        this.StartTimer(true);
     }
 
     this.OnRemove = function() {
@@ -201,14 +227,18 @@ export default function GameLayer(base, loader, callback) {
         _timeOverDesk = this.stage.getChildByName("time_over_desk");
         _timeOverDesk.startPos = _timeOverDesk.position.y;
         _timeOverDesk.endPos = _base.app.renderer.height + _timeOverDesk.height;
+        
 
-        for(let j=0; j < 1; j++){
-            _timeOverDesk.children[j].on("pointertap", () => {    
+        _timeOverDesk.children[0].on("pointertap", () => {    
                 this.StartTimer(true);
                 PIXI.sound.play("click");
-            });
-        }
-
+        });
+        _timeOverDesk.children[1].on("pointertap", () => {    
+                this.StartTimer(true);
+                PIXI.sound.play("click");
+        });
+        
+        
         _pauseButton = this.stage.getChildByName("button_play");
         _pauseButton.normal = _pauseButton.texture;
         _pauseButton.pause = this.stage.getChildByName("button_pause").texture;
@@ -236,7 +266,6 @@ export default function GameLayer(base, loader, callback) {
         _scoreBGMask.startOffset = 10;
         _scoreBGMask.startHeight = _scoreBGMask.height - _scoreBGMask.startOffset;
 
-        this.StartTimer(true);
 
         this.stage.interactive = true;
         this.stage.on("pointertap", () => {
