@@ -203,8 +203,10 @@ export default function BaseLayer(App) {
 
 		volume_bar = this.stage.getChildByName("volume_bg");
 		volume_mask = volume_bar.getChildByName("volume_mask");
-		volume_mask.anchor.y = 1;
 		//volume_mask.position.y += volume_mask.height;
+		//volume_mask.transform.onchange();
+		volume_mask.anchor.y = 1;
+		//volume_mask.transform.updateLocalTransform();
 
 		let _bar = volume_bar.getChildByName("volume_bar");
 		_bar.mask = volume_mask;

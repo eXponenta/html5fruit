@@ -37,7 +37,7 @@ let ConstructByName = function(factory, name) {
 	
 	return obj;
 } 
-
+let wasShowed = false;
 export default function DragonBoneLoader() {
 
 	return function(res, next) {
@@ -60,8 +60,10 @@ export default function DragonBoneLoader() {
 			return;
 		}
 
-		console.log("DragonBone PIXI PreLoader \n eXponenta {rondo.devil[a]gmail.com}");
-
+		if(!wasShowed){
+			console.log("DragonBone PIXI PreLoader \n eXponenta {rondo.devil[a]gmail.com}");
+			wasShowed = true;
+		}
 		//depricated
 		//res.onLoad = new Signal();
 

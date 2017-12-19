@@ -6,6 +6,7 @@ let Layer = PIXI.display.Layer;
 let Group = PIXI.display.Group;
 let Stage = PIXI.display.Stage;
 
+let wasShowed = false;
 
 export default function OGParser(){
 	return function (resource, next) {
@@ -16,7 +17,10 @@ export default function OGParser(){
             return;
         }
 
-        console.log("Tiled OG importer!\n eXponenta {rondo.devil[a]gmail.com}");
+        if(!wasShowed) {
+            console.log("Tiled OG importer!\n eXponenta {rondo.devil[a]gmail.com}");
+            wasShowed = true;
+        }
         let _data = resource.data; 
         let _stage = new PIXI.Container();
 
@@ -68,7 +72,7 @@ export default function OGParser(){
 
         			if(_l.properties && (_l.properties.ignore || _l.properties.ignoreLoad)){
 
-        				console.log("OGParser: ignore loading layer:" + _l.name);
+        				//console.log("OGParser: ignore loading layer:" + _l.name);
         				continue;
         			}
 
