@@ -2,6 +2,7 @@ import _StartStageCreater from "./StartLayer"
 import _ListStageCreater from "./ListLayer"
 import _GameStageCreater from "./GameLayer"
 import _ResultStageCreater from "./ResultLayer"
+import {TweenLite} from "gsap"
 
 import Cookie from "js-cookie"
 //import FFS from "fontfaceobserver"
@@ -32,6 +33,8 @@ export default function BaseLayer(App) {
 
 	let volume_bar, volume_mask, volume_btn;
 	let linear_volume = 0;
+	let loading = false;
+	let loadCircle = null;
 
 	// preload basss stage
 	App.loader
@@ -96,6 +99,14 @@ export default function BaseLayer(App) {
 	}
 
 	this.LoadNext = function(){
+
+		loading = true;
+		loadCircle = this.stage.getChildByName("progress");
+		loadCircle.anchor.set(0.5,0.5);
+		loadCircle.position.x += loadCircle.width * 0.5;
+		loadCircle.position.y -= loadCircle.height * 0.5;
+		
+		
 		//start loading after base 
 		PIXI.sound.add(
 			{
@@ -147,11 +158,8 @@ export default function BaseLayer(App) {
     	}); 
     	
     	App.loader.load((l, res) => {
+    		loading = false;
     		this.LoadedAll();
-    	});
-
-    	App.loader.onProgress.add( (l, res) => {
-    		//console.log("Progress:", l.progress);
     	});
 	}
 
@@ -159,17 +167,26 @@ export default function BaseLayer(App) {
 	
 		LoadFontCostil();
 
-		///debug
-		this.SetStage("Start");
-
-
 		this.stage.getChildByName("volume_off").destroy();
+		
+
+		TweenLite.to(loadCircle,0.5, {pixi:{alpha:0}, onComplete: function() {
+			loadCircle.destroy();	
+		}});
+
+		this.stage.getChildByName("title").destroy();
+		
 		this.stage.getChildByName("BASE_LOAD_BG").destroy();
 		
 		let layer = this.stage.getChildByName("BASE_LOAD_BG");
 		if(layer) 
 			layer.destroy();
 		
+
+		///debug
+		this.SetStage("Start");
+
+
 		//let _S = this.SetStage("Start");
 	}
 
@@ -283,6 +300,10 @@ export default function BaseLayer(App) {
     		
     		this._currentStage.Update(App.ticker);
 
+    	}
+
+    	if(loadCircle && loading){
+    		loadCircle.rotation += Math.PI / 60;
     	}
     });   
 }

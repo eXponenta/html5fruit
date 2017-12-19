@@ -1,4 +1,4 @@
-import {DropShadowFilter} from '@pixi/filter-drop-shadow'
+
 import CreateSlicableObject from './SlicableObject'
 import Blade from './Blade'
 import DataPreparer from './SliceDataPreparer'

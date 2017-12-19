@@ -3,9 +3,10 @@
 	{
 		"from": 0.8, "to":1.1
 	},
+
+	"boomFreezTime":0.5,
 	
 	"xPositionOffset": 100,
-	
 	"periods":[
 		{
 			"duration": "3sec", 

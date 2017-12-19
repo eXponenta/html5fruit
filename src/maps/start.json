@@ -1,6 +1,15 @@
 { "height":1080,
  "layers":[
         {
+         "image":"start\/bg-main.jpg",
+         "name":"BG",
+         "opacity":1,
+         "type":"imagelayer",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
          "image":"..\/..\/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u0446\u0438\u044f\/game\/for-developer\/1-screen-final.jpg",
          "name":"ref",
          "opacity":1,
@@ -18,10 +27,33 @@
          "y":0
         }, 
         {
-         "image":"start\/bg-main.jpg",
-         "name":"BG",
+         "draworder":"topdown",
+         "name":"anims",
+         "objects":[
+                {
+                 "height":30,
+                 "id":10,
+                 "name":"splash_anim",
+                 "rotation":45,
+                 "type":"",
+                 "visible":true,
+                 "width":30,
+                 "x":1048,
+                 "y":529
+                }, 
+                {
+                 "height":32,
+                 "id":11,
+                 "name":"stars_anim",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":34,
+                 "x":1132,
+                 "y":661
+                }],
          "opacity":1,
-         "type":"imagelayer",
+         "type":"objectgroup",
          "visible":true,
          "x":0,
          "y":0
@@ -32,15 +64,27 @@
          "objects":[
                 {
                  "gid":4,
-                 "height":798,
-                 "id":1,
-                 "name":"bg-splice",
+                 "height":423,
+                 "id":5,
+                 "name":"bg_slice",
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":714,
-                 "x":645,
-                 "y":897
+                 "x":649,
+                 "y":895
+                }, 
+                {
+                 "gid":5,
+                 "height":320,
+                 "id":7,
+                 "name":"title",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":451,
+                 "x":801,
+                 "y":414
                 }, 
                 {
                  "gid":3,
@@ -73,7 +117,7 @@
                  "type":"button:normal",
                  "visible":true,
                  "width":245,
-                 "x":805,
+                 "x":817,
                  "y":809
                 }, 
                 {
@@ -94,7 +138,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":5,
+ "nextobjectid":12,
  "orientation":"orthogonal",
  "renderorder":"right-up",
  "tiledversion":"1.0.3",
@@ -112,8 +156,8 @@
          "margin":0,
          "name":"sources",
          "spacing":0,
-         "tilecount":4,
-         "tileheight":798,
+         "tilecount":5,
+         "tileheight":432,
          "tiles":
             {
              "0":
@@ -137,8 +181,14 @@
              "3":
                 {
                  "image":"start\/screen-start-bg-1.png",
-                 "imageheight":798,
+                 "imageheight":423,
                  "imagewidth":714
+                },
+             "4":
+                {
+                 "image":"base\/title.png",
+                 "imageheight":320,
+                 "imagewidth":451
                 }
             },
          "tilewidth":714

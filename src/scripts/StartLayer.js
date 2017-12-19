@@ -1,6 +1,7 @@
 import {TimelineLite, TweenLite} from "gsap"
 import PixiPlugin from "gsap/PixiPlugin"
 import "gsap/EasePack"
+import SimpleTint from "./filters/TintFilter"
 
 export default function StartLayer(base, loader, callback) {
 	this.stage = null;
@@ -9,6 +10,7 @@ export default function StartLayer(base, loader, callback) {
 	let _base = base;
 	//var loader = new PIXI.loaders.Loader();
 
+	loader.add("sands", "./src/anims/sands/sands_ske.json");
     loader.add("start_stage","./src/maps/start.json", () =>{
     	
     	this.stage = loader.resources.start_stage.stage;
@@ -17,6 +19,7 @@ export default function StartLayer(base, loader, callback) {
     		callback(this);
     	}
     });
+
 
     this.OnAdd = function() {
     	if(!this.isInit)
@@ -94,6 +97,33 @@ export default function StartLayer(base, loader, callback) {
     		//window.LoadGame();
     	});
 
+
+    	let _star_place = this.stage.getChildByName("stars_anim");
+    	let _starAnim = loader.resources.sands.objects.stars.create();
+    	_starAnim.position.copy(_star_place.position);
+    	
+    	_starAnim.parentGroup = _star_place.parentGroup;
+    	this.stage.addChild(_starAnim);
+    	_starAnim.on("complete", () => {
+    		_starAnim.animation.play("idle", 1);
+    	});
+    	_starAnim.animation.play("show", 1);
+
+    	let _splash_place = this.stage.getChildByName("splash_anim");
+    	let _splashAnim = loader.resources.sands.objects.splash.create();
+    	_splashAnim.position.copy(_splash_place.position);
+    	_splashAnim.rotation = _splash_place.rotation;
+
+    	_splashAnim.parentGroup = _splash_place.parentGroup;
+
+    	let simpleTint = new SimpleTint(0xff8338);
+    //	simpleTint.blendMode = PIXI.BLEND_MODES.SCREEN;
+    	_splashAnim.filters = [simpleTint];
+
+    	this.stage.addChild(_splashAnim);
+    	_splashAnim.animation.timeScale = 0.5;
+    	_splashAnim.animation.play("show_no_fade", 1);
+    	
     	this.isInit = true;
     }
 

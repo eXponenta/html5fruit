@@ -9,8 +9,9 @@
     ],
     "score": 10,
     "splash": "normal",
-    "color": "#FFFFFFFF"
+    "color": "#ffd900"
   },
+
   "watermelon": {
     "elements": [
       "elmA",
@@ -20,7 +21,7 @@
     ],
     "score": 10,
     "splash": "normal",
-    "color": "#FFFFFFFF"
+    "color": "#ff1600"
   },
   "mango": {
     "elements": [
@@ -32,7 +33,7 @@
     ],
     "score": 10,
     "splash": "normal",
-    "color": "#FFFFFFFF"
+    "color": "#ffd900"
   },
   "qiwi": {
     "elements": [
@@ -45,7 +46,7 @@
     ],
     "score": 10,
     "splash": "normal",
-    "color": "#FFFFFFFF"
+    "color": "#38d727"
   },
   "strawberry": {
     "elements": [
@@ -70,8 +71,9 @@
       "elmZn"
     ],
     "score": 10,
+    "chance":0.25,
     "splash": "normal",
-    "color": "#FFFFFFFF"
+    "color": "#fcc102"
   },
   "banana": {
     "elements": [
@@ -108,7 +110,7 @@
     ],
     "score": 10,
     "splash": "normal",
-    "color": "#FFFFFFFF"
+    "color": "#fff48e"
   },
   "pineapple": {
     "elements": [
@@ -120,7 +122,7 @@
     ],
     "score": 10,
     "splash": "normal",
-    "color": "#FFFFFFFF"
+    "color": "#fff48e"
   },
   "apple": {
     "elements": [
@@ -131,7 +133,7 @@
     ],
     "score": 10,
     "splash": "normal",
-    "color": "#FFFFFFFF"
+    "color": "#fff3af"
   },
   "pumpkin": {
     "elements": [
@@ -143,29 +145,30 @@
       "elmK",
       "elmZn"
     ],
+    "chance":0.25,
     "score": 50,
     "splash": "normal",
-    "color": "#FFFFFFFF"
+    "color": "#ffa900"
   },
   "pomade": {
     "isBad":true,
     "elements": [],
     "score": -10,
-    "splash": "bum",
+    "splash": "boom",
     "color": "#FFFFFFFF"
   },
   "burger": {
     "isBad":true,
     "elements": [],
     "score": -10,
-    "splash": "bum",
+    "splash": "boom",
     "color": "#FFFFFFFF"
   },
   "phone": {
     "isBad":true,
     "elements": [],
     "score": -10,
-    "splash": "bum",
+    "splash": "boom",
     "color": "#FFFFFFFF"
   }
 }

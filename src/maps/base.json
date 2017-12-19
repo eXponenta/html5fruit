@@ -156,11 +156,35 @@
                  "width":42,
                  "x":1805,
                  "y":854
+                }, 
+                {
+                 "gid":8,
+                 "height":320,
+                 "id":12,
+                 "name":"title",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":451,
+                 "x":798.5,
+                 "y":416
+                }, 
+                {
+                 "gid":7,
+                 "height":355,
+                 "id":10,
+                 "name":"progress",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":355,
+                 "x":770.5,
+                 "y":866.5
                 }],
          "opacity":1,
          "properties":
             {
-             "zOrder":100
+             "zOrder":-10000
             },
          "propertytypes":
             {
@@ -171,7 +195,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":7,
+ "nextobjectid":13,
  "orientation":"orthogonal",
  "properties":
     {
@@ -197,14 +221,10 @@
          "margin":0,
          "name":"base",
          "spacing":0,
-         "tilecount":6,
-         "tileheight":1080,
+         "tilecount":7,
+         "tileheight":355,
          "tiles":
             {
-             "0":
-                {
-                 "image":"base\/bg-main.jpg"
-                },
              "1":
                 {
                  "image":"base\/close.png",
@@ -234,9 +254,21 @@
                  "image":"base\/sound_volume_bg.png",
                  "imageheight":158,
                  "imagewidth":40
+                },
+             "6":
+                {
+                 "image":"base\/progress.png",
+                 "imageheight":355,
+                 "imagewidth":355
+                },
+             "7":
+                {
+                 "image":"base\/title.png",
+                 "imageheight":320,
+                 "imagewidth":451
                 }
             },
-         "tilewidth":1920
+         "tilewidth":451
         }],
  "tilewidth":1,
  "type":"map",

@@ -88,14 +88,6 @@
          "name":"SPLASH",
          "objects":[],
          "opacity":1,
-         "properties":
-            {
-             "zOrder":-4
-            },
-         "propertytypes":
-            {
-             "zOrder":"int"
-            },
          "type":"objectgroup",
          "visible":true,
          "x":0,
@@ -103,17 +95,9 @@
         }, 
         {
          "draworder":"topdown",
-         "name":"DOWN",
+         "name":"UP",
          "objects":[],
          "opacity":1,
-         "properties":
-            {
-             "zOrder":-3
-            },
-         "propertytypes":
-            {
-             "zOrder":"int"
-            },
          "type":"objectgroup",
          "visible":true,
          "x":0,
@@ -124,14 +108,6 @@
          "name":"MIDDLE",
          "objects":[],
          "opacity":1,
-         "properties":
-            {
-             "zOrder":0
-            },
-         "propertytypes":
-            {
-             "zOrder":"int"
-            },
          "type":"objectgroup",
          "visible":true,
          "x":0,
@@ -139,7 +115,7 @@
         }, 
         {
          "draworder":"topdown",
-         "name":"UP",
+         "name":"DOWN",
          "objects":[],
          "opacity":1,
          "type":"objectgroup",
@@ -378,6 +354,14 @@
                  "y":245.333
                 }],
          "opacity":1,
+         "properties":
+            {
+             "zOrder":-10
+            },
+         "propertytypes":
+            {
+             "zOrder":"int"
+            },
          "type":"objectgroup",
          "visible":true,
          "x":0,

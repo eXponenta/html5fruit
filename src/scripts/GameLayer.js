@@ -3,8 +3,9 @@ import PixiPlugin from "gsap/PixiPlugin"
 import "gsap/EasePack"
 import CircleArc from "./CircleArc";
 import Preparer from "./SliceDataPreparer"
-
+import {DropShadowFilter} from '@pixi/filter-drop-shadow'
 import _SliceStageCreater from "./SliceLayer"
+import MiniPool from "./MiniPool";
 
 export default function GameLayer(base, loader, callback) {
 
@@ -14,15 +15,17 @@ export default function GameLayer(base, loader, callback) {
     
     this.objectsPreparedData;
     this.sliceManager;
-
     this.currentPeriod = 0;
 
 	let _base = base;
 
+    const SPLASH_LIVE_TIME = 3;
+    let BOOM_FREEZ_TIME = base.buildConfig.boomFreezTime ? base.buildConfig.boomFreezTime : 0.5;
     const UPDATE_PERIOD = 10;//sec
     const TOTAL_TIME = 60;//sec
     const SCORE_MASK_STEP = 50;
     const SCORE_MAX = 350;
+    const POOL_SIZE = 3;
     
     let _timerProgressRing;
     let _timerProgressText;
@@ -32,6 +35,12 @@ export default function GameLayer(base, loader, callback) {
     let _scoreText;
     let _scoreBGMask;
 
+    let SPLASH_BG_POOL = new MiniPool(true);
+    let SPLASH_BOOM_POOL = new MiniPool(true);
+    let SPLASH_ANIM_POOL = new MiniPool(true);
+    let STARS_ANIM_POOL = new MiniPool(true);
+    
+    
     let _timerTime = 0;
     let _totalScore = 0;
 
@@ -293,7 +302,6 @@ export default function GameLayer(base, loader, callback) {
         _scoreBGMask.startOffset = 10;
         _scoreBGMask.startHeight = _scoreBGMask.height - _scoreBGMask.startOffset;
 
-
         this.sliceManager = new _SliceStageCreater(this);
         
 
@@ -308,28 +316,124 @@ export default function GameLayer(base, loader, callback) {
             loader.resources.fruits, groups);
         //console.log("prepared data:",this.objectsPreparedData);
 
-        this.sliceManager.RegisterSliceCallback( arr => {
+        this.sliceManager.RegisterSliceCallback( arr => this.SliceCallback(arr));
+
+
+        let res = loader.resources;
+        
+
+        let resetFunc = function(obj){
+            if(obj.parent)
+                obj.parent.removeChild(obj);
+            return obj;
+        };
+        
+        SPLASH_BG_POOL.resetFunc = resetFunc;
+        SPLASH_ANIM_POOL.resetFunc = resetFunc;
+        STARS_ANIM_POOL.resetFunc = resetFunc;
+        SPLASH_BOOM_POOL.resetFunc = resetFunc;
+
+        var _s_boom_bg = res.others.textures["boom"];
             
-            let totalAddScore = 0; 
-            for(let i = 0; i < arr.length; i++) {
-                
-                let data = arr[i].spriteData;
+        var _s_boom_bg = new PIXI.Sprite(_s_boom_bg);
+        _s_boom_bg.anchor.set(0.3,0.5);
+        _s_boom_bg.parentGroup = this.stage.UI.group;
+        SPLASH_BOOM_POOL.add(_s_boom_bg);
 
-                totalAddScore += data.score;
-                TOTAL_SLISES[data.name] ++;
-                SUMMARY_SLICES ++;
-            }
+        for(let i = 0; i < POOL_SIZE; i++){
+            var _s_bg = res.others.textures["splash"];
+            
+            var _s_bg_sp = new PIXI.Sprite(_s_bg);
+            _s_bg_sp.anchor.set(0.5,0.5);
+            _s_bg_sp.parentGroup = this.stage.SPLASH.group;
 
-            this.UpdatePeriod(this.base.app.ticker);
-            this.AddScore(totalAddScore);
-            PIXI.sound.play("slice");
-        });
+            SPLASH_BG_POOL.add(_s_bg_sp);
+        }
 
         //this.StartPeriod();
     	this.isInit = true;
     }
 
+    this.AddSplash = function(obj) {
+
+        let splash;
+
+        if(obj.spriteData.splash == "normal"){
+           
+            splash = SPLASH_BG_POOL.last;
+            splash.alpha = 1;
+            if(splash){
+                TweenLite.to(splash, SPLASH_LIVE_TIME, {
+                    pixi:{
+                        alpha:0,
+                    },
+                    onComplete: function(){
+                        splash.Return();
+                    }
+                });
+            }
+        }
+        if(obj.spriteData.splash == "boom"){
+            
+            splash = SPLASH_BOOM_POOL.last;
+
+            if(BOOM_FREEZ_TIME > 0){
+                this.sliceManager.updatePhysics = false;
+                TweenLite.delayedCall(BOOM_FREEZ_TIME, 
+                    () => { 
+                        this.sliceManager.updatePhysics = true;
+                        if(splash){
+                            splash.Return();
+                        }
+                    }
+                );
+            }
+        }
+
+        if(splash){
+
+            splash.name = "SPLASH:" + obj.spriteData.name; 
+            splash.tint = obj.spriteData.color;
+            splash.position.copy(obj.position);
+           
+            this.stage.addChild(splash);
+        }
+    }
+
+    this.SliceCallback = function(arr){
+        
+        let totalAddScore = 0;
+        let isBoomFired = false, isNormalFired = false;
+        for(let i = 0; i < arr.length; i++) {
+            
+            let data = arr[i].spriteData;
+            
+            if(data.isBad && !isBoomFired){
+            
+                this.AddSplash(arr[i]);
+                isBoomFired = true;
+            
+            } else if(!isNormalFired) {
+            
+                this.AddSplash(arr[i]);
+                isNormalFired = true;
+            
+            }
+
+            totalAddScore += data.score;
+            TOTAL_SLISES[data.name] ++;
+            SUMMARY_SLICES ++;
+        }
+
+        this.UpdatePeriod(this.base.app.ticker);
+        this.AddScore(totalAddScore);
+        
+        PIXI.sound.play("slice");
+    }
+
     let keyNames;
+    let lastFiredObj;
+
     this.FireNext = function(skip){
         if(!keyNames){
             keyNames = Object.keys(this.objectsPreparedData);
@@ -357,9 +461,21 @@ export default function GameLayer(base, loader, callback) {
             return;
         }
 
-        let next_name = relNames[relNames.length * Math.random() << 0];
+        let index = relNames.length * Math.random() << 0;
+        let next_name = relNames[index];
         let next_obj = this.objectsPreparedData[next_name];
 
+        while (lastFiredObj && !skip) {
+            if((lastFiredObj.isBad && next_obj.isBad) || (!next_obj.isBad && lastFiredObj.name === next_obj.name)){
+                next_name = relNames[(relNames.length * Math.random() << 0)];
+                next_obj = this.objectsPreparedData[next_name];
+            } else {
+                break;
+            }
+        }
+
+        lastFiredObj = next_obj;
+        
         this.sliceManager.FireObject(next_obj);
     }
 
