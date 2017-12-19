@@ -95,7 +95,7 @@
         }, 
         {
          "draworder":"topdown",
-         "name":"UP",
+         "name":"DOWN",
          "objects":[],
          "opacity":1,
          "type":"objectgroup",
@@ -115,7 +115,17 @@
         }, 
         {
          "draworder":"topdown",
-         "name":"DOWN",
+         "name":"UP",
+         "objects":[],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "name":"UP_SPLASH",
          "objects":[],
          "opacity":1,
          "type":"objectgroup",

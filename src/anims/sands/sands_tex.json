@@ -1,1 +1,1 @@
-{"SubTexture":[{"width":62,"y":1,"height":60,"name":"star","x":1},{"width":28,"y":1,"height":81,"name":"splash_part","x":65}],"width":95,"height":84,"name":"sands","imagePath":"sands_tex.png"}
+{"SubTexture":[{"width":62,"y":189,"height":60,"name":"star","x":1},{"width":90,"y":95,"height":92,"name":"star_p50","x":1},{"width":90,"y":1,"height":92,"name":"star_m10","x":93},{"width":90,"y":1,"height":92,"name":"star_p10","x":1},{"width":28,"y":1,"height":81,"name":"splash_part","x":185}],"width":215,"height":251,"name":"sands","imagePath":"sands_tex.png"}

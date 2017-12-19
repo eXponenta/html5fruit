@@ -23,7 +23,7 @@ export default class MiniPool{
 		let usedIndex = this._used.indexOf(obj);
 		if( usedIndex > -1){
 			if(this._resetFunc){
-				
+			//console.log("Reset", obj);
 				obj = this._resetFunc(obj);
 			}
 				this._used.slice(usedIndex, usedIndex + 1);
@@ -34,9 +34,9 @@ export default class MiniPool{
 	add(val){
 		
 		this._free.push(val);
-		val.pool = this;
+		let _this = this;
 		val.Return = function() {
-			val.pool.Return(val);
+			_this.Return(val);
 		}
 
 	}

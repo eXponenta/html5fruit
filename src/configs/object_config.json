@@ -57,8 +57,8 @@
       "elmZn"
     ],
     "score": 10,
-    "splash": null,
-    "color": "#FFFFFFFF"
+    "splash": "top",
+    "color": "#ff1e00"
   },
   "marakuja": {
     "elements": [
@@ -84,8 +84,8 @@
       "elmZn"
     ],
     "score": 10,
-    "splash": null,
-    "color": "#FFFFFFFF"
+    "splash": "top",
+    "color": "#ffec75"
   },
   "raspberry": {
     "elements": [
@@ -97,8 +97,8 @@
       "elmZn"
     ],
     "score": 10,
-    "splash": null,
-    "color": "#FFFFFFFF"
+    "splash": "top",
+    "color": "#e51927"
   },
   "lemon": {
     "elements": [

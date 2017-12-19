@@ -6,6 +6,7 @@ import Preparer from "./SliceDataPreparer"
 import {DropShadowFilter} from '@pixi/filter-drop-shadow'
 import _SliceStageCreater from "./SliceLayer"
 import MiniPool from "./MiniPool";
+import SimpleTint from "./filters/TintFilter"
 
 export default function GameLayer(base, loader, callback) {
 
@@ -19,13 +20,16 @@ export default function GameLayer(base, loader, callback) {
 
 	let _base = base;
 
-    const SPLASH_LIVE_TIME = 3;
+    const SPLASH_LIVE_TIME = 5;
     let BOOM_FREEZ_TIME = base.buildConfig.boomFreezTime ? base.buildConfig.boomFreezTime : 0.5;
+    let ELEMENTS_LIVE_TIME = 1;
+    let ELEMENTS_DISTANCE = 300;
+
     const UPDATE_PERIOD = 10;//sec
     const TOTAL_TIME = 60;//sec
     const SCORE_MASK_STEP = 50;
     const SCORE_MAX = 350;
-    const POOL_SIZE = 3;
+    const POOL_SIZE = 4;
     
     let _timerProgressRing;
     let _timerProgressText;
@@ -39,7 +43,15 @@ export default function GameLayer(base, loader, callback) {
     let SPLASH_BOOM_POOL = new MiniPool(true);
     let SPLASH_ANIM_POOL = new MiniPool(true);
     let STARS_ANIM_POOL = new MiniPool(true);
-    
+    let ELEMENTS = {
+        elmA:null,
+        elmC:null,
+        elmCa:null,
+        elmMg:null,
+        elmP:null,
+        elmK:null,
+        elmZn:null,
+    };
     
     let _timerTime = 0;
     let _totalScore = 0;
@@ -321,23 +333,11 @@ export default function GameLayer(base, loader, callback) {
 
         let res = loader.resources;
         
-
-        let resetFunc = function(obj){
-            if(obj.parent)
-                obj.parent.removeChild(obj);
-            return obj;
-        };
-        
-        SPLASH_BG_POOL.resetFunc = resetFunc;
-        SPLASH_ANIM_POOL.resetFunc = resetFunc;
-        STARS_ANIM_POOL.resetFunc = resetFunc;
-        SPLASH_BOOM_POOL.resetFunc = resetFunc;
-
         var _s_boom_bg = res.others.textures["boom"];
             
         var _s_boom_bg = new PIXI.Sprite(_s_boom_bg);
         _s_boom_bg.anchor.set(0.3,0.5);
-        _s_boom_bg.parentGroup = this.stage.UI.group;
+        _s_boom_bg.parentGroup = this.stage.UP_SPLASH.group;
         SPLASH_BOOM_POOL.add(_s_boom_bg);
 
         for(let i = 0; i < POOL_SIZE; i++){
@@ -348,17 +348,110 @@ export default function GameLayer(base, loader, callback) {
             _s_bg_sp.parentGroup = this.stage.SPLASH.group;
 
             SPLASH_BG_POOL.add(_s_bg_sp);
+
+            var _s_anim_sp = res.sands.objects.splash.create();
+            _s_anim_sp.parentGroup = this.stage.UP_SPLASH.group;
+            _s_anim_sp.filter = new SimpleTint();
+            _s_anim_sp.filters = [_s_anim_sp.filter];
+            
+            _s_anim_sp.name = "splash_" + i;
+
+            
+            _s_anim_sp.on("complete", function(){
+                this.Return();
+                this.parent.removeChild(this);
+            });
+
+            _s_anim_sp.animation.timeScale = 0.8;
+            _s_anim_sp.scale.set(1.5,1.5);
+            SPLASH_ANIM_POOL.add(_s_anim_sp);
+
+            var _s_anim_stars = res.sands.objects.stars.create();
+            _s_anim_stars.name = "stars_" + i;
+            _s_anim_stars.parentGroup = this.stage.UP_SPLASH.group;
+
+            _s_anim_stars.on("complete", function(){
+                this.Return();
+                this.parent.removeChild(this);
+            });
+
+            _s_anim_stars.scale.set(1.5,1.5);
+            _s_anim_stars.animation.timeScale = 3;
+            //_s_anim_sp.scale.set(1.5,1.5);
+            STARS_ANIM_POOL.add(_s_anim_stars);
+
+        }
+
+        for(let elname in ELEMENTS){
+            let _e = new PIXI.Sprite(res.others.textures[elname]);
+            _e.name = elname;
+            _e.anchor.set(0.5, 0.7);
+            _e.parentGroup = this.stage.UP_SPLASH.group;
+            ELEMENTS[elname] = _e;
         }
 
         //this.StartPeriod();
     	this.isInit = true;
     }
 
+    this.ThrowElements = function(obj, names) {
+
+        let _start = obj.position;
+
+        let s_angle = -Math.PI;
+        let e_angle = 0;
+
+        for(let j = 0; j < names.length; j++){
+            
+            let _en = names[j];
+
+            let angle = s_angle + j * (e_angle - s_angle) / names.length;
+
+            let target = {
+                x: Math.cos(angle) * ELEMENTS_DISTANCE + _start.x,
+                y: Math.sin(angle) * ELEMENTS_DISTANCE + _start.y,  
+            }
+
+            let t_angle = (angle + Math.PI/2) * 0.25;
+
+            let e = ELEMENTS[_en];
+            
+            if(e) {
+                e.target = target;
+                e.target_angle = t_angle;
+                //e.visible = true;
+                e.alpha = 1;
+                e.position.copy(_start);
+                
+                this.stage.addChild(e);
+                let _this = this;
+                
+                if(e.tween){
+                    e.tween.kill();
+                }
+
+                e.tween = TweenLite.to(e, ELEMENTS_LIVE_TIME, {
+                    pixi:{
+                        positionX:e.target.x,
+                        positionY:e.target.y,
+                        rotation: e.target_angle,
+                        alpha:0
+                    },
+                    onComplete: function() {
+                        //e.visible = false;
+                        _this.stage.removeChild(e);
+                    }
+                })
+            } 
+        }
+    }
+
     this.AddSplash = function(obj) {
 
         let splash;
-
-        if(obj.spriteData.splash == "normal"){
+        let mode = obj.spriteData.splash;
+        let _this = this;
+        if(mode == "normal"){
            
             splash = SPLASH_BG_POOL.last;
             splash.alpha = 1;
@@ -368,12 +461,47 @@ export default function GameLayer(base, loader, callback) {
                         alpha:0,
                     },
                     onComplete: function(){
+                        _this.stage.removeChild(splash);
                         splash.Return();
                     }
                 });
             }
+
         }
-        if(obj.spriteData.splash == "boom"){
+        if(mode == "normal" || mode == "top"){
+
+            let _animSplash = SPLASH_ANIM_POOL.last;
+            _animSplash.position.copy(obj.position);
+            _animSplash.animation.play("show", 1);
+            _animSplash.filter.color = obj.spriteData.color;
+            _animSplash.rotation = obj.phBody.sliceAngle;
+            //_animSplash.visible = true;
+            this.stage.addChild(_animSplash);
+        }
+
+       // if()/!obj.spriteData.isBad){
+
+            let _stars = STARS_ANIM_POOL.last;
+            _stars.position.copy(obj.position);
+
+            if(obj.spriteData.score == 10){
+                _stars.animation.play("show_10",1);
+            }
+
+            if(obj.spriteData.score == 50){
+                _stars.animation.play("show_50",1);
+            }
+
+            if(obj.spriteData.score == -10){
+                _stars.animation.play("show_m50",1);
+            }
+            
+            
+            //_stars.visible = true;
+            this.stage.addChild(_stars);
+        //}
+
+        if(mode == "boom"){
             
             splash = SPLASH_BOOM_POOL.last;
 
@@ -383,6 +511,8 @@ export default function GameLayer(base, loader, callback) {
                     () => { 
                         this.sliceManager.updatePhysics = true;
                         if(splash){
+
+                            _this.stage.removeChild(splash);
                             splash.Return();
                         }
                     }
@@ -403,11 +533,14 @@ export default function GameLayer(base, loader, callback) {
     this.SliceCallback = function(arr){
         
         let totalAddScore = 0;
+        let collectElements = [];
         let isBoomFired = false, isNormalFired = false;
+
         for(let i = 0; i < arr.length; i++) {
             
             let data = arr[i].spriteData;
-            
+            collectElements = collectElements.concat(arr[i].spriteData.elements);
+
             if(data.isBad && !isBoomFired){
             
                 this.AddSplash(arr[i]);
@@ -424,6 +557,10 @@ export default function GameLayer(base, loader, callback) {
             TOTAL_SLISES[data.name] ++;
             SUMMARY_SLICES ++;
         }
+
+        collectElements = unique(collectElements);
+        this.ThrowElements(arr[arr.length - 1], collectElements);
+        //console.log(collectElements);
 
         this.UpdatePeriod(this.base.app.ticker);
         this.AddScore(totalAddScore);
@@ -568,5 +705,16 @@ export default function GameLayer(base, loader, callback) {
             this.sliceManager.Update(ticker);
         }
     }
+
+    let unique = function unique(arr) {
+        var obj = {};
+
+          for (var i = 0; i < arr.length; i++) {
+            var str = arr[i];
+            obj[str] = true; // запомнить строку в виде свойства объекта
+          }
+
+          return Object.keys(obj); // или собрать ключи перебором для IE8-
+   }
 
 }

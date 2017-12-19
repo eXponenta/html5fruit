@@ -107,7 +107,7 @@ export default function StartLayer(base, loader, callback) {
     	_starAnim.on("complete", () => {
     		_starAnim.animation.play("idle", 1);
     	});
-    	_starAnim.animation.play("show", 1);
+    	_starAnim.animation.play("show_10", 1);
 
     	let _splash_place = this.stage.getChildByName("splash_anim");
     	let _splashAnim = loader.resources.sands.objects.splash.create();
