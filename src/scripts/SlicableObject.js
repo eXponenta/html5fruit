@@ -12,22 +12,22 @@ let CreateSubBody = function(parent, texData){
 
   let obj = CreateSlicableObject(parent.position, parent.engine, texData);
   
-  obj.scale.set(0.2, 0.2);
-  obj.parentGroup = texData.group;
-
   _MB.setMass(obj.phBody, parent.phBody.mass * 0.5);
   _MB.setVelocity(obj.phBody, parent.phBody.velocity);
   _MB.setAngle(obj.phBody, parent.phBody.sliceAngle);
+  
+  let isTop = texData.normal.isTop;
 
-  let anchored_dir = _MV.normalise({x:obj.anchor.x - 0.5, y: 0.5 - obj.anchor.y });
+  let anchored_dir = {x:0, y: isTop ? -1 : 1};
+
   anchored_dir = _MV.rotate(anchored_dir, parent.phBody.sliceAngle);
 
   _MB.applyForce(obj.phBody, obj.phBody.position, {
-    x:  anchored_dir.x * 0.02,
-    y:  anchored_dir.y * 0.02
+    x:  anchored_dir.x * 0.15,
+    y:  anchored_dir.y * 0.15
   });
 
-  //downPart.phBody.torque = this.phBody.torque * 10;
+  obj.phBody.torque = Math.random()*400* (isTop  ? 1: -1);
 
   parent.parent.addChild(obj);
 
@@ -36,56 +36,61 @@ let CreateSubBody = function(parent, texData){
 
 export default function CreateSlicableObject(pos, engine, data) {
   
-  var obj = null;
-
-  if (data && data.normal) {
-    obj = new PIXI.Sprite(data.normal.tex);
-
-    if (data.normal.pivot) {
-      obj.anchor.set(data.normal.pivot.x, data.normal.pivot.y);
-    }
-
-  } else {
+  var obj = {};
+  var texData = data.slice || data;
   
-    obj = new PIXI.Graphics();
-    obj.beginFill(0x9966f * Math.random());
-    obj.drawCircle(0, 0, 50);
-    obj.endFill();
+  if (texData && texData.normal) {
+
+    obj = new PIXI.Sprite(texData.normal.tex);
+
+    if (texData.normal.pivot) {
+      obj.anchor.set(texData.normal.pivot.x, texData.normal.pivot.y);
+    } else {
+      obj.anchor.set(0.5, 0.5);
+    }
+  }
+
+  if(texData.normal.scale){
+    obj.scale.set(texData.normal.scale.x, texData.normal.scale.y);
   }
 
   obj.spriteData = data;
   obj.engine = engine;
   obj.x = pos.x;
   obj.y = pos.y;
-  obj.parentGroup = data.normal.group;
+
+  obj.parentGroup = texData.normal.group;
   
   obj.onslice = new Signal();
 
-  obj.kill = function() {
-    if (this.phBody.sliced && this.onslice) {
+  obj.kill = function(force) {
+    if (this.phBody.sliced && this.onslice && !force) {
       
-      this.onslice.dispatch(this);
+      this.onslice.dispatch(this, data);
       
-      for(let i = 0; i < obj.spriteData.parts.length; i++){
-        CreateSubBody(obj, {normal: obj.spriteData.parts[i]});
+      for(let i = 0; i < obj.spriteData.slice.parts.length; i++){
+        CreateSubBody(obj, {normal: texData.parts[i]});
       }
 
     }
 
     this.destroy({ children: true });
+    
     if (typeof this.phBody !== "undefined") {
       _MC.remove(engine.world, this.phBody);
     }
+
   };
 
-  obj.onslice.add(() =>{ console.log("Listen Signal");});
-
-  var phBody = _MBs.circle(pos.x, pos.y, 50);
+  var phBody = _MBs.rectangle(pos.x, pos.y, obj.width, obj.height);
+  
+  _MB.setMass(phBody,10);
   phBody.collisionFilter.mask &= ~phBody.collisionFilter.category;
   _MW.add(engine.world, phBody);
 
   phBody.piObj = obj;
   obj.phBody = phBody;
-
+  obj.phBody.canSlice = texData.normal.canSlice;
+  //console.log("creat body :", texData);
   return obj;
 }

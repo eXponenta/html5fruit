@@ -1,13 +1,7 @@
 
 //Blade JS constructor
 
-export default function Blade(texture) {
-  var count =
-    arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 10;
-  var minDist =
-    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 40;
-  var liveTime =
-    arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 20;
+export default function Blade(texture, count = 10, minDist = 40, liveTime = 20) {
 
   var points = [];
   this.count = count;
@@ -68,7 +62,7 @@ export default function Blade(texture) {
     }
   };
 
-  this.ReadCallbacks = function(target) {
+  this.RegisterCallbacks = function(target) {
     var self = this;
 
     target.mousemove = function(e) {
@@ -82,19 +76,19 @@ export default function Blade(texture) {
     };
 
     target.touchmove = function(e) {
-      console.log("Touch move");
+      //console.log("Touch move");
       //console.log(e.data);
       self.targetPosition = e.data.global;
     };
 
     target.touchstart = function(e) {
-      console.log("Touch start");
+      //console.log("Touch start");
       //console.log(e.data);
       //  self.MoveAll(e.data.global);
     };
 
     target.touchend = function(e) {
-      console.log("Touch start");
+      //console.log("Touch start");
       // _Blade.MoveAll(e.data.global);
     };
     // а то лапша какая-то

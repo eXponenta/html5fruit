@@ -2,11 +2,21 @@ import {TimelineLite, TweenLite} from "gsap"
 import PixiPlugin from "gsap/PixiPlugin"
 import "gsap/EasePack"
 import CircleArc from "./CircleArc";
+import Preparer from "./SliceDataPreparer"
+
+import _SliceStageCreater from "./SliceLayer"
 
 export default function GameLayer(base, loader, callback) {
+
 	this.stage = null;
 	this.isInit = false;
-	
+	this.base = base;
+    
+    this.objectsPreparedData;
+    this.sliceManager;
+
+    this.currentPeriod = 0;
+
 	let _base = base;
 
     const UPDATE_PERIOD = 10;//sec
@@ -14,8 +24,6 @@ export default function GameLayer(base, loader, callback) {
     const SCORE_MASK_STEP = 50;
     const SCORE_MAX = 350;
     
-    let GAME_RESULT = "none";
-
     let _timerProgressRing;
     let _timerProgressText;
     let _timeOverDesk;
@@ -45,7 +53,13 @@ export default function GameLayer(base, loader, callback) {
         phone:0
     };
 
+    let SUMMARY_SLICES = 0;
+
 	//var loader = new PIXI.loaders.Loader();
+
+    loader.add("object_config","./src/configs/object_config.json");
+    loader.add("others", "./src/images/others.json");
+    loader.add("fruits", "./src/images/fruits.json");
 
     loader.add("game_stage","./src/maps/game.json", () =>{
     	
@@ -56,7 +70,6 @@ export default function GameLayer(base, loader, callback) {
     	}
     });
 
-
     let _lastTweenTimer;
     let _timerIsPaused = false;
     let _timerStoped = true;
@@ -64,14 +77,19 @@ export default function GameLayer(base, loader, callback) {
         
         // free
         for(var f in TOTAL_SLISES){
-            TOTAL_SLISES[f] = Math.round( Math.random() * 20 );
+            TOTAL_SLISES[f] = 0;//Math.round( Math.random() * 20 );
         }
 
-        _timerStoped = false;
-        if(!_timerIsPaused || restart){
-            _timerTime = TOTAL_TIME;
+        SUMMARY_SLICES = 0;
 
+        _timerStoped = false;
+        this.sliceManager.updateSlice = true;
+        this.StartPeriod(!_timerIsPaused || restart);
+        if(!_timerIsPaused || restart){
+
+            _timerTime = TOTAL_TIME;
             this.AddScore(-_totalScore); // update score
+
         }
 
         _timerIsPaused = false;
@@ -113,13 +131,14 @@ export default function GameLayer(base, loader, callback) {
     }
 
     this.PausingTimer = function() {
+        this.sliceManager.updateSlice = false;
         _timerIsPaused = true;
         _lastTweenTimer.kill();
         _pauseButton.texture = _pauseButton.normal;
+        _periodIsPaused = true;
     }
 
     this.TimerStoped = function() {
-        
         this.GameOver(_totalScore >= SCORE_MAX);
 
     }
@@ -173,10 +192,13 @@ export default function GameLayer(base, loader, callback) {
 
     this.GameOver = function(win){
 
-        if(!win){
+        _timerStoped = true;
+        _periodIsPaused = true;
+        _timeOverDesk.visible = true;
         
-            _timerStoped = true;
-            _timeOverDesk.visible = true;
+        if(!win){
+
+            this.sliceManager.updateSlice = false;
             TweenLite.to(_timeOverDesk, 0.25,{
                 pixi: {
                     positionY: _timeOverDesk.startPos
@@ -184,9 +206,12 @@ export default function GameLayer(base, loader, callback) {
             });
         
         } else {
-            base.SetStage("Result",TOTAL_SLISES);
-            //PIXI.sound.stop("base");
-            PIXI.sound.play("win");
+
+            TweenLite.delayedCall(3, () => {
+                base.SetStage("Result",TOTAL_SLISES);
+                //PIXI.sound.stop("base");
+                PIXI.sound.play("win");
+            });
 
         }
     }
@@ -201,7 +226,7 @@ export default function GameLayer(base, loader, callback) {
     }
 
     this.OnRemove = function() {
-
+        this.sliceManager.RemoveAllObjects();
     }
 
     this.OnDestroy = function() {
@@ -246,10 +271,12 @@ export default function GameLayer(base, loader, callback) {
         _pauseButton.on("pointertap", () => {
             if(!_timerStoped){
 
-                if(_timerIsPaused)
+                if(_timerIsPaused){
                     this.StartTimer();
-                else
+                }
+                else{
                     this.PausingTimer();
+                }
             }
             PIXI.sound.play("click");
  
@@ -267,17 +294,163 @@ export default function GameLayer(base, loader, callback) {
         _scoreBGMask.startHeight = _scoreBGMask.height - _scoreBGMask.startOffset;
 
 
-        this.stage.interactive = true;
-        this.stage.on("pointertap", () => {
-            this.AddScore(10);
+        this.sliceManager = new _SliceStageCreater(this);
+        
+
+        let groups = {
+            up: this.stage.UP.group,
+            middle: this.stage.MIDDLE.group,
+            down: this.stage.MIDDLE.group,
+        }
+
+        this.objectsPreparedData = Preparer(
+            loader.resources.object_config.data,
+            loader.resources.fruits, groups);
+        //console.log("prepared data:",this.objectsPreparedData);
+
+        this.sliceManager.RegisterSliceCallback( arr => {
+            
+            let totalAddScore = 0; 
+            for(let i = 0; i < arr.length; i++) {
+                
+                let data = arr[i].spriteData;
+
+                totalAddScore += data.score;
+                TOTAL_SLISES[data.name] ++;
+                SUMMARY_SLICES ++;
+            }
+
+            this.UpdatePeriod(this.base.app.ticker);
+            this.AddScore(totalAddScore);
+            PIXI.sound.play("slice");
         });
 
+        //this.StartPeriod();
     	this.isInit = true;
+    }
+
+    let keyNames;
+    this.FireNext = function(skip){
+        if(!keyNames){
+            keyNames = Object.keys(this.objectsPreparedData);
+        }
+        let  relNames = [];
+
+        if(skip){
+            for(let j = 0; j < keyNames.length; j++){
+                let obj = this.objectsPreparedData[keyNames[j]];
+                
+                if(skip === "bad" && obj.isBad){
+                    continue;
+                }else if(!obj.isBad && skip !== "bad") {
+                    continue;
+                }
+
+                relNames.push(keyNames[j]);
+            }
+        } else {
+            relNames = keyNames;
+        }
+
+        if(relNames.length == 0){
+            console.warn("Fire quiue empty!");
+            return;
+        }
+
+        let next_name = relNames[relNames.length * Math.random() << 0];
+        let next_obj = this.objectsPreparedData[next_name];
+
+        this.sliceManager.FireObject(next_obj);
+    }
+
+    let _periodIsPaused = false;
+
+    let lastFireTime;
+
+    this.StartPeriod = function(restart){
+        
+        if(restart){
+            this.currentPeriod = null;
+            lastFireTime = undefined;
+            periodIndex = 0;
+        }
+
+        _periodIsPaused = false;
+    }
+
+    this.UpdatePeriod = function(ticker){
+        if(_periodIsPaused)
+            return;
+
+        if(!this.currentPeriod){
+            this.currentPeriod = this.NextPeriod(ticker);
+        }
+
+        let p = this.currentPeriod;
+        
+        if(p.duration){
+        
+            if(!(p.duration <= 0 || p.startSliceCount + p.duration >= SUMMARY_SLICES)){
+                this.currentPeriod = this.NextPeriod(ticker);
+                return;
+            }
+        
+        } else {
+
+            if(!(p.timeDuration && ((p.timeDuration * 1000 + p.startTime) > ticker.lastTime))){
+
+                this.currentPeriod = this.NextPeriod(ticker);
+                return;   
+            }
+        }
+
+        let skip = (p.fruits == false) ? "fruits" : null;
+            skip = (p.badThings == false) ? "bad" : skip;
+
+        let actobj = this.sliceManager.GetActiveObjectsCount();
+        if(actobj < p.maxObjects) {
+            
+            if(!lastFireTime ||  ticker.lastTime > (lastFireTime + p.maxPeriod * 1000)){
+                this.FireNext(skip);
+                lastFireTime = ticker.lastTime;
+            }
+        }
+
+        //this.currentPeriod = p;
+
+    }
+
+    let periodIndex = 0;
+    this.NextPeriod = function(ticker){
+
+        periodIndex = Math.min(periodIndex, this.base.buildConfig.periods.length-1);
+
+        let p = this.base.buildConfig.periods[periodIndex];
+
+        p.maxPeriod = p.maxPeriod || 0.1;
+        p.maxObjects = p.maxObjects == undefined ? 5: p.maxObjects;
+        p.startTime = ticker.lastTime;
+        
+        if(typeof p.duration === "string"){
+            p.timeDuration = parseFloat(p.duration.replace("sec",""));
+            p.duration = undefined;
+        }
+        p.startSliceCount = SUMMARY_SLICES;
+        periodIndex ++;
+        return p;
+    }
+
+    let GetRandomProperty = function(obj){
+        let keys = Object.keys(obj);
+        return keys[keys.length * Math.random() << 0];
     }
 
     this.Update = function(ticker)
     {
-
+        this.UpdatePeriod(ticker);
+        if(this.sliceManager.Update) {
+            this.sliceManager.Update(ticker);
+        }
     }
 
 }

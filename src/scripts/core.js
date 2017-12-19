@@ -1,7 +1,6 @@
 import "./PixiHelper";
 
 import _BaseStage from "./BaseLayer"
-import _SliceStageCreater from "./SliceLayer"
 
 import "./TiledOGLoader/TiledObjGroupLoader"
 import "./DragonBoneLoader";
@@ -47,7 +46,6 @@ var Init = function Init() {
   _LRes = _App.loader.resources;
   window._LRes = _LRes;
   window._App = _App;
-//  _IntManager = _App.renderer.plugins.interaction;
   
   let container = document.querySelector("#game_container");
   container.appendChild(_App.view);
@@ -55,35 +53,7 @@ var Init = function Init() {
   window.onresize = onResize;
 
   new _BaseStage(_App);
-
-
-//  _App.stage.interactive = true;
     
-};
-
-//invoked after loading game resources
-var GameLoaded = function GameLoaded() {
-  console.log("Game is loaded");
-
-  _SlicedStage =  _SliceStageCreater(_App); //_LRes.slice_js.function(_App);
-
-  _App.stage.addChild(_SlicedStage);
-
-  _App.LoadStage.destroy();
-};
-
-var LoadGame = function LoadGame() {
-  var loader = _App.loader;
-
-  loader
-    .add("blade_tex", "./src/images/blade.png")
-    .add("bunny", "./src/images/bunny_ss.json")
-    .load(function(l, res) {
-
-      GameLoaded();
-    });
-
-  console.log("Game start load");
 };
 
 // resize
@@ -100,5 +70,4 @@ var onResize = function onResize(event) {
   }
 };
 
-window.LoadGame = LoadGame;
 window.onload = Init;

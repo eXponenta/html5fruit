@@ -35,9 +35,12 @@ export default function BaseLayer(App) {
 
 	// preload basss stage
 	App.loader
+		.add("build_config", "./src/configs/base_config.json")
 		.add("base_stage", "./src/maps/base.json")
 		.load((l, res) => {
     	
+    	this.buildConfig = res.build_config.data;
+    	//console.log(this.buildConfig);
     	this.stage = res.base_stage.stage;
     	this.app = App;
         
@@ -118,6 +121,10 @@ export default function BaseLayer(App) {
 				win: {
 					url: "./src/audio/winnerofgame_sound.mp3",
 					preload: true	
+				},
+				slice: {
+					url: "./src/audio/slicefruit_sound.wav",
+					preload:true
 				}
 			}
 		);
@@ -144,7 +151,7 @@ export default function BaseLayer(App) {
     	});
 
     	App.loader.onProgress.add( (l, res) => {
-    		console.log("Progress:", l.progress);
+    		//console.log("Progress:", l.progress);
     	});
 	}
 

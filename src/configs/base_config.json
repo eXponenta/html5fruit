@@ -1,0 +1,42 @@
+{
+	"fireImpulseYRange":
+	{
+		"from": 0.8, "to":1.1
+	},
+	
+	"xPositionOffset": 100,
+	
+	"periods":[
+		{
+			"duration": "3sec", 
+			"maxObjects": 0,
+			"maxPeriod": 1, 
+			"fruits":true,
+			"badThings":false 
+		},
+
+		{
+			"duration": 2, 
+			"maxObjects": 2,
+			"maxPeriod": 1, 
+			"fruits":true,
+			"badThings":false 
+		},
+
+		{
+			"duration": 1, 
+			"maxObjects": 1,
+			"maxPeriod": 1, 
+			"fruits":false,
+			"badThings":true 
+		},
+
+		{
+			"duration": -1, 
+			"maxPeriod": 0.5,
+			"maxObjects": 4,
+			"fruits":true,
+			"badThings":true 
+		}
+	]
+}

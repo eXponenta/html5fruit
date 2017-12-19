@@ -1,0 +1,171 @@
+{
+  "orange": {
+    "elements": [
+      "elmC",
+      "elmA",
+      "elmCa",
+      "elmK",
+      "elmZn"
+    ],
+    "score": 10,
+    "splash": "normal",
+    "color": "#FFFFFFFF"
+  },
+  "watermelon": {
+    "elements": [
+      "elmA",
+      "elmP",
+      "elmMg",
+      "elmK"
+    ],
+    "score": 10,
+    "splash": "normal",
+    "color": "#FFFFFFFF"
+  },
+  "mango": {
+    "elements": [
+      "elmC",
+      "elmA",
+      "elmMg",
+      "elmK",
+      "elmZn"
+    ],
+    "score": 10,
+    "splash": "normal",
+    "color": "#FFFFFFFF"
+  },
+  "qiwi": {
+    "elements": [
+      "elmC",
+      "elmA",
+      "elmCa",
+      "elmP",
+      "elmK",
+      "elmZn"
+    ],
+    "score": 10,
+    "splash": "normal",
+    "color": "#FFFFFFFF"
+  },
+  "strawberry": {
+    "elements": [
+      "elmC",
+      "elmCa",
+      "elmP",
+      "elmK",
+      "elmZn"
+    ],
+    "score": 10,
+    "splash": null,
+    "color": "#FFFFFFFF"
+  },
+  "marakuja": {
+    "elements": [
+      "elmC",
+      "elmA",
+      "elmCa",
+      "elmP",
+      "elmMg",
+      "elmK",
+      "elmZn"
+    ],
+    "score": 10,
+    "splash": "normal",
+    "color": "#FFFFFFFF"
+  },
+  "banana": {
+    "elements": [
+      "elmA",
+      "elmP",
+      "elmMg",
+      "elmK",
+      "elmZn"
+    ],
+    "score": 10,
+    "splash": null,
+    "color": "#FFFFFFFF"
+  },
+  "raspberry": {
+    "elements": [
+      "elmC",
+      "elmA",
+      "elmCa",
+      "elmP",
+      "elmK",
+      "elmZn"
+    ],
+    "score": 10,
+    "splash": null,
+    "color": "#FFFFFFFF"
+  },
+  "lemon": {
+    "elements": [
+      "elmC",
+      "elmA",
+      "elmCa",
+      "elmK",
+      "elmZn"
+    ],
+    "score": 10,
+    "splash": "normal",
+    "color": "#FFFFFFFF"
+  },
+  "pineapple": {
+    "elements": [
+      "elmC",
+      "elmA",
+      "elmCa",
+      "elmK",
+      "elmZn"
+    ],
+    "score": 10,
+    "splash": "normal",
+    "color": "#FFFFFFFF"
+  },
+  "apple": {
+    "elements": [
+      "elmA",
+      "elmP",
+      "elmK",
+      "elmZn"
+    ],
+    "score": 10,
+    "splash": "normal",
+    "color": "#FFFFFFFF"
+  },
+  "pumpkin": {
+    "elements": [
+      "elmC",
+      "elmA",
+      "elmCa",
+      "elmP",
+      "elmMg",
+      "elmK",
+      "elmZn"
+    ],
+    "score": 50,
+    "splash": "normal",
+    "color": "#FFFFFFFF"
+  },
+  "pomade": {
+    "isBad":true,
+    "elements": [],
+    "score": -10,
+    "splash": "bum",
+    "color": "#FFFFFFFF"
+  },
+  "burger": {
+    "isBad":true,
+    "elements": [],
+    "score": -10,
+    "splash": "bum",
+    "color": "#FFFFFFFF"
+  },
+  "phone": {
+    "isBad":true,
+    "elements": [],
+    "score": -10,
+    "splash": "bum",
+    "color": "#FFFFFFFF"
+  }
+}
