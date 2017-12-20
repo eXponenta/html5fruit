@@ -230,35 +230,6 @@
                  "y":1038
                 }, 
                 {
-                 "height":57,
-                 "id":12,
-                 "name":"timer_text",
-                 "properties":
-                    {
-                     "fontPadding":30
-                    },
-                 "propertytypes":
-                    {
-                     "fontPadding":"int"
-                    },
-                 "rotation":0,
-                 "text":
-                    {
-                     "color":"#ffffff",
-                     "fontfamily":"Amatic SC",
-                     "halign":"center",
-                     "pixelsize":40,
-                     "text":"0:40",
-                     "valign":"center",
-                     "wrap":true
-                    },
-                 "type":"text",
-                 "visible":true,
-                 "width":71,
-                 "x":58.8333,
-                 "y":965.5
-                }, 
-                {
                  "gid":7,
                  "height":70,
                  "id":13,
@@ -376,8 +347,47 @@
          "visible":true,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "name":"UI_text",
+         "objects":[
+                {
+                 "height":57,
+                 "id":22,
+                 "name":"timer_text",
+                 "properties":
+                    {
+                     "fontPadding":30
+                    },
+                 "propertytypes":
+                    {
+                     "fontPadding":"int"
+                    },
+                 "rotation":0,
+                 "text":
+                    {
+                     "color":"#ffffff",
+                     "fontfamily":"Amatic SC",
+                     "halign":"center",
+                     "pixelsize":40,
+                     "text":"0:40",
+                     "valign":"center",
+                     "wrap":true
+                    },
+                 "type":"text",
+                 "visible":true,
+                 "width":71,
+                 "x":58.5,
+                 "y":967.5
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
         }],
- "nextobjectid":21,
+ "nextobjectid":23,
  "orientation":"orthogonal",
  "renderorder":"right-up",
  "tiledversion":"1.0.3",

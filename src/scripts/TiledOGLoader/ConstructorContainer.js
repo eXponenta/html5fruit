@@ -1,4 +1,4 @@
-export default function ConstructorContainer (obj) {
+export default function ConstructorContainer (obj, loader, res, parent) {
 	let _o = obj;
 	
 	let _types =  _o.type ? _o.type.split(":"): [];
@@ -44,5 +44,7 @@ export default function ConstructorContainer (obj) {
 		Object.assign(_cont, _o.properties);
 	}
 
-	return _cont; 
+	//return _cont;
+	_cont.parentGroup = _o.parentGroup;
+	parent.addChild(_cont);
 }

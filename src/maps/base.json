@@ -63,6 +63,28 @@
                  "y":80.1212
                 }, 
                 {
+                 "gid":12,
+                 "height":60,
+                 "id":17,
+                 "name":"full_button",
+                 "properties":
+                    {
+                     "buttonMode":true,
+                     "interactive":true
+                    },
+                 "propertytypes":
+                    {
+                     "buttonMode":"bool",
+                     "interactive":"bool"
+                    },
+                 "rotation":0,
+                 "type":"button",
+                 "visible":true,
+                 "width":58,
+                 "x":1735,
+                 "y":83.3333
+                }, 
+                {
                  "gid":6,
                  "height":158,
                  "id":5,
@@ -180,28 +202,6 @@
                  "width":355,
                  "x":770.5,
                  "y":866.5
-                }, 
-                {
-                 "gid":12,
-                 "height":60,
-                 "id":17,
-                 "name":"full_screen_button",
-                 "properties":
-                    {
-                     "buttonMode":true,
-                     "ineractive":true
-                    },
-                 "propertytypes":
-                    {
-                     "buttonMode":"bool",
-                     "ineractive":"bool"
-                    },
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":58,
-                 "x":1735,
-                 "y":83.3333333333333
                 }],
          "opacity":1,
          "properties":
@@ -218,7 +218,7 @@
          "y":0
         }, 
         {
-         "draworder":"topdown",
+         "draworder":"index",
          "name":"RULLES",
          "objects":[
                 {
@@ -226,11 +226,19 @@
                  "height":841,
                  "id":13,
                  "name":"rules_desk",
+                 "properties":
+                    {
+                     "interactive":true
+                    },
+                 "propertytypes":
+                    {
+                     "interactive":"bool"
+                    },
                  "rotation":0,
                  "type":"box",
                  "visible":false,
                  "width":862,
-                 "x":522.333333333333,
+                 "x":522.333,
                  "y":1028
                 }, 
                 {
@@ -241,43 +249,67 @@
                  "properties":
                     {
                      "buttonMode":true,
-                     "ineractive":true,
+                     "interactive":true,
                      "reParentTo":"rules_desk"
                     },
                  "propertytypes":
                     {
                      "buttonMode":"bool",
-                     "ineractive":"bool",
+                     "interactive":"bool",
                      "reParentTo":"string"
                     },
                  "rotation":0,
                  "type":"button:normal",
                  "visible":true,
                  "width":273,
-                 "x":834.666666666667,
-                 "y":997.666666666667
+                 "x":834.667,
+                 "y":997.667
                 }, 
                 {
-                 "height":69.3333333333333,
-                 "id":15,
-                 "name":"close_rules",
+                 "gid":13,
+                 "height":135,
+                 "id":18,
+                 "name":"resume_button",
                  "properties":
                     {
                      "buttonMode":true,
-                     "ineractive":true,
+                     "interactive":true,
                      "reParentTo":"rules_desk"
                     },
                  "propertytypes":
                     {
                      "buttonMode":"bool",
-                     "ineractive":"bool",
+                     "interactive":"bool",
+                     "reParentTo":"string"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":273,
+                 "x":836,
+                 "y":999
+                }, 
+                {
+                 "height":69.3333,
+                 "id":15,
+                 "name":"close_rules",
+                 "properties":
+                    {
+                     "buttonMode":true,
+                     "interactive":true,
+                     "reParentTo":"rules_desk"
+                    },
+                 "propertytypes":
+                    {
+                     "buttonMode":"bool",
+                     "interactive":"bool",
                      "reParentTo":"string"
                     },
                  "rotation":0,
                  "type":"button",
                  "visible":true,
-                 "width":69.3333333333335,
-                 "x":1318.66666666667,
+                 "width":69.3333,
+                 "x":1318.67,
                  "y":188
                 }, 
                 {
@@ -285,12 +317,22 @@
                  "height":105,
                  "id":16,
                  "name":"show_rules",
+                 "properties":
+                    {
+                     "buttonMode":true,
+                     "interactive":true
+                    },
+                 "propertytypes":
+                    {
+                     "buttonMode":"bool",
+                     "interactive":"bool"
+                    },
                  "rotation":0,
                  "type":"",
                  "visible":false,
                  "width":158,
                  "x":1529,
-                 "y":122.666666666667
+                 "y":122.667
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -298,7 +340,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":18,
+ "nextobjectid":19,
  "orientation":"orthogonal",
  "properties":
     {
@@ -324,7 +366,7 @@
          "margin":0,
          "name":"base",
          "spacing":0,
-         "tilecount":11,
+         "tilecount":12,
          "tileheight":841,
          "tiles":
             {
@@ -345,6 +387,12 @@
                  "image":"base\/full.png",
                  "imageheight":60,
                  "imagewidth":58
+                },
+             "12":
+                {
+                 "image":"base\/button_resume.png",
+                 "imageheight":135,
+                 "imagewidth":273
                 },
              "2":
                 {

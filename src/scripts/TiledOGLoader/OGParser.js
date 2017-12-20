@@ -107,6 +107,7 @@ export default function OGParser(){
         				{
         					
         					let _o = _l.objects[j];
+                            _o.parentGroup = _layer.group;
         					let _obj = undefined;
 
         					if(!_o.name || _o.name == "")
@@ -148,20 +149,21 @@ export default function OGParser(){
 					        	}
 					        	
 					        	//Sprite Loader
-					        	_obj = CSprite(_o);
+					        	_obj = CSprite(_o, this, resource, _stage);
 							}
 
 							// TextLoader
 							if(_isText) {
-								_obj = CText(_o);
+								_obj = CText(_o, this, resource, _stage);
 							}
                             if(_isContainer){
-                                _obj = CContainer(_o);
+                                _obj = CContainer(_o, this, resource, _stage);
                             }
+                            /*
 							if(_obj){
 								_obj.parentGroup = _layer.group;
 								_stage.addChild(_obj);
-							}
+							}*/
         				}
         			}
         		}

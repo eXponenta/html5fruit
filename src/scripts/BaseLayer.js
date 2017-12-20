@@ -33,7 +33,7 @@ export default function BaseLayer(App) {
 	this.rulesIsShowed = false;
 
 	let volume_bar, volume_mask, volume_btn;
-	let rules_desk, rules_btn, start_btn, resume_btn;
+	let rules_desk, rules_btn, r_start_btn, r_resume_btn;
 
 	let linear_volume = 0;
 	let loading = false;
@@ -54,13 +54,14 @@ export default function BaseLayer(App) {
             App.renderer.height / this.stage.layerHeight
         );
 
-        App.stage.addChild(this.stage);
-        
-        
         this.stages["Base"] = this;
 
-        l.progress = 0;
         this.Init();
+
+		App.stage.addChild(this.stage);
+
+        l.progress = 0;
+
     });
 
 	let _lastTween;
@@ -193,9 +194,11 @@ export default function BaseLayer(App) {
 	}
 
 	this.Init = function(){
+
 		this.stage.reParentAll();
 		this.LoadNext();
 
+		
 		volume_btn = this.stage.getChildByName("volume_normal");
 		volume_btn.normal = volume_btn.texture;
 
@@ -244,49 +247,73 @@ export default function BaseLayer(App) {
 
 		rules_btn = this.stage.getChildByName("show_rules");
         rules_desk = this.stage.getChildByName("rules_desk");
+        r_start_btn = rules_desk.getChildByName("start_button");
+        r_resume_btn = rules_desk.getChildByName("resume_button");
+
         let _rules_close_btn = rules_desk.getChildByName("close_rules");
 
-        let _rulesStartY = _rules_dsk.position.y;
+        rules_desk.rulesStartY = rules_desk.position.y;
         
         let _this = this;
+        
+        r_start_btn.on("pointertap", () =>{
 
-        _rules_close_btn.on("pointertap", () =>{
-
-        	_this.HideRules();        
+        	_this.HideRules(true);        
             PIXI.sound.play("click");
 
         });
 
-        _rules_btn.on("pointertap", () =>{
+        r_resume_btn.on("pointertap", () =>{
+
+        	_this.HideRules(true);        
+            PIXI.sound.play("click");
+
+        });
+        
+        _rules_close_btn.on("pointertap", () =>{
+
+        	_this.HideRules(false);        
+            PIXI.sound.play("click");
+
+        });
+
+        rules_btn.on("pointertap", () =>{
             PIXI.sound.play("click");
             _this.ShowRules();
         });
+
 	}
 
 
 	let _rules_close_func;
 	let _rules_type = "start";
 
-	this.RulesButtonState = function(show = true){
-
+	this.RulesButtonSetShowable = function(show){
+		r_resume_btn.visible = show
 	}
+
 	this.RegisterRules = function(_callback, type = "start"){
 	
 		_rules_close_func = _callback;
 		_rules_type = type;
-	
+
+		r_resume_btn.visible = type != "start";
+		r_start_btn.visible = type == "start"
 	}
 
-	this.HideRules = function() {
-	    TweenLite.to(_rules_dsk, 0.25, {
+	this.HideRules = function(emit) {
+		let _this = this; 
+	    TweenLite.to(rules_desk, 0.25, {
+            
             pixi:{
-                positionY:_rendr.height + _rules_dsk.width
+                positionY:App.renderer.height + rules_desk.height
             },
+
             onComplete: () => {
-                _rules_dsk.visible = false;
+                rules_desk.visible = false;
                 _this.rulesIsShowed = false;
                 
-                if(_rules_close_func){
+                if(_rules_close_func && emit){
                 	_rules_close_func();
                 }
 
@@ -296,14 +323,17 @@ export default function BaseLayer(App) {
 
 	this.ShowRules = function(close_callback, type = "start") {
 
-		this.RegisterRules(close_callback, type);
+		if(close_callback){
+			this.RegisterRules(close_callback, type);
+		}
 
-	    _this.rulesIsShowed = true;
-        _rules_dsk.visible = true;
-        
-        TweenLite.to(_rules_dsk, 0.25, {
+	    this.rulesIsShowed = true;
+        rules_desk.visible = true;
+        rules_desk.position.y = App.renderer.height + rules_desk.height;
+
+        TweenLite.to(rules_desk, 0.25, {
             pixi:{
-                positionY:_rulesStartY
+                positionY:rules_desk.rulesStartY
                 }
             }
         );
@@ -328,7 +358,7 @@ export default function BaseLayer(App) {
 		if(this._currentStage){
 			this.stage.removeChild(this._currentStage.stage);
 			this._currentStage.stage.parentGroup = null;
-			
+			this._currentStage.active = false;
 			if(this._currentStage.OnRemove)
 				this._currentStage.OnRemove();
 
@@ -337,11 +367,12 @@ export default function BaseLayer(App) {
 		this._currentStage = this.stages[name];
 		if(this._currentStage){
 			this._currentStage.stage.parentGroup = this.stage.BASE_MIDDLE.group;
-			
-			if(this._currentStage.OnAdd)
-				this._currentStage.OnAdd(param);
+			this._currentStage.active = true;
 			
 			this.stage.addChild(this._currentStage.stage);
+
+			if(this._currentStage.OnAdd)
+				this._currentStage.OnAdd(param);
 		}
 
 		return this._currentStage;

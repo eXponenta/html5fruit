@@ -1,7 +1,7 @@
 import {ParseColor,ParseAlpha } from "./ColorParser"
 
 
-export default function ConstructorText(obj) {
+export default function ConstructorText(obj, loader, res, parent) {
 
 	let _o = obj;
 	let _cont = new PIXI.Container();
@@ -97,6 +97,8 @@ export default function ConstructorText(obj) {
 	//_cont.parentGroup = _layer.group;
 	_cont.addChild(_text);
 	_cont.text = _text;
-	//_stage.addChild(_cont);
-	return _cont;
+
+	_cont.parentGroup = _o.parentGroup;
+	parent.addChild(_cont);
+	//return _cont;
 }

@@ -5,6 +5,7 @@ export default function ListLayer(base, loader, callback) {
 
 
 	this.stage = null;
+    this.active = false;
     this.isInit = false;
     
     this.ui_shadow = null;
@@ -255,8 +256,8 @@ export default function ListLayer(base, loader, callback) {
             this.Init();
         }
 
-        _rules_dsk.position.y = _rendr.height + _rules_dsk.width;
-        _rules_dsk.visible = false;
+       // _rules_dsk.position.y = _rendr.height + _rules_dsk.width;
+       // _rules_dsk.visible = false;
         startAllAnims();
     }
 
@@ -270,10 +271,19 @@ export default function ListLayer(base, loader, callback) {
         this.ui_shadow = this.stage.getChildByName("shadow");
 
 
-
         let _startButton = this.stage.getChildByName("start_button");
-        let _startButton_rules = _rules_dsk.getChildByName("start_button");
+        let _rules_btn =  this.stage.getChildByName("rules_button");
 
+        _rules_btn.on("pointertap", () =>{
+            
+            base.ShowRules(
+                () => {
+                if(this.active) {
+                    base.SetStage("Game");
+                }
+            }, "start");
+
+        });
         let _run_game_f = function() {
             
             PIXI.sound.play("click");
