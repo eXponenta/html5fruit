@@ -208,9 +208,10 @@ export default function BaseLayer(App) {
 
 		volume_bar = this.stage.getChildByName("volume_bg");
 		volume_mask = volume_bar.getChildByName("volume_mask");
-		//volume_mask.position.y += volume_mask.height;
 		//volume_mask.transform.onchange();
 		volume_mask.anchor.y = 1;
+		volume_mask.position.y += volume_mask.height;
+		
 		//volume_mask.transform.updateLocalTransform();
 
 		let _bar = volume_bar.getChildByName("volume_bar");
@@ -258,21 +259,21 @@ export default function BaseLayer(App) {
         
         r_start_btn.on("pointertap", () =>{
 
-        	_this.HideRules(true);        
+        	_this.HideRules();        
             PIXI.sound.play("click");
 
         });
 
         r_resume_btn.on("pointertap", () =>{
 
-        	_this.HideRules(true);        
+        	_this.HideRules();        
             PIXI.sound.play("click");
 
         });
         
         _rules_close_btn.on("pointertap", () =>{
 
-        	_this.HideRules(false);        
+        	_this.HideRules(close);        
             PIXI.sound.play("click");
 
         });
@@ -282,26 +283,36 @@ export default function BaseLayer(App) {
             _this.ShowRules();
         });
 
+        let _full = this.stage.getChildByName("full_button");
+        _full.on("pointertap", () =>{
+        	this.Fullscreen();
+        });
 	}
 
 
 	let _rules_close_func;
+	let _rules_button_func;
+	let _rules_show_func;
+
 	let _rules_type = "start";
 
 	this.RulesButtonSetShowable = function(show){
-		r_resume_btn.visible = show
+		rules_btn.visible = show;
 	}
 
-	this.RegisterRules = function(_callback, type = "start"){
+	this.RegisterRules = function(button, close, show, type = "start",){
 	
-		_rules_close_func = _callback;
+		_rules_button_func = button;
+		_rules_close_func = close;
+		_rules_show_func = show;
+
 		_rules_type = type;
 
 		r_resume_btn.visible = type != "start";
 		r_start_btn.visible = type == "start"
 	}
 
-	this.HideRules = function(emit) {
+	this.HideRules = function(isClose) {
 		let _this = this; 
 	    TweenLite.to(rules_desk, 0.25, {
             
@@ -313,7 +324,11 @@ export default function BaseLayer(App) {
                 rules_desk.visible = false;
                 _this.rulesIsShowed = false;
                 
-                if(_rules_close_func && emit){
+                if(_rules_button_func && !isClose){
+                	_rules_button_func();
+                }
+
+                if(_rules_close_func && isClose){
                 	_rules_close_func();
                 }
 
@@ -321,11 +336,14 @@ export default function BaseLayer(App) {
         });
 	}
 
-	this.ShowRules = function(close_callback, type = "start") {
+	this.ShowRules = function(button, close, show, type = "start") {
 
-		if(close_callback){
-			this.RegisterRules(close_callback, type);
+		if(button){
+			this.RegisterRules(button, close, show, type);
 		}
+
+		if(_rules_show_func)
+			_rules_show_func();
 
 	    this.rulesIsShowed = true;
         rules_desk.visible = true;
@@ -395,6 +413,16 @@ export default function BaseLayer(App) {
 		Cookie.set("config", this.GetConfig(), {path:"", expires: 1000});
 	}
 
+	this.Fullscreen = function(){
+		  console.log("Go to fullscreen");
+		  if(this.app.renderer.view.requestFullscreen) {
+		    this.app.renderer.view.requestFullscreen();
+		  } else if(this.app.renderer.view.webkitRequestFullscreen) {
+		    this.app.renderer.view.webkitRequestFullscreen();
+		  } else if(this.app.renderer.view.mozRequestFullscreen) {
+		    this.app.renderer.view.mozRequestFullScreen();
+		  }
+	} 
     // baseStage update;
     App.ticker.add(() => {
     	if(this._currentStage && this._currentStage.Update && this._currentStage.isInit){
@@ -406,5 +434,5 @@ export default function BaseLayer(App) {
     	if(loadCircle && loading){
     		loadCircle.rotation += Math.PI / 60;
     	}
-    });   
+    }); 
 }

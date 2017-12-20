@@ -242,12 +242,28 @@ export default function GameLayer(base, loader, callback) {
     	if(!this.isInit)
     		this.Init();
 
+        base.RulesButtonSetShowable(true);
+        
+        let resume = () => {
+            if(this.active) {
+                this.StartTimer();
+            }
+        };
+
+        let show = () => {
+            if(this.active){
+                this.PausingTimer();
+            }
+        };
+        base.RegisterRules( resume, resume, show, "resume");
 
         this.StartTimer(true);
     }
 
     this.OnRemove = function() {
         this.sliceManager.RemoveAllObjects();
+
+        base.RulesButtonSetShowable(false);
     }
 
     this.OnDestroy = function() {
@@ -389,6 +405,7 @@ export default function GameLayer(base, loader, callback) {
             _e.parentGroup = this.stage.UP_SPLASH.group;
             ELEMENTS[elname] = _e;
         }
+
 
         //this.StartPeriod();
     	this.isInit = true;

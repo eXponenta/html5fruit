@@ -57,7 +57,7 @@
                     },
                  "rotation":0,
                  "type":"button:close",
-                 "visible":true,
+                 "visible":false,
                  "width":52,
                  "x":1830.73,
                  "y":80.1212
@@ -81,8 +81,8 @@
                  "type":"button",
                  "visible":true,
                  "width":58,
-                 "x":1735,
-                 "y":83.3333
+                 "x":1827,
+                 "y":81.9999666666667
                 }, 
                 {
                  "gid":6,
@@ -313,9 +313,9 @@
                  "y":188
                 }, 
                 {
-                 "gid":9,
-                 "height":105,
-                 "id":16,
+                 "gid":14,
+                 "height":44,
+                 "id":19,
                  "name":"show_rules",
                  "properties":
                     {
@@ -330,9 +330,9 @@
                  "rotation":0,
                  "type":"",
                  "visible":false,
-                 "width":158,
-                 "x":1529,
-                 "y":122.667
+                 "width":160,
+                 "x":1616,
+                 "y":74.6666666666667
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -340,7 +340,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":19,
+ "nextobjectid":21,
  "orientation":"orthogonal",
  "properties":
     {
@@ -394,6 +394,12 @@
                  "imageheight":135,
                  "imagewidth":273
                 },
+             "13":
+                {
+                 "image":"base\/button_rules.png",
+                 "imageheight":44,
+                 "imagewidth":160
+                },
              "2":
                 {
                  "image":"base\/sound -bar.png",
@@ -429,12 +435,6 @@
                  "image":"base\/title.png",
                  "imageheight":320,
                  "imagewidth":451
-                },
-             "8":
-                {
-                 "image":"list\/button_rules.png",
-                 "imageheight":105,
-                 "imagewidth":158
                 },
              "9":
                 {

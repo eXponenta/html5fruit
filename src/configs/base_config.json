@@ -38,7 +38,7 @@
 		{
 			"duration": -1, 
 			"maxPeriod": 0.5,
-			"maxObjects": 4,
+			"maxObjects": 6,
 			"fruits":true,
 			"badThings":true 
 		}
