@@ -30,12 +30,14 @@ export default function BaseLayer(App) {
 	this.stage = {};
 	this.stages = {};
 	this.app = {};
+	this.rulesIsShowed = false;
 
 	let volume_bar, volume_mask, volume_btn;
+	let rules_desk, rules_btn, start_btn, resume_btn;
+
 	let linear_volume = 0;
 	let loading = false;
 	let loadCircle = null;
-
 	// preload basss stage
 	App.loader
 		.add("build_config", "./src/configs/base_config.json")
@@ -237,8 +239,74 @@ export default function BaseLayer(App) {
 			}else {
       			console.warn('Closing not allowed! Set `window.game.allowClosing = true`');
 			}
-		});	
+		});
 
+
+		rules_btn = this.stage.getChildByName("show_rules");
+        rules_desk = this.stage.getChildByName("rules_desk");
+        let _rules_close_btn = rules_desk.getChildByName("close_rules");
+
+        let _rulesStartY = _rules_dsk.position.y;
+        
+        let _this = this;
+
+        _rules_close_btn.on("pointertap", () =>{
+
+        	_this.HideRules();        
+            PIXI.sound.play("click");
+
+        });
+
+        _rules_btn.on("pointertap", () =>{
+            PIXI.sound.play("click");
+            _this.ShowRules();
+        });
+	}
+
+
+	let _rules_close_func;
+	let _rules_type = "start";
+
+	this.RulesButtonState = function(show = true){
+
+	}
+	this.RegisterRules = function(_callback, type = "start"){
+	
+		_rules_close_func = _callback;
+		_rules_type = type;
+	
+	}
+
+	this.HideRules = function() {
+	    TweenLite.to(_rules_dsk, 0.25, {
+            pixi:{
+                positionY:_rendr.height + _rules_dsk.width
+            },
+            onComplete: () => {
+                _rules_dsk.visible = false;
+                _this.rulesIsShowed = false;
+                
+                if(_rules_close_func){
+                	_rules_close_func();
+                }
+
+            }
+        });
+	}
+
+	this.ShowRules = function(close_callback, type = "start") {
+
+		this.RegisterRules(close_callback, type);
+
+	    _this.rulesIsShowed = true;
+        _rules_dsk.visible = true;
+        
+        TweenLite.to(_rules_dsk, 0.25, {
+            pixi:{
+                positionY:_rulesStartY
+                }
+            }
+        );
 	}
 
 	this.OnDestroy = function() {

@@ -20,7 +20,7 @@
          "y":0
         }, 
         {
-         "image":"..\/..\/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u0446\u0438\u044f\/game\/for-developer\/1-screen-final.jpg",
+         "image":"..\/..\/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u0446\u0438\u044f\/game\/for-developer\/2-screen-final-rules.jpg",
          "name":"ref",
          "opacity":1,
          "properties":
@@ -180,6 +180,28 @@
                  "width":355,
                  "x":770.5,
                  "y":866.5
+                }, 
+                {
+                 "gid":12,
+                 "height":60,
+                 "id":17,
+                 "name":"full_screen_button",
+                 "properties":
+                    {
+                     "buttonMode":true,
+                     "ineractive":true
+                    },
+                 "propertytypes":
+                    {
+                     "buttonMode":"bool",
+                     "ineractive":"bool"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":58,
+                 "x":1735,
+                 "y":83.3333333333333
                 }],
          "opacity":1,
          "properties":
@@ -194,8 +216,89 @@
          "visible":true,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "name":"RULLES",
+         "objects":[
+                {
+                 "gid":11,
+                 "height":841,
+                 "id":13,
+                 "name":"rules_desk",
+                 "rotation":0,
+                 "type":"box",
+                 "visible":false,
+                 "width":862,
+                 "x":522.333333333333,
+                 "y":1028
+                }, 
+                {
+                 "gid":10,
+                 "height":135,
+                 "id":14,
+                 "name":"start_button",
+                 "properties":
+                    {
+                     "buttonMode":true,
+                     "ineractive":true,
+                     "reParentTo":"rules_desk"
+                    },
+                 "propertytypes":
+                    {
+                     "buttonMode":"bool",
+                     "ineractive":"bool",
+                     "reParentTo":"string"
+                    },
+                 "rotation":0,
+                 "type":"button:normal",
+                 "visible":true,
+                 "width":273,
+                 "x":834.666666666667,
+                 "y":997.666666666667
+                }, 
+                {
+                 "height":69.3333333333333,
+                 "id":15,
+                 "name":"close_rules",
+                 "properties":
+                    {
+                     "buttonMode":true,
+                     "ineractive":true,
+                     "reParentTo":"rules_desk"
+                    },
+                 "propertytypes":
+                    {
+                     "buttonMode":"bool",
+                     "ineractive":"bool",
+                     "reParentTo":"string"
+                    },
+                 "rotation":0,
+                 "type":"button",
+                 "visible":true,
+                 "width":69.3333333333335,
+                 "x":1318.66666666667,
+                 "y":188
+                }, 
+                {
+                 "gid":9,
+                 "height":105,
+                 "id":16,
+                 "name":"show_rules",
+                 "rotation":0,
+                 "type":"",
+                 "visible":false,
+                 "width":158,
+                 "x":1529,
+                 "y":122.666666666667
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
         }],
- "nextobjectid":13,
+ "nextobjectid":18,
  "orientation":"orthogonal",
  "properties":
     {
@@ -221,8 +324,8 @@
          "margin":0,
          "name":"base",
          "spacing":0,
-         "tilecount":7,
-         "tileheight":355,
+         "tilecount":11,
+         "tileheight":841,
          "tiles":
             {
              "1":
@@ -230,6 +333,18 @@
                  "image":"base\/close.png",
                  "imageheight":53,
                  "imagewidth":52
+                },
+             "10":
+                {
+                 "image":"list\/rules_popup.png",
+                 "imageheight":841,
+                 "imagewidth":862
+                },
+             "11":
+                {
+                 "image":"base\/full.png",
+                 "imageheight":60,
+                 "imagewidth":58
                 },
              "2":
                 {
@@ -266,9 +381,21 @@
                  "image":"base\/title.png",
                  "imageheight":320,
                  "imagewidth":451
+                },
+             "8":
+                {
+                 "image":"list\/button_rules.png",
+                 "imageheight":105,
+                 "imagewidth":158
+                },
+             "9":
+                {
+                 "image":"list\/button_start.png",
+                 "imageheight":135,
+                 "imagewidth":273
                 }
             },
-         "tilewidth":451
+         "tilewidth":862
         }],
  "tilewidth":1,
  "type":"map",

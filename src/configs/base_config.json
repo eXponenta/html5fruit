@@ -4,12 +4,15 @@
 		"from": 0.8, "to":1.1
 	},
 
+	"objectFloatScale":2,
+	"floatShadowAlpha":0.6,
 	"boomFreezTime":0.5,
-	
+	"elementsLiveDuration":2,
+
 	"xPositionOffset": 100,
 	"periods":[
 		{
-			"duration": "3sec", 
+			"duration": "1sec", 
 			"maxObjects": 0,
 			"maxPeriod": 1, 
 			"fruits":true,
@@ -28,7 +31,7 @@
 			"duration": 1, 
 			"maxObjects": 1,
 			"maxPeriod": 1, 
-			"fruits":false,
+			"fruits":true,
 			"badThings":true 
 		},
 

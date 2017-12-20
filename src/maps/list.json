@@ -94,8 +94,8 @@
                  "type":"replacer",
                  "visible":true,
                  "width":247,
-                 "x":655.666666666667,
-                 "y":381.666666666667
+                 "x":655.667,
+                 "y":381.667
                 }, 
                 {
                  "gid":4,
@@ -115,7 +115,7 @@
                  "visible":true,
                  "width":247,
                  "x":1048.5,
-                 "y":382.333333333333
+                 "y":382.333
                 }, 
                 {
                  "gid":4,
@@ -408,8 +408,8 @@
                  "type":"box",
                  "visible":false,
                  "width":862,
-                 "x":526.333333333333,
-                 "y":1029.33333333333
+                 "x":526.333,
+                 "y":1029.33
                 }, 
                 {
                  "gid":2,
@@ -432,11 +432,11 @@
                  "type":"button:normal",
                  "visible":true,
                  "width":273,
-                 "x":830.166666666667,
-                 "y":995.166666666667
+                 "x":830.167,
+                 "y":995.167
                 }, 
                 {
-                 "height":65.3333333333333,
+                 "height":65.3333,
                  "id":9,
                  "name":"close_rules",
                  "properties":
@@ -455,7 +455,7 @@
                  "type":"button:hidden",
                  "visible":true,
                  "width":72,
-                 "x":1309.33333333333,
+                 "x":1309.33,
                  "y":196
                 }],
          "opacity":1,
@@ -471,8 +471,59 @@
          "visible":true,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "name":"SHADOW",
+         "objects":[
+                {
+                 "height":1084.84848484848,
+                 "id":22,
+                 "name":"shadow",
+                 "properties":
+                    {
+                     "alpha":0,
+                     "tint":0
+                    },
+                 "propertytypes":
+                    {
+                     "alpha":"float",
+                     "tint":"int"
+                    },
+                 "rotation":0,
+                 "type":"mask",
+                 "visible":false,
+                 "width":1918.18181818182,
+                 "x":0,
+                 "y":-6.06060606060606
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "name":"FLOAT_FLAGS",
+         "objects":[],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "name":"FLOAT_TABLES",
+         "objects":[],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
         }],
- "nextobjectid":22,
+ "nextobjectid":23,
  "orientation":"orthogonal",
  "properties":
     {

@@ -22,7 +22,7 @@ export default function GameLayer(base, loader, callback) {
 
     const SPLASH_LIVE_TIME = 5;
     let BOOM_FREEZ_TIME = base.buildConfig.boomFreezTime ? base.buildConfig.boomFreezTime : 0.5;
-    let ELEMENTS_LIVE_TIME = 1;
+    let ELEMENTS_LIVE_TIME = base.buildConfig.elementsLiveDuration || 1;
     let ELEMENTS_DISTANCE = 300;
 
     const UPDATE_PERIOD = 10;//sec
