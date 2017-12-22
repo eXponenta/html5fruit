@@ -193,6 +193,9 @@ export default function BaseLayer(App) {
 		//let _S = this.SetStage("Start");
 	}
 
+
+	let _full;
+
 	this.Init = function(){
 
 		this.stage.reParentAll();
@@ -283,10 +286,20 @@ export default function BaseLayer(App) {
             _this.ShowRules();
         });
 
-        let _full = this.stage.getChildByName("full_button");
+        _full = this.stage.getChildByName("full_button");
+        
+        _full.toFull = _full.texture;
+        _full.toNormal = _close.texture;
+
         _full.on("pointertap", () =>{
-        	this.Fullscreen();
+        	let isFull = document.webkitIsFullScreen || document.fullscreenEnabled || document.mozFullScreenEnabled || iosFullHack;
+        	if(!isFull)
+        		this.Fullscreen();
+        	else
+        		this.DisableFullscreen();
+
         });
+
 	}
 
 
@@ -413,18 +426,63 @@ export default function BaseLayer(App) {
 		Cookie.set("config", this.GetConfig(), {path:"", expires: 1000});
 	}
 
-	this.Fullscreen = function(){
+	let iosMetaTag = document.createElement("meta");
+		iosMetaTag.name = "apple-mobile-web-app-capable";
+		iosMetaTag.content = "yes";
+	
+	let iosFullHack = false;
+
+ 	this.Fullscreen = function(){
+		    
 		  console.log("Go to fullscreen");
 		  if(this.app.renderer.view.requestFullscreen) {
 		    this.app.renderer.view.requestFullscreen();
 		  } else if(this.app.renderer.view.webkitRequestFullscreen) {
 		    this.app.renderer.view.webkitRequestFullscreen();
+		  } else if(this.app.renderer.view.webkitEnterFullscreen) {
+		  	this.app.renderer.view.webkitEnterFullscreen();
 		  } else if(this.app.renderer.view.mozRequestFullscreen) {
 		    this.app.renderer.view.mozRequestFullScreen();
 		  }
+
+		if(/*PIXI.utils.isMobile.apple.device && */ !iosFullHack){
+			iosFullHack = true;
+			document.querySelector("meta").parentNode.appendChild(iosMetaTag);
+		}
 	} 
+
+	this.DisableFullscreen = function(){
+		  console.log("Go out from fullscreen");
+		  if (document.cancelFullScreen) {
+            document.cancelFullScreen();
+        } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+        } else if (document.webkitCancelFullScreen) {
+            document.webkitCancelFullScreen();
+        }
+
+        if(/*PIXI.utils.isMobile.apple.device && */ iosFullHack){
+			iosFullHack = false;
+			document.querySelector("meta").parentNode.removeChild(iosMetaTag);
+		}
+	} 
+	
     // baseStage update;
     App.ticker.add(() => {
+
+    	if(_full) {
+    		
+    		let isFull = document.webkitIsFullScreen 
+    			|| document.fullscreenEnabled 
+    			|| document.mozFullScreenEnabled || iosFullHack;
+
+    		if(_full.texture == _full.toNormal && !isFull)
+    			_full.texture = _full.toFull;
+
+    		if(_full.texture == _full.toFull && isFull)
+    			_full.texture = _full.toNormal;
+    	}
+
     	if(this._currentStage && this._currentStage.Update && this._currentStage.isInit){
     		
     		this._currentStage.Update(App.ticker);
