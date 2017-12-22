@@ -190,26 +190,6 @@
                  "y":1037.67
                 }, 
                 {
-                 "gid":3,
-                 "height":107,
-                 "id":10,
-                 "name":"timer_marks",
-                 "properties":
-                    {
-                     "reParentTo":"timer_bg"
-                    },
-                 "propertytypes":
-                    {
-                     "reParentTo":"string"
-                    },
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":107,
-                 "x":42.3333,
-                 "y":1042.33
-                }, 
-                {
                  "gid":4,
                  "height":100,
                  "id":11,
@@ -380,6 +360,26 @@
                  "width":71,
                  "x":58.5,
                  "y":967.5
+                }, 
+                {
+                 "gid":3,
+                 "height":107,
+                 "id":23,
+                 "name":"timer_marks",
+                 "properties":
+                    {
+                     "reParentTo":"timer_bg"
+                    },
+                 "propertytypes":
+                    {
+                     "reParentTo":"string"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":107,
+                 "x":43.1666666666667,
+                 "y":1042.5
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -387,7 +387,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":23,
+ "nextobjectid":24,
  "orientation":"orthogonal",
  "renderorder":"right-up",
  "tiledversion":"1.0.3",

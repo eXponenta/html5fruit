@@ -28,6 +28,28 @@
         }, 
         {
          "draworder":"topdown",
+         "name":"back",
+         "objects":[
+                {
+                 "gid":4,
+                 "height":423,
+                 "id":12,
+                 "name":"bg_slice",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":714,
+                 "x":651,
+                 "y":895.166666666667
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
          "name":"anims",
          "objects":[
                 {
@@ -62,18 +84,6 @@
          "draworder":"index",
          "name":"static",
          "objects":[
-                {
-                 "gid":4,
-                 "height":423,
-                 "id":5,
-                 "name":"bg_slice",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":714,
-                 "x":649,
-                 "y":895
-                }, 
                 {
                  "gid":5,
                  "height":320,
@@ -138,7 +148,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":12,
+ "nextobjectid":13,
  "orientation":"orthogonal",
  "renderorder":"right-up",
  "tiledversion":"1.0.3",

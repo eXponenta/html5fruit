@@ -79,6 +79,8 @@ export default function ResultLayer(base, loader, callback) {
     	this.stage.reParentAll();
 
     	let _close_button = this.stage.getChildByName("result_close");
+        let _resume_button = this.stage.getChildByName("resume_button");
+
 
     	_close_button.on("pointertap", () =>{
     		
@@ -86,6 +88,14 @@ export default function ResultLayer(base, loader, callback) {
     		//PIXI.sound.play("base");
     		_base.SetStage("Game");
     	});
+
+        
+        _resume_button.on("pointertap", () =>{
+            
+            PIXI.sound.play("click");
+            //PIXI.sound.play("base");
+            _base.SetStage("Game");
+        });
 
     	for(var name in _textBoxes){
     		var _text_c = this.stage.getChildByName(name + "_text");

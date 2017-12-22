@@ -58,8 +58,10 @@ var Init = function Init() {
 
 // resize
 var onResize = function onResize(event) {
-  var _w = document.body.clientWidth;
-  var _h = document.body.clientHeight;
+
+  var _parent = _App.renderer.view.parentNode.parentNode;
+  var _w = _parent.clientWidth;
+  var _h = _parent.clientHeight;
 
   if (_w / _h < 16 / 9) {
     _App.view.style.width = _w + "px";

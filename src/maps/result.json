@@ -18,7 +18,7 @@
          "y":0
         }, 
         {
-         "image":"..\/..\/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u0446\u0438\u044f\/game\/for-developer\/finish-final.jpg",
+         "image":"..\/..\/..\/finish-v2-finish-16-9.jpg",
          "name":"ref",
          "opacity":1,
          "properties":
@@ -30,70 +30,6 @@
              "ignore":"bool"
             },
          "type":"imagelayer",
-         "visible":false,
-         "x":0,
-         "y":0
-        }, 
-        {
-         "draworder":"index",
-         "name":"sub-bg",
-         "objects":[
-                {
-                 "height":308,
-                 "id":3,
-                 "name":"star_anim",
-                 "rotation":0,
-                 "type":"replacer",
-                 "visible":true,
-                 "width":322.667,
-                 "x":1340,
-                 "y":-18.6667
-                }, 
-                {
-                 "height":308,
-                 "id":4,
-                 "name":"star_anim_r",
-                 "properties":
-                    {
-                     "flipX":true
-                    },
-                 "propertytypes":
-                    {
-                     "flipX":"bool"
-                    },
-                 "rotation":0,
-                 "type":"replacer",
-                 "visible":true,
-                 "width":322.667,
-                 "x":293.333,
-                 "y":16.6667
-                }, 
-                {
-                 "gid":2,
-                 "height":884,
-                 "id":1,
-                 "name":"left_fruits",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":549,
-                 "x":198,
-                 "y":892
-                }, 
-                {
-                 "gid":3,
-                 "height":896,
-                 "id":2,
-                 "name":"right_fruits",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":841,
-                 "x":936,
-                 "y":1082
-                }],
-         "opacity":1,
-         "type":"objectgroup",
          "visible":true,
          "x":0,
          "y":0
@@ -103,16 +39,16 @@
          "name":"UI",
          "objects":[
                 {
-                 "gid":4,
-                 "height":1005,
-                 "id":5,
-                 "name":"result_norm",
+                 "gid":7,
+                 "height":1019,
+                 "id":28,
+                 "name":"result",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":862,
-                 "x":521,
-                 "y":1053.33
+                 "width":1159,
+                 "x":382.5,
+                 "y":1053
                 }, 
                 {
                  "height":65.3333,
@@ -132,20 +68,52 @@
                  "type":"",
                  "visible":true,
                  "width":70.6667,
-                 "x":1312,
-                 "y":53.3333
-                }, 
+                 "x":1470,
+                 "y":34.8333
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "name":"tUI",
+         "objects":[
                 {
-                 "gid":1,
-                 "height":319,
-                 "id":6,
-                 "name":"result_bad",
+                 "gid":8,
+                 "height":72,
+                 "id":25,
+                 "name":"top",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":331,
-                 "x":1325.33,
-                 "y":610.333
+                 "width":535,
+                 "x":709,
+                 "y":73
+                }, 
+                {
+                 "gid":6,
+                 "height":105,
+                 "id":26,
+                 "name":"resume_button",
+                 "properties":
+                    {
+                     "buttonMode":true,
+                     "interactive":true
+                    },
+                 "propertytypes":
+                    {
+                     "buttonMode":"bool",
+                     "interactive":"bool"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":213,
+                 "x":861,
+                 "y":796.333333333333
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -176,8 +144,8 @@
                  "type":"",
                  "visible":true,
                  "width":29.6667,
-                 "x":836.5,
-                 "y":274.409
+                 "x":770.5,
+                 "y":539.909
                 }, 
                 {
                  "height":47.0606,
@@ -198,8 +166,8 @@
                  "type":"",
                  "visible":true,
                  "width":29.6667,
-                 "x":840.167,
-                 "y":475.97
+                 "x":776.167,
+                 "y":617.97
                 }, 
                 {
                  "height":47.0606,
@@ -220,8 +188,8 @@
                  "type":"",
                  "visible":true,
                  "width":29.6667,
-                 "x":834.167,
-                 "y":369.97
+                 "x":774.167,
+                 "y":581.97
                 }, 
                 {
                  "height":47.0606,
@@ -242,8 +210,8 @@
                  "type":"",
                  "visible":true,
                  "width":29.6667,
-                 "x":843.167,
-                 "y":573.47
+                 "x":777.667,
+                 "y":652.97
                 }, 
                 {
                  "height":47.0606,
@@ -264,8 +232,8 @@
                  "type":"",
                  "visible":true,
                  "width":29.6667,
-                 "x":847.167,
-                 "y":673.47
+                 "x":779.167,
+                 "y":694.47
                 }, 
                 {
                  "height":47.0606,
@@ -286,8 +254,8 @@
                  "type":"",
                  "visible":true,
                  "width":29.6667,
-                 "x":847.667,
-                 "y":773.47
+                 "x":780.667,
+                 "y":734.97
                 }, 
                 {
                  "height":47.0606,
@@ -308,8 +276,8 @@
                  "type":"",
                  "visible":true,
                  "width":29.6667,
-                 "x":1227.17,
-                 "y":375.97
+                 "x":1279.17,
+                 "y":582.47
                 }, 
                 {
                  "height":47.0606,
@@ -330,8 +298,8 @@
                  "type":"",
                  "visible":true,
                  "width":29.6667,
-                 "x":1221.67,
-                 "y":476.47
+                 "x":1278.17,
+                 "y":620.97
                 }, 
                 {
                  "height":47.0606,
@@ -352,8 +320,8 @@
                  "type":"",
                  "visible":true,
                  "width":29.6667,
-                 "x":1214.67,
-                 "y":576.97
+                 "x":1278.17,
+                 "y":656.47
                 }, 
                 {
                  "height":47.0606,
@@ -374,8 +342,8 @@
                  "type":"",
                  "visible":true,
                  "width":29.6667,
-                 "x":1220.17,
-                 "y":675.47
+                 "x":1277.67,
+                 "y":696.47
                 }, 
                 {
                  "height":47.0606,
@@ -396,8 +364,8 @@
                  "type":"",
                  "visible":true,
                  "width":29.6667,
-                 "x":1208.33,
-                 "y":774.47
+                 "x":1276.83,
+                 "y":735.97
                 }, 
                 {
                  "height":47.0606,
@@ -418,8 +386,8 @@
                  "type":"",
                  "visible":true,
                  "width":29.6667,
-                 "x":1214.67,
-                 "y":275.97
+                 "x":1277.17,
+                 "y":539.47
                 }, 
                 {
                  "height":47.0606,
@@ -440,8 +408,8 @@
                  "type":"",
                  "visible":true,
                  "width":29.6667,
-                 "x":1568.5,
-                 "y":391.136
+                 "x":675.893939393939,
+                 "y":963.908727272727
                 }, 
                 {
                  "height":47.0606,
@@ -462,8 +430,8 @@
                  "type":"",
                  "visible":true,
                  "width":29.6667,
-                 "x":1569.17,
-                 "y":456.47
+                 "x":1012.74575757576,
+                 "y":963.985151515152
                 }, 
                 {
                  "height":47.0606,
@@ -484,8 +452,8 @@
                  "type":"",
                  "visible":true,
                  "width":29.6667,
-                 "x":1571.83,
-                 "y":524.47
+                 "x":1350.16333333333,
+                 "y":963.47
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -493,7 +461,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":25,
+ "nextobjectid":29,
  "orientation":"orthogonal",
  "renderorder":"right-up",
  "tiledversion":"1.0.3",
@@ -511,39 +479,33 @@
          "margin":0,
          "name":"result_s",
          "spacing":0,
-         "tilecount":5,
+         "tilecount":4,
          "tileheight":1080,
          "tiles":
             {
-             "0":
-                {
-                 "image":"result\/bad_result.jpg",
-                 "imageheight":319,
-                 "imagewidth":331
-                },
-             "1":
-                {
-                 "image":"result\/bg-fruits_left.png",
-                 "imageheight":884,
-                 "imagewidth":549
-                },
-             "2":
-                {
-                 "image":"result\/bg-fruits_right.png",
-                 "imageheight":896,
-                 "imagewidth":841
-                },
-             "3":
-                {
-                 "image":"result\/normal_result.jpg",
-                 "imageheight":1005,
-                 "imagewidth":862
-                },
              "4":
                 {
                  "image":"start\/bg-main.jpg",
                  "imageheight":1080,
                  "imagewidth":1920
+                },
+             "5":
+                {
+                 "image":"result\/button_restart.png",
+                 "imageheight":105,
+                 "imagewidth":213
+                },
+             "6":
+                {
+                 "image":"result\/result.jpg",
+                 "imageheight":1019,
+                 "imagewidth":1159
+                },
+             "7":
+                {
+                 "image":"result\/top_bar.png",
+                 "imageheight":72,
+                 "imagewidth":535
                 }
             },
          "tilewidth":1920

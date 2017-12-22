@@ -29,7 +29,7 @@
 
 		{
 			"duration": 1, 
-			"maxObjects": 1,
+			"maxObjects": 3,
 			"maxPeriod": 1, 
 			"fruits":true,
 			"badThings":true 

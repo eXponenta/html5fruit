@@ -97,21 +97,26 @@ export default function GameLayer(base, loader, callback) {
     this.StartTimer = function(restart){
         
         // free
-        for(var f in TOTAL_SLISES){
-            TOTAL_SLISES[f] = 0;//Math.round( Math.random() * 20 );
-        }
+      
 
-        SUMMARY_SLICES = 0;
-
-        _timerStoped = false;
-        this.sliceManager.updateSlice = true;
         this.StartPeriod(!_timerIsPaused || restart);
-        if(!_timerIsPaused || restart){
+        
+
+        if(!_timerIsPaused ||_timerStoped || restart){
+
+            for(var f in TOTAL_SLISES){
+                TOTAL_SLISES[f] = 0;//Math.round( Math.random() * 20 );
+            }
+            SUMMARY_SLICES = 0;
 
             _timerTime = TOTAL_TIME;
             this.AddScore(-_totalScore); // update score
 
         }
+
+
+        _timerStoped = false;
+        this.sliceManager.updateSlice = true;
 
         _timerIsPaused = false;
 
