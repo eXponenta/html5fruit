@@ -17,6 +17,7 @@ export default function GameLayer(base, loader, callback) {
     this.objectsPreparedData;
     this.sliceManager;
     this.currentPeriod = 0;
+    this.infiniteMode = false;
 
 	let _base = base;
 
@@ -98,7 +99,6 @@ export default function GameLayer(base, loader, callback) {
         
         // free
       
-
         this.StartPeriod(!_timerIsPaused || restart);
         
 
@@ -135,7 +135,11 @@ export default function GameLayer(base, loader, callback) {
             } 
         };
 
-        _updateTween();
+        if(!this.infiniteMode){
+            _updateTween();
+        } else {
+            this.TimerUpdate(TOTAL_TIME);
+        }
 
         TweenLite.to(_timeOverDesk, 0.25,{
             pixi: {
@@ -153,13 +157,19 @@ export default function GameLayer(base, loader, callback) {
         TweenLite.to(_timerProgressRing.mask, UPDATE_PERIOD / 4, {progress: time / TOTAL_TIME});
 
         //_timerProgressRing.mask.progress = time / TOTAL_TIME;
-        _timerProgressText.text = (Math.floor(time/ 60)).pad(1) + ":" + (time%60).pad(2);
+        if(!this.infiniteMode)
+            _timerProgressText.text = (Math.floor(time/ 60)).pad(1) + ":" + (time%60).pad(2);
+        else
+            _timerProgressText.text = "inf";
     }
 
     this.PausingTimer = function() {
         this.sliceManager.updateSlice = false;
         _timerIsPaused = true;
-        _lastTweenTimer.kill();
+        
+        if(_lastTweenTimer)
+            _lastTweenTimer.kill();
+        
         _pauseButton.texture = _pauseButton.normal;
         _periodIsPaused = true;
     }
@@ -208,7 +218,7 @@ export default function GameLayer(base, loader, callback) {
             });
         }
 
-        if(_totalScore >= SCORE_MAX){
+        if(_totalScore >= SCORE_MAX && !this.infiniteMode){
 
            this.GameOver(true);
            //pause timer, they cant call TimerStop
@@ -243,7 +253,9 @@ export default function GameLayer(base, loader, callback) {
     }
 
     //stage callbacks
-    this.OnAdd = function() {
+    this.OnAdd = function(infinite = false) {
+
+        this.infiniteMode = infinite;
     	if(!this.isInit)
     		this.Init();
 
