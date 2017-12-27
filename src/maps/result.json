@@ -166,11 +166,10 @@
                  "rotation":0,
                  "text":
                     {
-                     "bold":true,
                      "color":"#8c3848",
-                     "fontfamily":"Amatic SC",
+                     "fontfamily":"Neucha",
                      "halign":"center",
-                     "pixelsize":63,
+                     "pixelsize":60,
                      "text":"0",
                      "valign":"bottom",
                      "wrap":true
@@ -188,11 +187,10 @@
                  "rotation":0,
                  "text":
                     {
-                     "bold":true,
                      "color":"#8c3848",
-                     "fontfamily":"Amatic SC",
+                     "fontfamily":"Neucha",
                      "halign":"center",
-                     "pixelsize":63,
+                     "pixelsize":60,
                      "text":"0",
                      "valign":"bottom",
                      "wrap":true
@@ -210,11 +208,10 @@
                  "rotation":0,
                  "text":
                     {
-                     "bold":true,
                      "color":"#8c3848",
-                     "fontfamily":"Amatic SC",
+                     "fontfamily":"Neucha",
                      "halign":"center",
-                     "pixelsize":63,
+                     "pixelsize":60,
                      "text":"0",
                      "valign":"bottom",
                      "wrap":true
@@ -232,11 +229,10 @@
                  "rotation":0,
                  "text":
                     {
-                     "bold":true,
                      "color":"#8c3848",
-                     "fontfamily":"Amatic SC",
+                     "fontfamily":"Neucha",
                      "halign":"center",
-                     "pixelsize":63,
+                     "pixelsize":60,
                      "text":"0",
                      "valign":"bottom",
                      "wrap":true
@@ -254,11 +250,10 @@
                  "rotation":0,
                  "text":
                     {
-                     "bold":true,
                      "color":"#8c3848",
-                     "fontfamily":"Amatic SC",
+                     "fontfamily":"Neucha",
                      "halign":"center",
-                     "pixelsize":63,
+                     "pixelsize":60,
                      "text":"0",
                      "valign":"bottom",
                      "wrap":true
@@ -276,11 +271,10 @@
                  "rotation":0,
                  "text":
                     {
-                     "bold":true,
                      "color":"#8c3848",
-                     "fontfamily":"Amatic SC",
+                     "fontfamily":"Neucha",
                      "halign":"center",
-                     "pixelsize":63,
+                     "pixelsize":60,
                      "text":"0",
                      "valign":"bottom",
                      "wrap":true
@@ -298,11 +292,10 @@
                  "rotation":0,
                  "text":
                     {
-                     "bold":true,
                      "color":"#8c3848",
-                     "fontfamily":"Amatic SC",
+                     "fontfamily":"Neucha",
                      "halign":"center",
-                     "pixelsize":63,
+                     "pixelsize":60,
                      "text":"0",
                      "valign":"bottom",
                      "wrap":true
@@ -311,7 +304,7 @@
                  "visible":true,
                  "width":39.979454197518,
                  "x":1375.08700559669,
-                 "y":621.084349775785
+                 "y":619.584349775785
                 }, 
                 {
                  "height":63.4198310633712,
@@ -320,11 +313,10 @@
                  "rotation":0,
                  "text":
                     {
-                     "bold":true,
                      "color":"#8c3848",
-                     "fontfamily":"Amatic SC",
+                     "fontfamily":"Neucha",
                      "halign":"center",
-                     "pixelsize":63,
+                     "pixelsize":60,
                      "text":"0",
                      "valign":"bottom",
                      "wrap":true
@@ -333,7 +325,7 @@
                  "visible":true,
                  "width":39.979454197518,
                  "x":1375.40605172594,
-                 "y":673.967740466507
+                 "y":672.467740466507
                 }, 
                 {
                  "height":63.4198310633712,
@@ -342,11 +334,10 @@
                  "rotation":0,
                  "text":
                     {
-                     "bold":true,
                      "color":"#8c3848",
-                     "fontfamily":"Amatic SC",
+                     "fontfamily":"Neucha",
                      "halign":"center",
-                     "pixelsize":63,
+                     "pixelsize":60,
                      "text":"0",
                      "valign":"bottom",
                      "wrap":true
@@ -355,7 +346,7 @@
                  "visible":true,
                  "width":39.979454197518,
                  "x":1372.73938505927,
-                 "y":732.808269544965
+                 "y":731.308269544965
                 }, 
                 {
                  "height":63.4198310633712,
@@ -364,11 +355,10 @@
                  "rotation":0,
                  "text":
                     {
-                     "bold":true,
                      "color":"#8c3848",
-                     "fontfamily":"Amatic SC",
+                     "fontfamily":"Neucha",
                      "halign":"center",
-                     "pixelsize":63,
+                     "pixelsize":60,
                      "text":"0",
                      "valign":"bottom",
                      "wrap":true
@@ -377,7 +367,7 @@
                  "visible":true,
                  "width":39.979454197518,
                  "x":1369.06557479056,
-                 "y":787.379757708485
+                 "y":785.879757708485
                 }, 
                 {
                  "height":63.4198310633712,
@@ -386,11 +376,10 @@
                  "rotation":0,
                  "text":
                     {
-                     "bold":true,
                      "color":"#8c3848",
-                     "fontfamily":"Amatic SC",
+                     "fontfamily":"Neucha",
                      "halign":"center",
-                     "pixelsize":63,
+                     "pixelsize":60,
                      "text":"0",
                      "valign":"bottom",
                      "wrap":true
@@ -398,8 +387,8 @@
                  "type":"",
                  "visible":true,
                  "width":39.979454197518,
-                 "x":1368.93357353912,
-                 "y":845.277435603295
+                 "x":1369.43357353912,
+                 "y":841.777435603295
                 }, 
                 {
                  "height":63.4198310633712,
@@ -408,11 +397,10 @@
                  "rotation":0,
                  "text":
                     {
-                     "bold":true,
                      "color":"#8c3848",
-                     "fontfamily":"Amatic SC",
+                     "fontfamily":"Neucha",
                      "halign":"center",
-                     "pixelsize":63,
+                     "pixelsize":57,
                      "text":"0",
                      "valign":"bottom",
                      "wrap":true
@@ -421,7 +409,7 @@
                  "visible":true,
                  "width":39.979454197518,
                  "x":1369.39176452185,
-                 "y":562.803333333333
+                 "y":561.303333333333
                 }, 
                 {
                  "height":67.0606,
@@ -431,9 +419,9 @@
                  "text":
                     {
                      "color":"#e5e5e5",
-                     "fontfamily":"Amatic SC",
+                     "fontfamily":"Neucha",
                      "halign":"center",
-                     "pixelsize":60,
+                     "pixelsize":47,
                      "text":"0",
                      "valign":"bottom",
                      "wrap":true
@@ -452,9 +440,9 @@
                  "text":
                     {
                      "color":"#e5e5e5",
-                     "fontfamily":"Amatic SC",
+                     "fontfamily":"Neucha",
                      "halign":"center",
-                     "pixelsize":60,
+                     "pixelsize":47,
                      "text":"0",
                      "valign":"bottom",
                      "wrap":true
@@ -473,9 +461,9 @@
                  "text":
                     {
                      "color":"#e5e5e5",
-                     "fontfamily":"Amatic SC",
+                     "fontfamily":"Neucha",
                      "halign":"center",
-                     "pixelsize":60,
+                     "pixelsize":47,
                      "text":"0",
                      "valign":"bottom",
                      "wrap":true

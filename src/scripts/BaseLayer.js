@@ -12,7 +12,7 @@ import Cookie from "js-cookie"
 let LoadFontCostil = function() {
 	window.WebFontConfig = {
       google: {
-      	families:['Amatic SC']
+      	families:['Amatic SC', "Neucha"]
       }
    };
 
