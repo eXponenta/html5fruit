@@ -10,7 +10,7 @@
  - [Babel.js](https://babeljs.io/) -трансплайтер
  - [Tiled Map Editor](http://www.mapeditor.org/) - использовался как конструктор UI (самописный загрузчик)
 
- ### Демо ###
+### Демо ###
 
 Таргет-сайт: zinkit.ru
 Личный: iexpo.tk/fruit 
