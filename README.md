@@ -12,7 +12,8 @@
 
 ### Демо ###
 
-Таргет-сайт: zinkit.ru
+Таргет-сайт: [zinkit.ru](zinkit.ru)
+
 Личный: iexpo.tk/fruit 
 
 ### Лицензия ###
