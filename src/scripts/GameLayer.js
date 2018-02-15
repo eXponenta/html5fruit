@@ -3,7 +3,7 @@ import PixiPlugin from "gsap/PixiPlugin"
 import "gsap/EasePack"
 import CircleArc from "./CircleArc";
 import Preparer from "./SliceDataPreparer"
-import {DropShadowFilter} from '@pixi/filter-drop-shadow'
+//import {DropShadowFilter} from '@pixi/filter-drop-shadow'
 import _SliceStageCreater from "./SliceLayer"
 import MiniPool from "./MiniPool";
 import SimpleTint from "./filters/TintFilter"

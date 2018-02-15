@@ -109,7 +109,7 @@ export default function BaseLayer(App) {
 		loadCircle.position.x += loadCircle.width * 0.5;
 		loadCircle.position.y -= loadCircle.height * 0.5;
 		
-		
+		/*
 		//start loading after base 
 		PIXI.sound.add(
 			{
@@ -142,7 +142,8 @@ export default function BaseLayer(App) {
 				}
 			}
 		);
-
+		*/
+		
 		let _this = this;
     	new _StartStageCreater(this, App.loader, s =>{
     		_this.stages["Start"] = s;
