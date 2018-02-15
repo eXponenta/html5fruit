@@ -68,15 +68,15 @@ export default function BaseLayer(App) {
 	this.SetVolume = function (vol){
 		
 		linear_volume = vol;
-		PIXI.sound.volumeAll = Math.pow(10, vol) / 10;
+		//PIXI.sound.volumeAll = Math.pow(10, vol) / 10;
 
 		if(vol <= 0.01){
 
-			PIXI.sound.muteAll();
+		//	PIXI.sound.muteAll();
 			volume_btn.texture = volume_btn.off;
 
 		} else {
-			PIXI.sound.unmuteAll();	
+		//	PIXI.sound.unmuteAll();	
 			volume_btn.texture = volume_btn.normal;
 		}
 
@@ -241,7 +241,7 @@ export default function BaseLayer(App) {
 		let _close = this.stage.getChildByName("close_button");
 		_close.on("pointertap", ()=>{
 
-			PIXI.sound.play("click");
+			//PIXI.sound.play("click");
 			if(window.game.allowClosing){
 				this.OnDestroy();
 			}else {
@@ -380,7 +380,7 @@ export default function BaseLayer(App) {
 		}
 		this.stage.destroy({children:true});
 		//PIXI.sound.stopAll();
-		PIXI.sound.removeAll();
+		//PIXI.sound.removeAll();
 
 		App.closing();
 	}
