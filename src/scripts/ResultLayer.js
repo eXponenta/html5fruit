@@ -85,23 +85,23 @@ export default function ResultLayer(base, loader, callback) {
 
     	_close_button.on("pointertap", () =>{
     		
-    		PIXI.sound.play("click");
-    		//PIXI.sound.play("base");
+    		//PIXI.sound.play("click");
+    		////PIXI.sound.play("base");
     		_base.SetStage("Game");
     	});
 
         
         _resume_button.on("pointertap", () =>{
             
-            PIXI.sound.play("click");
-            //PIXI.sound.play("base");
+            //PIXI.sound.play("click");
+            ////PIXI.sound.play("base");
             _base.SetStage("Game");
         });
         
         _resume_infinite.on("pointertap", () =>{
             
-            PIXI.sound.play("click");
-            //PIXI.sound.play("base");
+            //PIXI.sound.play("click");
+            ////PIXI.sound.play("base");
             _base.SetStage("Game", true);
         });
         

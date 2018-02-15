@@ -246,7 +246,7 @@ export default function GameLayer(base, loader, callback) {
             TweenLite.delayedCall(3, () => {
                 base.SetStage("Result",TOTAL_SLISES);
                 //PIXI.sound.stop("base");
-                PIXI.sound.play("win");
+                //PIXI.sound.play("win");
             });
 
         }
@@ -332,7 +332,7 @@ export default function GameLayer(base, loader, callback) {
                     this.PausingTimer();
                 }
             }
-            PIXI.sound.play("click");
+            //PIXI.sound.play("click");
  
         });
 
@@ -599,7 +599,7 @@ export default function GameLayer(base, loader, callback) {
         this.UpdatePeriod(this.base.app.ticker);
         this.AddScore(totalAddScore);
         
-        PIXI.sound.play("slice");
+        //PIXI.sound.play("slice");
     }
 
     let keyNames;

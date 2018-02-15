@@ -118,7 +118,7 @@ export default function ListLayer(base, loader, callback) {
                                 }
                             });
 
-                            PIXI.sound.play("blink");
+                           // //PIXI.sound.play("blink");
                         }
                     };
 
@@ -286,7 +286,7 @@ export default function ListLayer(base, loader, callback) {
         });
         let _run_game_f = function() {
             
-            PIXI.sound.play("click");
+            //PIXI.sound.play("click");
             base.SetStage("Game");
         };
         _startButton.on("pointertap", _run_game_f);

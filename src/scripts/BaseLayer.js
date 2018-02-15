@@ -228,7 +228,7 @@ export default function BaseLayer(App) {
 				vol = 0;
 
 			this.SetVolume(vol);
-			PIXI.sound.play("click");
+			//PIXI.sound.play("click");
 		});
 
 		let _vol = 0.25;
@@ -264,26 +264,26 @@ export default function BaseLayer(App) {
         r_start_btn.on("pointertap", () =>{
 
         	_this.HideRules();        
-            PIXI.sound.play("click");
+            //PIXI.sound.play("click");
 
         });
 
         r_resume_btn.on("pointertap", () =>{
 
         	_this.HideRules();        
-            PIXI.sound.play("click");
+            //PIXI.sound.play("click");
 
         });
         
         _rules_close_btn.on("pointertap", () =>{
 
         	_this.HideRules(close);        
-            PIXI.sound.play("click");
+            //PIXI.sound.play("click");
 
         });
 
         rules_btn.on("pointertap", () =>{
-            PIXI.sound.play("click");
+            //PIXI.sound.play("click");
             _this.ShowRules();
         });
 
