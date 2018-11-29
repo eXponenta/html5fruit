@@ -14,7 +14,7 @@
 
 Таргет-сайт: [zinkit.ru](zinkit.ru)
 
-Личный: iexpo.tk/fruit 
+Личный: [github.io](https://exponenta.github.io/html5fruit/) 
 
 ### Лицензия ###
 MPL2.0 (https://www.mozilla.org/en-US/MPL/)
